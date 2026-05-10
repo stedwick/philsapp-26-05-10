@@ -1,0 +1,12 @@
+---
+interface Props {
+  class?: string;
+  size?: 'normal' | 'narrow';
+}
+
+const { class: className, size = 'normal' } = Astro.props;
+---
+
+<div class:list={['l-container', `l-container--${size}`, className]}>
+  <slot />
+</div>

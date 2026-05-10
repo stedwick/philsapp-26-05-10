@@ -1,0 +1,45 @@
+---
+import ButtonLink from './ButtonLink.astro';
+
+interface Action {
+  label: string;
+  href: string;
+  variant?: 'primary' | 'secondary' | 'outline' | 'light';
+}
+
+interface Props {
+  title: string;
+  href?: string;
+  body: string;
+  icon?: any;
+  addendum?: string;
+  actions?: Action[];
+  compact?: boolean;
+}
+
+const { title, href, body, icon: Icon, addendum, actions = [], compact = false } = Astro.props;
+---
+
+<article class:list={['c-media-item', { 'c-media-item--compact': compact }]}>
+  {Icon && (
+    <a class="c-media-item__icon" href={href ?? '#'} aria-label={title}>
+      <Icon aria-hidden="true" />
+    </a>
+  )}
+  <div class="c-media-item__body">
+    <h3 class="c-media-item__title">
+      {href ? <a href={href}>{title}</a> : title}
+    </h3>
+    {addendum && <p class="c-media-item__addendum">{addendum}</p>}
+    <p>{body}</p>
+    {actions.length > 0 && (
+      <div class="c-media-item__actions">
+        {actions.map((action) => (
+          <ButtonLink href={action.href} variant={action.variant ?? 'secondary'} size="sm">
+            {action.label}
+          </ButtonLink>
+        ))}
+      </div>
+    )}
+  </div>
+</article>

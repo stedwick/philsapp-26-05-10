@@ -1,0 +1,25 @@
+---
+interface ContactItem {
+  label: string;
+  href?: string;
+  icon: any;
+}
+
+interface Props {
+  items: ContactItem[];
+}
+
+const { items } = Astro.props;
+---
+
+<ul class="c-contact-list">
+  {items.map((item) => {
+    const Icon = item.icon;
+    return (
+      <li class="c-contact-list__item">
+        <Icon aria-hidden="true" />
+        {item.href ? <a href={item.href}>{item.label}</a> : <span>{item.label}</span>}
+      </li>
+    );
+  })}
+</ul>

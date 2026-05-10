@@ -1,11 +1,102 @@
 ---
-import Welcome from '../components/Welcome.astro';
+import ContactForm from '../components/ContactForm.astro';
+import ContactInfo from '../components/ContactInfo.astro';
+import Hero from '../components/Hero.astro';
+import MediaGrid from '../components/MediaGrid.astro';
+import MediaItem from '../components/MediaItem.astro';
+import SectionBand from '../components/SectionBand.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+import SplitIntro from '../components/SplitIntro.astro';
+import WorkCard from '../components/WorkCard.astro';
 import Layout from '../layouts/Layout.astro';
-
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+import {
+	aboutCopy,
+	career,
+	careerIntro,
+	contactIntro,
+	contactItems,
+	education,
+	educationIntro,
+	icons,
+	interests,
+	profile,
+	projects,
+	projectsIntro,
+	skills,
+	socialLinks,
+} from '../data/site';
 ---
 
 <Layout>
-	<Welcome />
+	<Hero profile={profile} socialLinks={socialLinks} chevronIcon={icons.ChevronDown} />
+
+	<SectionBand id="about" title="About Me" tone="light">
+		<SplitIntro paragraphs={aboutCopy} />
+	</SectionBand>
+
+	<SectionBand id="about-skills" title="My Skillset" tone="white" headingLevel={4}>
+		<MediaGrid>
+			{skills.map((skill) => <MediaItem {...skill} />)}
+		</MediaGrid>
+	</SectionBand>
+
+	<SectionBand id="career" title="My Career" tone="light">
+		<SplitIntro paragraphs={careerIntro} />
+	</SectionBand>
+
+	<SectionBand id="career-sites" tone="white">
+		<div class="l-card-grid">
+			{career.map((entry) => <WorkCard {...entry} />)}
+		</div>
+	</SectionBand>
+
+	<SectionBand id="education-projects" tone="dark">
+		<div class="l-two-panel">
+			<section aria-labelledby="education-heading">
+				<header class="c-section-band__header">
+					<h2 id="education-heading" class="c-section-band__title">Education</h2>
+					<p>{educationIntro}</p>
+				</header>
+				<div class="l-media-grid l-media-grid--two">
+					{education.map((item) => <MediaItem {...item} compact />)}
+				</div>
+			</section>
+
+			<section aria-labelledby="projects-heading">
+				<header class="c-section-band__header">
+					<h2 id="projects-heading" class="c-section-band__title">Fun Stuff</h2>
+					<p>{projectsIntro}</p>
+				</header>
+				<div class="l-media-grid l-media-grid--two">
+					{projects.map((item) => <MediaItem {...item} compact />)}
+				</div>
+			</section>
+		</div>
+	</SectionBand>
+
+	<SectionBand id="interests" title="Personal Life" tone="light" headingLevel={3}>
+		<p>I maintain a healthy work/life balance. If you'd like to learn more about me beyond my professional life, check out the links below!</p>
+		<MediaGrid class="u-section-stack">
+			{interests.map((interest) => <MediaItem {...interest} />)}
+		</MediaGrid>
+	</SectionBand>
+
+	<SectionBand id="hire-me" title="Contact Me" tone="info" />
+
+	<SectionBand id="contact" tone="white">
+		<p class="c-dropcap">{contactIntro}</p>
+		<div class="l-two-panel c-contact-layout u-section-stack">
+			<section aria-labelledby="contact-info-heading">
+				<h2 id="contact-info-heading" class="u-center">My Contact Info</h2>
+				<ContactInfo items={contactItems} />
+			</section>
+
+			<section aria-labelledby="contact-form-heading">
+				<h2 id="contact-form-heading" class="u-center">Send Me a Message</h2>
+				<ContactForm />
+			</section>
+		</div>
+	</SectionBand>
+
+	<SiteFooter />
 </Layout>

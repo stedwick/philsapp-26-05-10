@@ -1,0 +1,12 @@
+---
+interface Props {
+  class?: string;
+  columns?: 'auto' | 'two';
+}
+
+const { class: className, columns = 'auto' } = Astro.props;
+---
+
+<div class:list={['l-media-grid', `l-media-grid--${columns}`, className]}>
+  <slot />
+</div>
