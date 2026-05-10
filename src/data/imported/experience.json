@@ -1,0 +1,167 @@
+[
+  {
+    "id": "syncta",
+    "company": "Syncta",
+    "websiteUrl": "https://syncta.com/",
+    "description": "Syncta provides mobile software for backflow testers and water purveyors. I hired the team, plan their career advancement, and roadmap our projects. I'm hands-on with our main Ruby on Rails app, the API that powers our iOS and Android apps, and our SOC 2 security compliant AWS infrastructure.",
+    "visitLabel": "Visit Syncta",
+    "roles": [
+      {
+        "title": "Senior Software Engineering Manager",
+        "dates": "2019 – present"
+      },
+      {
+        "title": "Lead Software Engineer",
+        "dates": "2018 – 2019"
+      }
+    ],
+    "footerLines": [
+      "Senior Software Engineering Manager (2019 – present)",
+      "Lead Software Engineer (2018 – 2019)",
+      "Portland, OR"
+    ],
+    "location": "Portland, OR",
+    "logoAssetId": "syncta-6f46bb456734efe2ab2cb1902d6e42d529fc1ca79d0c6996f0fb93f270620d7c",
+    "logoHighResAssetId": "",
+    "logoAlt": "Syncta",
+    "screenshotAssetId": "syncta-site-ab6fe21bc5dc1882378003684814f4f60aaf0bc93987f00116fd2b1ee9614f97",
+    "screenshotHighResAssetId": "syncta-site-2x-b93c63d3ae5665b9c2b0badb6f6759755e91a70d76854f435338463698222273",
+    "screenshotAlt": "Syncta site",
+    "order": 0
+  },
+  {
+    "id": "merit",
+    "company": "Merit",
+    "websiteUrl": "http://www.meritpages.com/",
+    "description": "Merit showcases student achievements at hundreds of colleges and universities. Meritpages.com is the largest Rails app I've ever worked on, comprising eight Rails apps deployed in a services architecture on an AWS Ubuntu Linux cluster.",
+    "visitLabel": "Visit Merit",
+    "roles": [
+      {
+        "title": "Senior Software Engineer",
+        "dates": ""
+      },
+      {
+        "title": "Ruby on Rails",
+        "dates": ""
+      }
+    ],
+    "footerLines": [
+      "Senior Software Engineer",
+      "Ruby on Rails",
+      "New York, NY (2014 – 2016)"
+    ],
+    "location": "New York, NY",
+    "logoAssetId": "merit-6c70bb158a952060e8a5d6d3f869852065a7427eeecb9002fd3f12fcaaf7c4ff",
+    "logoHighResAssetId": "",
+    "logoAlt": "Merit",
+    "screenshotAssetId": "merit-site-a297bb5a30fdba61358c884b469cba781b67a67eeaeee20aa7c86030b26edf68",
+    "screenshotHighResAssetId": "merit-site-2x-4e17068cf3675691e6fb460c8fee256b19307005ad341b00f0616f3f19fc395d",
+    "screenshotAlt": "Merit site",
+    "order": 1
+  },
+  {
+    "id": "go-green-ride",
+    "company": "Go Green Ride",
+    "websiteUrl": "http://www.gogreenride.com/",
+    "description": "Go Green Ride is an eco-friendly ridesharing alternative to Uber. GoGreenRide.com and its accompanying iOS and Android apps use a Rails backend that heavily utilizes geolocation services and is deployed on Rackspace using Phusion Passenger.",
+    "visitLabel": "Visit Go Green Ride",
+    "roles": [
+      {
+        "title": "Ruby on Rails consultant",
+        "dates": ""
+      }
+    ],
+    "footerLines": [
+      "Ruby on Rails consultant",
+      "Bayonne, NJ (2013)"
+    ],
+    "location": "Bayonne, NJ",
+    "logoAssetId": "gogreenride-2afe188b13128fab9fbe444b7389d83caee3b1eb23719e4ff9f36dcee78d671e",
+    "logoHighResAssetId": "",
+    "logoAlt": "Gogreenride",
+    "screenshotAssetId": "gogreenride-site-6c93d002836ee83418ca1aeee8014450c96cbc276ed313fe2ded178eeb351d66",
+    "screenshotHighResAssetId": "gogreenride-site-2x-5f60ab4a6d4ee5991c489f977af44b4b1dce11e4d9d5f5e085cd0e8a9c1f7321",
+    "screenshotAlt": "Gogreenride site",
+    "order": 2
+  },
+  {
+    "id": "readabout-me",
+    "company": "readabout.me",
+    "websiteUrl": "http://web.archive.org/web/20130601003317/http://readabout.me/",
+    "description": "readabout.me was the predecessor to Merit, focusing primarily on students. The Rails app was deployed on Heroku initially, but with its success we quickly outgrew Heroku and switched to AWS.",
+    "visitLabel": "Visit readabout.me",
+    "roles": [
+      {
+        "title": "Ruby on Rails engineer",
+        "dates": ""
+      }
+    ],
+    "footerLines": [
+      "Ruby on Rails engineer",
+      "New York, NY (2012 – 2014)"
+    ],
+    "location": "New York, NY",
+    "logoAssetId": "readaboutme-36da5d40731df5cbe9ebc4f29c877f75dda88b502af9feb3383d027f0f5709b5",
+    "logoHighResAssetId": "",
+    "logoAlt": "Readaboutme",
+    "screenshotAssetId": "readaboutme-site-afe12869f8fbb77df4e5871ab30499fcbd7f3b33ed1f1708cc71c6e16b791dfd",
+    "screenshotHighResAssetId": "readaboutme-site-2x-320e9823a7c8f4c353a4758337235b55982edcdff23ef1e54d3275f69c26e9aa",
+    "screenshotAlt": "Readaboutme site",
+    "order": 3
+  },
+  {
+    "id": "readmedia",
+    "company": "readMedia",
+    "websiteUrl": "https://web.archive.org/web/20110811204633/http://www.readmedia.com:80/",
+    "description": "readMedia sends press releases to newspapers via mail merge for its clients all over the country. I upgraded the readMedia.com Rails 2 app to Rails 3, helped move it onto AWS, and was one of three developers working full-time on the app for many years.",
+    "visitLabel": "Visit readMedia",
+    "roles": [
+      {
+        "title": "Full-Stack Developer",
+        "dates": ""
+      },
+      {
+        "title": "Ruby on Rails",
+        "dates": ""
+      }
+    ],
+    "footerLines": [
+      "Full-Stack Developer",
+      "Ruby on Rails",
+      "New York, NY (2008 – 2012)"
+    ],
+    "location": "New York, NY",
+    "logoAssetId": "readmedia-5595230b918cc168dbff26f492e0edfa9b71eb89bcd96feeb7cd715c0b7752e1",
+    "logoHighResAssetId": "",
+    "logoAlt": "Readmedia",
+    "screenshotAssetId": "readmedia-site-fa449d75ae1e7b64613c749d006b48bbf6704350df95bd5794ed5f001b61464e",
+    "screenshotHighResAssetId": "readmedia-site-2x-d30cb9039198cd52770a631385386a304eef8fe114de00b6e00c600e2896ce06",
+    "screenshotAlt": "Readmedia site",
+    "order": 4
+  },
+  {
+    "id": "brightidea",
+    "company": "Brightidea",
+    "websiteUrl": "http://www.brightidea.com/",
+    "description": "Brightidea provides innovation management software-as-a-service. As one of their early employees, I helped with sales, onboarding, consulting, traveling, and running their software.",
+    "visitLabel": "Visit Brightidea",
+    "roles": [
+      {
+        "title": "Analyst",
+        "dates": ""
+      }
+    ],
+    "footerLines": [
+      "Analyst",
+      "New York, NY (2007 – 2008)"
+    ],
+    "location": "New York, NY",
+    "logoAssetId": "brightidea-01c6915c70e1004ee51ee0c024766d5c723c9ce563ab0f2259f5ffce2ed4d1a0",
+    "logoHighResAssetId": "",
+    "logoAlt": "Brightidea",
+    "screenshotAssetId": "brightidea-site-9ecc25c745d9b89c874cac478d6b6cc6e2caee4f1142b8b7d524e66eb317f345",
+    "screenshotHighResAssetId": "brightidea-site-2x-7d3dbd3e2d54d281ebab99f7029bd7ea0f23f5dc4f49351f9ed92cccbd7c8b66",
+    "screenshotAlt": "Brightidea site",
+    "order": 5
+  }
+]

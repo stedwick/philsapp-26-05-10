@@ -9,9 +9,15 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "import:legacy": "node scripts/import-legacy-site.mjs",
+    "verify:content": "node scripts/verify-content.mjs",
+    "test:legacy-live": "node scripts/test-legacy-live.mjs"
   },
   "dependencies": {
     "astro": "^6.3.1"
+  },
+  "devDependencies": {
+    "cheerio": "^1.2.0"
   }
 }
