@@ -11,6 +11,14 @@ import {
 
 const execFileAsync = promisify(execFile);
 const SESSION = `legacy-live-${Date.now()}`;
+const AGENT_BROWSER_GLOBAL_ARGS = [
+  '--session',
+  SESSION,
+  '--args',
+  '--no-sandbox',
+  '--max-output',
+  '5000000',
+];
 const errors = [];
 
 const COMPARISON_FIELDS = {
@@ -51,7 +59,7 @@ function fail(message) {
 }
 
 async function agentBrowser(args) {
-  const { stdout } = await execFileAsync('agent-browser', args, {
+  const { stdout } = await execFileAsync('agent-browser', [...AGENT_BROWSER_GLOBAL_ARGS, ...args], {
     maxBuffer: 1024 * 1024 * 20,
   });
   return stdout;
@@ -71,20 +79,16 @@ function parseEvalJson(stdout) {
 
 async function extractLiveHtml() {
   await agentBrowser([
-    '--session',
-    SESSION,
     '--allowed-domains',
     'philipbrocoum.com',
     'open',
     SOURCE_URL,
   ]);
-  await agentBrowser(['--session', SESSION, 'wait', '--load', 'networkidle']);
+  await agentBrowser(['wait', '--load', 'networkidle']);
 
   const result = await agentBrowser([
-    '--session',
-    SESSION,
     'eval',
-    'JSON.stringify({ html: document.documentElement.outerHTML, title: document.title, url: location.href })',
+    '({ html: document.documentElement.outerHTML, title: document.title, url: location.href })',
   ]);
 
   return parseEvalJson(result);
@@ -189,7 +193,7 @@ try {
   livePage = await extractLiveHtml();
 } finally {
   try {
-    await agentBrowser(['--session', SESSION, 'close']);
+    await agentBrowser(['close']);
   } catch {
     // The comparison result matters more than a failed browser cleanup.
   }
@@ -217,4 +221,3 @@ if (errors.length > 0) {
 }
 
 console.log('Live-site parity test passed.');
-
