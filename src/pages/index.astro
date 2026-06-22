@@ -9,44 +9,68 @@ import SiteFooter from '../components/SiteFooter.astro';
 import SplitIntro from '../components/SplitIntro.astro';
 import WorkCard from '../components/WorkCard.astro';
 import Layout from '../layouts/Layout.astro';
-import {
-	aboutCopy,
-	career,
-	careerIntro,
-	contactIntro,
-	contactItems,
-	education,
-	educationIntro,
+import { getCollection } from 'astro:content';
+import { icons } from '../data/site';
+import { createResumeViewModel } from '../data/resume-data.mjs';
+
+const [
+	profileEntries,
+	sectionEntries,
+	skillEntries,
+	experienceEntries,
+	educationEntries,
+	projectEntries,
+	personalLinkEntries,
+	contactEntries,
+	assetEntries,
+] = await Promise.all([
+	getCollection('profile'),
+	getCollection('sections'),
+	getCollection('skills'),
+	getCollection('experience'),
+	getCollection('education'),
+	getCollection('projects'),
+	getCollection('personalLinks'),
+	getCollection('contact'),
+	getCollection('assets'),
+]);
+
+const resume = createResumeViewModel(
+	{
+		profile: profileEntries.map((entry) => entry.data),
+		sections: sectionEntries.map((entry) => entry.data),
+		skills: skillEntries.map((entry) => entry.data),
+		experience: experienceEntries.map((entry) => entry.data),
+		education: educationEntries.map((entry) => entry.data),
+		projects: projectEntries.map((entry) => entry.data),
+		personalLinks: personalLinkEntries.map((entry) => entry.data),
+		contact: contactEntries.map((entry) => entry.data),
+		assets: assetEntries.map((entry) => entry.data),
+	},
 	icons,
-	interests,
-	profile,
-	projects,
-	projectsIntro,
-	skills,
-	socialLinks,
-} from '../data/site';
+);
 ---
 
 <Layout>
-	<Hero profile={profile} socialLinks={socialLinks} chevronIcon={icons.ChevronDown} />
+	<Hero profile={resume.profile} socialLinks={resume.socialLinks} chevronIcon={icons.ChevronDown} />
 
-	<SectionBand id="about" title="About Me" tone="light">
-		<SplitIntro paragraphs={aboutCopy} />
+	<SectionBand id="about" title={resume.sections.about.title} tone="light">
+		<SplitIntro paragraphs={resume.sections.about.body} />
 	</SectionBand>
 
 	<SectionBand id="about-skills" title="My Skillset" tone="white" headingLevel={4}>
 		<MediaGrid>
-			{skills.map((skill) => <MediaItem {...skill} />)}
+			{resume.skills.map((skill) => <MediaItem {...skill} />)}
 		</MediaGrid>
 	</SectionBand>
 
-	<SectionBand id="career" title="My Career" tone="light">
-		<SplitIntro paragraphs={careerIntro} />
+	<SectionBand id="career" title={resume.sections.career.title} tone="light">
+		<SplitIntro paragraphs={resume.sections.career.body} />
 	</SectionBand>
 
 	<SectionBand id="career-sites" tone="white">
 		<div class="l-card-grid">
-			{career.map((entry) => <WorkCard {...entry} />)}
+			{resume.career.map((entry) => <WorkCard {...entry} />)}
 		</div>
 	</SectionBand>
 
@@ -54,46 +78,46 @@ import {
 		<div class="l-two-panel">
 			<section aria-labelledby="education-heading">
 				<header class="c-section-band__header">
-					<h2 id="education-heading" class="c-section-band__title">Education</h2>
-					<p>{educationIntro}</p>
+					<h2 id="education-heading" class="c-section-band__title">{resume.sections.education.title}</h2>
+					<p>{resume.sections.education.body[0]}</p>
 				</header>
 				<div class="l-stacked-media-list">
-					{education.map((item) => <MediaItem {...item} compact />)}
+					{resume.education.map((item) => <MediaItem {...item} compact />)}
 				</div>
 			</section>
 
 			<section aria-labelledby="projects-heading">
 				<header class="c-section-band__header">
-					<h2 id="projects-heading" class="c-section-band__title">Fun Stuff</h2>
-					<p>{projectsIntro}</p>
+					<h2 id="projects-heading" class="c-section-band__title">{resume.sections.projects.title}</h2>
+					<p>{resume.sections.projects.body[0]}</p>
 				</header>
 				<div class="l-stacked-media-list">
-					{projects.map((item) => <MediaItem {...item} compact />)}
+					{resume.projects.map((item) => <MediaItem {...item} compact />)}
 				</div>
 			</section>
 		</div>
 	</SectionBand>
 
-	<SectionBand id="interests" title="Personal Life" tone="light" headingLevel={3}>
-		<p>I maintain a healthy work/life balance. If you'd like to learn more about me beyond my professional life, check out the links below!</p>
+	<SectionBand id="interests" title={resume.sections.personalLife.title} tone="light" headingLevel={3}>
+		<p>{resume.sections.personalLife.body[0]}</p>
 		<MediaGrid class="u-section-stack">
-			{interests.map((interest) => <MediaItem {...interest} />)}
+			{resume.interests.map((interest) => <MediaItem {...interest} />)}
 		</MediaGrid>
 	</SectionBand>
 
-	<SectionBand id="hire-me" title="Contact Me" tone="info" />
+	<SectionBand id="hire-me" title={resume.sections.contact.title} tone="info" />
 
 	<SectionBand id="contact" tone="white">
-		<p class="c-dropcap">{contactIntro}</p>
+		<p class="c-dropcap">{resume.contactIntro}</p>
 		<div class="l-two-panel c-contact-layout u-section-stack">
 			<section aria-labelledby="contact-info-heading">
 				<h2 id="contact-info-heading" class="u-center">My Contact Info</h2>
-				<ContactInfo items={contactItems} />
+				<ContactInfo items={resume.contactItems} />
 			</section>
 
 			<section aria-labelledby="contact-form-heading">
 				<h2 id="contact-form-heading" class="u-center">Send Me a Message</h2>
-				<ContactForm />
+				<ContactForm action={resume.formAction} />
 			</section>
 		</div>
 	</SectionBand>

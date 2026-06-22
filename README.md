@@ -1,34 +1,37 @@
-# Astro Starter Kit: Basics
+# philsapp Astro Resume Site
 
-```sh
-bun create astro@latest -- --template basics
-```
+This is Philip Brocoum's resume site rebuilt in Astro. The current homepage uses imported resume content from Astro Collections while keeping the visual theme in reusable Astro components and CSS.
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## Project Structure
 
-## 🚀 Project Structure
-
-Inside of your Astro project, you'll see the following folders and files:
+Key paths:
 
 ```text
 /
 ├── public/
-│   └── favicon.svg
-├── src
-│   ├── assets
-│   │   └── astro.svg
-│   ├── components
-│   │   └── Welcome.astro
-│   ├── layouts
-│   │   └── Layout.astro
-│   └── pages
-│       └── index.astro
+│   ├── legacy/          # imported resume assets, including @2x images
+│   ├── blog/            # imported blog assets
+│   └── site-assets/     # hand-curated current-site assets
+├── src/
+│   ├── components/      # reusable theme components
+│   ├── data/
+│   │   ├── imported/    # JSON-backed Astro Collections
+│   │   ├── resume-data.mjs
+│   │   └── site.ts      # icons and styleguide fixtures
+│   ├── layouts/
+│   ├── pages/
+│   └── styles/
+├── scripts/             # importers, verifiers, and unit tests
 └── package.json
 ```
 
-To learn more about the folder structure of an Astro project, refer to [our guide on project structure](https://docs.astro.build/en/basics/project-structure/).
+## Data and Theme Flow
 
-## 🧞 Commands
+Astro Collections are defined in `src/content.config.ts` and load JSON from `src/data/imported/`. The homepage calls `getCollection(...)` in `src/pages/index.astro`, then passes those entries to `src/data/resume-data.mjs`.
+
+`resume-data.mjs` is the adapter between imported data and themed components. It sorts entries by `order`, resolves asset IDs to `/legacy/...` paths, adds retina `srcset` values when `@2x` assets exist, and maps collection links into component actions. To update resume data, edit or re-import the JSON collections. To change the theme, edit `src/components/` and `src/styles/global.css`.
+
+## Commands
 
 All commands are run from the root of the project, from a terminal:
 
@@ -44,7 +47,7 @@ All commands are run from the root of the project, from a terminal:
 
 ## Content import audit
 
-The imported resume data lives in Astro Collections backed by JSON files in `src/data/imported/`.
+The imported resume and blog data live in Astro Collections backed by JSON files in `src/data/imported/`.
 
 | Command                    | Action                                                       |
 | :------------------------- | :----------------------------------------------------------- |
@@ -56,8 +59,8 @@ The imported resume data lives in Astro Collections backed by JSON files in `src
 | `bun run test:blog-live`   | Compare blog collections against the live blog feed/pages    |
 | `bun run test`             | Run parser unit tests                                        |
 
-Run `bun run dev:portless` and open `/content-audit/` to manually inspect every imported collection.
+Run `bun run dev:portless`, open `https://philsapp.dev/content-audit/`, and inspect every imported collection when changing import behavior.
 
-## 👀 Want to learn more?
+## Verification
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+For normal changes, run `bun run test`. After changing imports, collection schemas, or asset mapping, also run `bun run verify:content`, `bun run verify:blog`, and `bun run build`.

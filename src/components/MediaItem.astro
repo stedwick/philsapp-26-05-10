@@ -12,16 +12,26 @@ interface Props {
   href?: string;
   body: string;
   icon?: any;
+  image?: {
+    src: string;
+    srcSet?: string;
+    alt: string;
+  };
   addendum?: string;
   actions?: Action[];
   compact?: boolean;
 }
 
-const { title, href, body, icon: Icon, addendum, actions = [], compact = false } = Astro.props;
+const { title, href, body, icon: Icon, image, addendum, actions = [], compact = false } = Astro.props;
 ---
 
 <article class:list={['c-media-item', { 'c-media-item--compact': compact }]}>
-  {Icon && (
+  {image && (
+    <a class="c-media-item__icon" href={href ?? '#'} aria-label={title}>
+      <img src={image.src} srcset={image.srcSet} alt="" loading="lazy" />
+    </a>
+  )}
+  {!image && Icon && (
     <a class="c-media-item__icon" href={href ?? '#'} aria-label={title}>
       <Icon aria-hidden="true" />
     </a>

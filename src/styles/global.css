@@ -443,6 +443,11 @@
     flex: none;
   }
 
+  .c-button span {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+
   .c-icon-button {
     width: 3.125rem;
     height: 3.125rem;
@@ -486,6 +491,12 @@
     width: var(--icon-size);
     height: var(--icon-size);
     stroke-width: 1.65;
+  }
+
+  .c-media-item__icon img {
+    width: var(--icon-size);
+    height: var(--icon-size);
+    object-fit: contain;
   }
 
   .c-media-item__title {

@@ -6,11 +6,19 @@ interface Profile {
   name: string;
   role: string;
   tagline: string;
-  portrait: string;
+  portrait?: string | {
+    src: string;
+    srcSet?: string;
+    alt: string;
+  };
   heroImages: {
-    sm: string;
-    md: string;
-    lg: string;
+    sm?: string;
+    md?: string;
+    lg?: string;
+  };
+  primaryAction?: {
+    label: string;
+    target: string;
   };
 }
 
@@ -28,6 +36,11 @@ interface Props {
 
 const { profile, socialLinks, chevronIcon: ChevronDown } = Astro.props;
 const heroStyle = `--hero-image-sm: url('${profile.heroImages.sm}'); --hero-image-md: url('${profile.heroImages.md}'); --hero-image-lg: url('${profile.heroImages.lg}');`;
+const primaryAction = profile.primaryAction ?? { label: 'Contact Me', target: '#hire-me' };
+const portrait =
+  typeof profile.portrait === 'string'
+    ? { src: profile.portrait, alt: profile.name }
+    : profile.portrait;
 ---
 
 <section class="c-hero" style={heroStyle} aria-labelledby="site-title">
@@ -35,9 +48,18 @@ const heroStyle = `--hero-image-sm: url('${profile.heroImages.sm}'); --hero-imag
     <div class="c-hero__spacer" aria-hidden="true"></div>
 
     <div class="c-hero__content">
-      <div class="c-hero__portrait-frame">
-        <img src={profile.portrait} alt="Philip Brocoum" width="200" height="200" fetchpriority="high" />
-      </div>
+      {portrait && (
+        <div class="c-hero__portrait-frame">
+          <img
+            src={portrait.src}
+            srcset={portrait.srcSet}
+            alt={portrait.alt}
+            width="200"
+            height="200"
+            fetchpriority="high"
+          />
+        </div>
+      )}
       <h1 id="site-title">{profile.name}</h1>
       <p class="c-hero__role">{profile.role}</p>
       <p class="c-hero__tagline">{profile.tagline}</p>
@@ -46,7 +68,7 @@ const heroStyle = `--hero-image-sm: url('${profile.heroImages.sm}'); --hero-imag
         {socialLinks.map((link) => <IconButton href={link.href} label={link.label} icon={link.icon} />)}
       </nav>
 
-      <ButtonLink href="#hire-me" variant="light" size="lg" class="c-hero__cta">Contact Me</ButtonLink>
+      <ButtonLink href={primaryAction.target} variant="light" size="lg" class="c-hero__cta">{primaryAction.label}</ButtonLink>
     </div>
 
     <p class="c-hero__scroll">
