@@ -8,7 +8,8 @@
   },
   "scripts": {
     "dev": "astro dev",
-    "dev:portless": "astro dev --host \"$HOST\" --port \"$PORT\"",
+    "dev:portless": "portless run --name philsapp -- bun run dev:portless:server",
+    "dev:portless:server": "astro dev --host \"$HOST\" --port \"$PORT\"",
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
