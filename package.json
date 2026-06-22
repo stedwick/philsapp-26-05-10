@@ -2,17 +2,19 @@
   "name": "philsapp-26-05-10",
   "type": "module",
   "version": "0.0.1",
+  "packageManager": "bun@1.4.0",
   "engines": {
-    "node": ">=22.12.0"
+    "bun": ">=1.4.0"
   },
   "scripts": {
     "dev": "astro dev",
+    "dev:portless": "astro dev --host \"$HOST\" --port \"$PORT\"",
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "import:legacy": "node scripts/import-legacy-site.mjs",
-    "verify:content": "node scripts/verify-content.mjs",
-    "test:legacy-live": "node scripts/test-legacy-live.mjs"
+    "import:legacy": "bun scripts/import-legacy-site.mjs",
+    "verify:content": "bun scripts/verify-content.mjs",
+    "test:legacy-live": "bun scripts/test-legacy-live.mjs"
   },
   "dependencies": {
     "astro": "^6.3.1"
