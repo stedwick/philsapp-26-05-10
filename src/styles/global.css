@@ -145,12 +145,13 @@
 
   .l-media-grid {
     display: grid;
-    gap: var(--space-5);
+    column-gap: 1.875rem;
+    row-gap: var(--space-5);
   }
 
   .l-card-grid {
     display: grid;
-    gap: var(--space-5);
+    gap: 1.875rem;
   }
 
   .l-two-panel {
@@ -240,6 +241,7 @@
     display: grid;
     justify-items: center;
     gap: var(--space-3);
+    transform: translateY(-2.75rem);
   }
 
   .c-hero__portrait-frame {
@@ -253,6 +255,11 @@
 
   .c-hero h1 {
     font-size: clamp(2.5rem, 11vw, 3.5rem);
+    margin-bottom: var(--space-2);
+  }
+
+  .c-hero__content p + p {
+    margin-top: 0;
   }
 
   .c-hero__role {
@@ -268,11 +275,11 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: var(--space-2);
+    gap: 0.625rem;
   }
 
   .c-hero__cta {
-    margin-top: var(--space-5);
+    margin-top: 2.25rem;
   }
 
   .c-hero__scroll {
@@ -281,7 +288,8 @@
     display: grid;
     justify-items: center;
     gap: var(--space-1);
-    font-size: 0.95rem;
+    font-size: 1rem;
+    transform: translateY(-1.25rem);
   }
 
   .c-hero__scroll svg {
@@ -319,7 +327,16 @@
   }
 
   .c-section-band__title {
-    font-size: clamp(1.75rem, 6vw, 2rem);
+    margin-bottom: var(--space-2);
+    font-size: 2rem;
+  }
+
+  h3.c-section-band__title {
+    font-size: 1.75rem;
+  }
+
+  h4.c-section-band__title {
+    font-size: 1.5rem;
   }
 
   .c-section-band__rule {
@@ -422,8 +439,8 @@
   }
 
   .c-icon-button {
-    width: 3rem;
-    height: 3rem;
+    width: 3.125rem;
+    height: 3.125rem;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -701,6 +718,10 @@
   @media (min-width: 576px) {
     .c-hero {
       background-image: var(--hero-image-md);
+    }
+
+    .c-hero h1 {
+      display: block;
     }
   }
 

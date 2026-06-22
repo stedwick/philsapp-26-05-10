@@ -20,6 +20,7 @@ const {
 } = Astro.props;
 
 const Heading = `h${headingLevel}`;
+const showRule = headingLevel === 2;
 ---
 
 <section id={id} class:list={['c-section-band', `c-section-band--${tone}`, className]}>
@@ -27,7 +28,7 @@ const Heading = `h${headingLevel}`;
     {title && (
       <header class="c-section-band__header">
         <Heading class="c-section-band__title">{title}</Heading>
-        <hr class="c-section-band__rule" />
+        {showRule && <hr class="c-section-band__rule" />}
       </header>
     )}
     <slot />
