@@ -154,6 +154,11 @@
     gap: 1.875rem;
   }
 
+  .l-stacked-media-list {
+    display: grid;
+    gap: var(--space-5);
+  }
+
   .l-two-panel {
     display: grid;
     gap: var(--space-6);

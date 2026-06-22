@@ -57,7 +57,7 @@ import {
 					<h2 id="education-heading" class="c-section-band__title">Education</h2>
 					<p>{educationIntro}</p>
 				</header>
-				<div class="l-media-grid l-media-grid--two">
+				<div class="l-stacked-media-list">
 					{education.map((item) => <MediaItem {...item} compact />)}
 				</div>
 			</section>
@@ -67,7 +67,7 @@ import {
 					<h2 id="projects-heading" class="c-section-band__title">Fun Stuff</h2>
 					<p>{projectsIntro}</p>
 				</header>
-				<div class="l-media-grid l-media-grid--two">
+				<div class="l-stacked-media-list">
 					{projects.map((item) => <MediaItem {...item} compact />)}
 				</div>
 			</section>
