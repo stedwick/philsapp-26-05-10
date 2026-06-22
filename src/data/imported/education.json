@@ -1,0 +1,63 @@
+[
+  {
+    "id": "massachusetts-institute-of-technology",
+    "title": "Massachusetts Institute of Technology",
+    "url": "http://web.mit.edu/",
+    "addendum": "B.S. in Mathematics (class of 2005)",
+    "description": "I have two publications: \"Reflections in a Euclidean Space,\" and \"Exploration of Reflection Holograms and Their Fringes With a Scanning Electron Microscope.\"",
+    "links": [
+      {
+        "label": "Massachusetts Institute of Technology",
+        "url": "http://web.mit.edu/"
+      },
+      {
+        "label": "\"Reflections in a Euclidean Space,\"",
+        "url": "http://ocw.mit.edu/courses/mathematics/18-06ci-linear-algebra-communications-intensive-spring-2004/projects/1806ciphil.pdf"
+      },
+      {
+        "label": "\"Exploration of Reflection Holograms and Their Fringes With a Scanning Electron Microscope.\"",
+        "url": "https://www.scribd.com/document/17377101/Exploration-of-Reflection-Holograms-and-Their-Fringes-With-a-Scanning-Electron-Microscope"
+      }
+    ],
+    "iconName": "",
+    "order": 0
+  },
+  {
+    "id": "new-york-university",
+    "title": "New York University",
+    "url": "https://www.nyu.edu/",
+    "addendum": "M.A. in Math Education (class of 2006)",
+    "description": "I attended NYU through Math for America where I took my theoretical knowledge of mathematics and added practical knowledge of teaching.",
+    "links": [
+      {
+        "label": "New York University",
+        "url": "https://www.nyu.edu/"
+      },
+      {
+        "label": "Math for America",
+        "url": "https://www.mathforamerica.org/"
+      }
+    ],
+    "iconName": "",
+    "order": 1
+  },
+  {
+    "id": "nyc-department-of-education",
+    "title": "NYC Department of Education",
+    "url": "http://schools.nyc.gov/",
+    "addendum": "Math Teacher (2006 – 2007)",
+    "description": "After getting my Master's degree, I taught 6–8th grade math at the Shuang Wen School (P.S. 184) in Chinatown.",
+    "links": [
+      {
+        "label": "NYC Department of Education",
+        "url": "http://schools.nyc.gov/"
+      },
+      {
+        "label": "Shuang Wen School (P.S. 184)",
+        "url": "https://en.wikipedia.org/wiki/Shuang_Wen_School"
+      }
+    ],
+    "iconName": "",
+    "order": 2
+  }
+]

@@ -1,0 +1,118 @@
+[
+  {
+    "id": "poker-tracker",
+    "title": "Poker Tracker",
+    "url": "https://pokertracker-23081.web.app/",
+    "description": "Made with React.js, Material UI, and deployed on Firebase, I built an app to track $30,000 of my own live poker winnings.",
+    "links": [
+      {
+        "label": "Poker Tracker",
+        "url": "https://pokertracker-23081.web.app/"
+      },
+      {
+        "label": "$30,000 of my own live poker winnings",
+        "url": "https://pokerdb.thehendonmob.com/player.php?a=r&n=862579"
+      },
+      {
+        "label": "Go all in with Aces",
+        "url": "https://pokertracker-23081.web.app/"
+      },
+      {
+        "label": "View on GitHub",
+        "url": "https://github.com/stedwick/pokertracker"
+      }
+    ],
+    "iconName": "",
+    "order": 0
+  },
+  {
+    "id": "munch",
+    "title": "Munch",
+    "url": "https://stedwick.github.io/munch/",
+    "description": "The game of Munch! Can you beat the computer? I doubt it...",
+    "links": [
+      {
+        "label": "Munch",
+        "url": "https://stedwick.github.io/munch/"
+      },
+      {
+        "label": "Test your wit",
+        "url": "https://stedwick.github.io/munch/"
+      }
+    ],
+    "iconName": "",
+    "order": 1
+  },
+  {
+    "id": "sci-fi-voter",
+    "title": "Sci-Fi Voter",
+    "url": "https://github.com/stedwick/scifi-voter",
+    "description": "Sci-Fi Voter definitively answers the question, \"What is the best Star Trek episode?\"",
+    "links": [
+      {
+        "label": "Sci-Fi Voter",
+        "url": "https://github.com/stedwick/scifi-voter"
+      },
+      {
+        "label": "View on GitHub",
+        "url": "https://github.com/stedwick/scifi-voter"
+      }
+    ],
+    "iconName": "",
+    "order": 2
+  },
+  {
+    "id": "docker-dashboard",
+    "title": "Docker Dashboard",
+    "url": "https://github.com/stedwick/docker-dashboard/",
+    "description": "Simple terminal dashboard for Docker using Tmux",
+    "links": [
+      {
+        "label": "Docker Dashboard",
+        "url": "https://github.com/stedwick/docker-dashboard/"
+      },
+      {
+        "label": "View on GitHub",
+        "url": "https://github.com/stedwick/docker-dashboard/"
+      }
+    ],
+    "iconName": "",
+    "order": 3
+  },
+  {
+    "id": "taggy-for-evernote",
+    "title": "Taggy for Evernote",
+    "url": "https://github.com/stedwick/taggy-for-evernote",
+    "description": "Taggy for Evernote was my app in the Mac App Store. Taggy makes your Evernote tags function as you want them to: hierarchically.",
+    "links": [
+      {
+        "label": "Taggy for Evernote",
+        "url": "https://github.com/stedwick/taggy-for-evernote"
+      },
+      {
+        "label": "View on GitHub",
+        "url": "https://github.com/stedwick/taggy-for-evernote"
+      }
+    ],
+    "iconName": "",
+    "order": 4
+  },
+  {
+    "id": "arkanoid",
+    "title": "Arkanoid",
+    "url": "https://github.com/stedwick/arkanoid",
+    "description": "Arkanoid is my take on the classic Nintendo Breakout game. Written in C for MS DOS long ago.",
+    "links": [
+      {
+        "label": "Arkanoid",
+        "url": "https://github.com/stedwick/arkanoid"
+      },
+      {
+        "label": "View on GitHub",
+        "url": "https://github.com/stedwick/arkanoid"
+      }
+    ],
+    "iconName": "",
+    "order": 5
+  }
+]

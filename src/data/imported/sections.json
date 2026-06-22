@@ -1,0 +1,78 @@
+[
+  {
+    "id": "about",
+    "title": "About Me",
+    "body": [
+      "Hello! 👋 I'm Philip, and I began developing with Ruby on Rails at a startup in NYC in 2007. I have 10 years of Software Engineering experience, and 4 years as a Manager and Lead Engineer. I've climbed from Developer to Senior Developer, to Lead Developer, to Senior Engineering Manager leading a world-wide remote team of twelve.",
+      "I run projects at Olio Apps as our Lead Software Engineer in Portland, OR. When not at work I enjoy walking my dog, playing live poker at Portland Meadows, and vlogging on my YouTube channel. I believe in making computers accessible and helping the disabled. I'm optimistic about the future :-)"
+    ],
+    "links": [
+      {
+        "label": "Olio Apps",
+        "url": "https://www.olioapps.com/"
+      }
+    ],
+    "order": 0
+  },
+  {
+    "id": "career",
+    "title": "My Career",
+    "body": [
+      "I started in tech as an analyst at Brightidea back in 2007 when I was 25. At that time, I was transitioning away from mathematics and education. I taught myself Ruby on Rails and was hired a year later at readMedia as their first full-time developer. We grew the company and turned it into what Merit is today.",
+      "I now lead all development at Syncta as our Senior Software Engineering Manager in Portland, OR. I hire and roadmap the projects for our team, take the technical lead on new and existing apps, and plan for my team's career advancement. My passion has always been to hire great teams to build great products with great technologies."
+    ],
+    "links": [
+      {
+        "label": "Syncta",
+        "url": "https://syncta.com/"
+      }
+    ],
+    "order": 1
+  },
+  {
+    "id": "education",
+    "title": "Education",
+    "body": [
+      "I majored in mathematics in college and grad school, and my first career was as a teacher in New York City. However, I always loved computers and quickly transitioned to my new career as a developer."
+    ],
+    "links": [],
+    "order": 2
+  },
+  {
+    "id": "fun-stuff",
+    "title": "Fun Stuff",
+    "body": [
+      "I often program for fun, and you can browse my side projects on GitHub. I once wrote a Ruby script to nab myself tickets to The Daily Show, which was first-come-first-serve on its website at the time, and you never knew when tickets would become available."
+    ],
+    "links": [
+      {
+        "label": "wrote a Ruby script",
+        "url": "https://github.com/stedwick/scripting/blob/master/daily_tix.rb"
+      }
+    ],
+    "order": 3
+  },
+  {
+    "id": "personal-life",
+    "title": "Personal Life",
+    "body": [
+      "I maintain a healthy work/life balance. If you'd like to learn more about me beyond my professional life, check out the links below!"
+    ],
+    "links": [],
+    "order": 4
+  },
+  {
+    "id": "contact",
+    "title": "Contact Me",
+    "body": [
+      "Hi there! I'm currently the Software Engineering Manager in charge of development at Syncta. We provide mobile software for backflow testers and water purveyors, and I lead the development of our Ruby on Rails app. If you've made it this far, drop me a line. Send an email and I'll speak with you soon 👍."
+    ],
+    "links": [
+      {
+        "label": "Syncta",
+        "url": "https://syncta.com/"
+      }
+    ],
+    "order": 5
+  }
+]

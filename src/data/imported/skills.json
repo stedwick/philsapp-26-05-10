@@ -1,0 +1,122 @@
+[
+  {
+    "id": "management",
+    "title": "Management",
+    "url": "https://atlassian.com/",
+    "description": "Engineering leadership, hiring & management of remote Agile teams across the world",
+    "iconAssetId": "atlassian-ca51bc3b243e1b1b55d760e811ce9efb24628f71366c0334c9058d003bea66f2",
+    "iconHighResAssetId": "atlassian-2x-b033bee89af89a7b7badc40bcc9425c23c0ad09e8e61043f87c3c77af3cf49f7",
+    "iconAlt": "Atlassian",
+    "order": 0
+  },
+  {
+    "id": "full-stack-development",
+    "title": "Full-Stack Development",
+    "url": "http://rubyonrails.org/",
+    "description": "Shipping apps since 2007. Backend, front-end, APIs, web, mobile, App Stores.",
+    "iconAssetId": "icons8-layers-160",
+    "iconHighResAssetId": "",
+    "iconAlt": "Full-Stack",
+    "order": 1
+  },
+  {
+    "id": "ruby-on-rails",
+    "title": "Ruby on Rails",
+    "url": "http://rubyonrails.org/",
+    "description": "App development with Ruby on Rails majestic monolith",
+    "iconAssetId": "ruby-432990b3f3b0fc712e89a6474d3d65b12be0b6d75f5bd7a006de013a4d209556",
+    "iconHighResAssetId": "ruby-2x-5982ced9f3ef621aecafe190575d53aa36263de4fd4fef95cb2e72fd44b1d089",
+    "iconAlt": "Ruby",
+    "order": 2
+  },
+  {
+    "id": "react-js-and-next-js",
+    "title": "React.js & Next.js",
+    "url": "http://html-css-js.com/",
+    "description": "Responsive single-and-multi-page-apps in TypeScript deployed to Vercel",
+    "iconAssetId": "react-next-2x",
+    "iconHighResAssetId": "",
+    "iconAlt": "React",
+    "order": 3
+  },
+  {
+    "id": "graphql-and-rest-apis",
+    "title": "GraphQL & REST APIs",
+    "url": "http://html-css-js.com/",
+    "description": "Creating and consuming robust and performant APIs",
+    "iconAssetId": "graphqlapi-2x",
+    "iconHighResAssetId": "",
+    "iconAlt": "GraphQL",
+    "order": 4
+  },
+  {
+    "id": "html-css-js",
+    "title": "HTML/CSS/JS",
+    "url": "http://html-css-js.com/",
+    "description": "Frontend design with HTML 5, CSS 3, and JS/TypeScript/jQuery",
+    "iconAssetId": "html-79ea44613dcbe9e4b311e919538deec10aad5dd096d81538bbca213a5af25034",
+    "iconHighResAssetId": "html-2x-86e9e85c492b6e5a8f8bcb60969c5a5b0fc9193c65cb163eb132ccb72f55c3f1",
+    "iconAlt": "Html",
+    "order": 5
+  },
+  {
+    "id": "mysql-postgresql",
+    "title": "MySQL/PostgreSQL",
+    "url": "https://www.mysql.com/",
+    "description": "DB administration of MySQL & PostgreSQL",
+    "iconAssetId": "mysql-9b36604739ad2843bd229aa9831aa96c38462e0b81fb726e5ec75d09494c5cc3",
+    "iconHighResAssetId": "mysql-2x-e7f3a2796dd55eba940fc2a7a8942feec8463c29f2048f3f3423b085ab7683c5",
+    "iconAlt": "Mysql",
+    "order": 6
+  },
+  {
+    "id": "aws-azure",
+    "title": "AWS/Azure",
+    "url": "https://aws.amazon.com/",
+    "description": "Scaling cloud infrastructure in AWS and Azure with Chef, including EC2, RDS, and S3",
+    "iconAssetId": "aws-cdf14bcebf3d3a7449c34ca6eaf9dd44164a840eff0604b834b96df290a43c3b",
+    "iconHighResAssetId": "aws-2x-fae84a4b557d7ddf6c1a4a2a71c77e2fea632c66f05b45c2dbf389cf778b0cb6",
+    "iconAlt": "Aws",
+    "order": 7
+  },
+  {
+    "id": "devsecops",
+    "title": "DevSecOps",
+    "url": "https://www.phusionpassenger.com/",
+    "description": "Production apps w/ SOC 2 compliance & CI/CD on Bitbucket, AWS, Vercel, Apache, Nginx, and Puma",
+    "iconAssetId": "web-b208a15120c60e4178da9008357f8dac3dcddfd2d3d005e05dd7a51eb6cd2fda",
+    "iconHighResAssetId": "web-2x-5af77fcd6b11c1f45d81d27655c1cb90e15606882a28f143ce1fb8476ba539a9",
+    "iconAlt": "DevSecOps",
+    "order": 8
+  },
+  {
+    "id": "docker",
+    "title": "Docker",
+    "url": "https://www.docker.com/",
+    "description": "Containerize all the things!",
+    "iconAssetId": "docker-38ed8b149892718d0115780b25d0c12ad499afa4a7f8e8ca1f2115319f59b060",
+    "iconHighResAssetId": "docker-2x-3e35bf5997a1e61d4d3fa4caaf657f9e247a32c21894a5d56f7e237cc8148592",
+    "iconAlt": "Docker",
+    "order": 9
+  },
+  {
+    "id": "git",
+    "title": "git",
+    "url": "https://github.com/stedwick",
+    "description": "git-flow is my preferred branching model",
+    "iconAssetId": "git-1d660a4943eaafaa1b808664d979be481cb89dec342cdec714c1892c944df148",
+    "iconHighResAssetId": "git-2x-f0b383c59ed60b6aa87daca66666b4fb92f13cdeba04dd5574afb61431665711",
+    "iconAlt": "Git",
+    "order": 10
+  },
+  {
+    "id": "linux",
+    "title": "Linux",
+    "url": "https://www.ubuntu.com/",
+    "description": "Ubuntu & CentOS server administration / bash scripting",
+    "iconAssetId": "linux-50df4f1cd041488b7f9394cdd3b47960701735f6fd38615de3dbbb39f83e9070",
+    "iconHighResAssetId": "linux-2x-8910af2b7f29ea3262f66a18e3c901740274a2d33c1ef10b07cc54a1ca7e7c44",
+    "iconAlt": "Linux",
+    "order": 11
+  }
+]
