@@ -1,0 +1,32 @@
+[
+  {
+    "id": "sections-contact-body-0",
+    "collection": "sections",
+    "entryId": "contact",
+    "field": "body.0",
+    "originalText": "HHi there! I'm currently the Software Engineering Manager in charge of development at Syncta. We provide mobile software for backflow testers and water purveyors, and I lead the development of our Ruby on Rails app. If you've made it this far, drop me a line. Send an email and I'll speak with you soon 👍.",
+    "cleanedText": "Hi there! I'm currently the Software Engineering Manager in charge of development at Syncta. We provide mobile software for backflow testers and water purveyors, and I lead the development of our Ruby on Rails app. If you've made it this far, drop me a line. Send an email and I'll speak with you soon 👍.",
+    "reason": "Removed duplicate drop-cap text from the rendered contact intro.",
+    "order": 0
+  },
+  {
+    "id": "personalLinks-toast-the-dog-description",
+    "collection": "personalLinks",
+    "entryId": "toast-the-dog",
+    "field": "description",
+    "originalText": "Such a good dog, but he sometimes sits onkjf ssadkl",
+    "cleanedText": "Such a good dog.",
+    "reason": "Removed obvious trailing keyboard-mash artifact from the Toast description.",
+    "order": 1
+  },
+  {
+    "id": "contact-main-intro",
+    "collection": "contact",
+    "entryId": "main",
+    "field": "intro",
+    "originalText": "HHi there! I'm currently the Software Engineering Manager in charge of development at Syncta. We provide mobile software for backflow testers and water purveyors, and I lead the development of our Ruby on Rails app. If you've made it this far, drop me a line. Send an email and I'll speak with you soon 👍.",
+    "cleanedText": "Hi there! I'm currently the Software Engineering Manager in charge of development at Syncta. We provide mobile software for backflow testers and water purveyors, and I lead the development of our Ruby on Rails app. If you've made it this far, drop me a line. Send an email and I'll speak with you soon 👍.",
+    "reason": "Removed duplicate drop-cap text from the rendered contact intro.",
+    "order": 2
+  }
+]

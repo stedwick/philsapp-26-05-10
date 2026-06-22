@@ -1,0 +1,39 @@
+[
+  {
+    "id": "main",
+    "name": "Philip Brocoum",
+    "headline": "Lead Software Engineer",
+    "tagline": "coding & shipping at Olio Apps in Portland, OR",
+    "portraitAssetId": "philip-sq-e03ad012d05ecf52056092c116e72cc90453008a28a829e418e62ecfd3b1ab3f",
+    "portraitHighResAssetId": "philip-sq-2x-1018247efaf9a374bfa6abda4f3c36e3cfa263014d8aac9bb49099f4d4e847da",
+    "coverAssetIds": [
+      "my-name-is-phil-db27b22eb610a0cc321c360c809ff2fada900085a10dc170be6c80a07d1b6499",
+      "my-name-is-phil-md-738fa97696cfd85f349bfa675540245e5e695b52a869d807ded21752865d988c",
+      "my-name-is-phil-lg-43ae5aeb7886376d32633f93d6029affbcd0c6c64bdad9e75f7b96f84ffb4441"
+    ],
+    "socialLinks": [
+      {
+        "label": "LinkedIn",
+        "url": "https://www.linkedin.com/in/philipbrocoum"
+      },
+      {
+        "label": "GitHub",
+        "url": "https://github.com/stedwick"
+      },
+      {
+        "label": "Stack Overflow",
+        "url": "https://stackoverflow.com/users/103316/philip-brocoum"
+      },
+      {
+        "label": "Twitter",
+        "url": "https://twitter.com/stedwick"
+      }
+    ],
+    "primaryAction": {
+      "label": "Contact Me",
+      "target": "#contact"
+    },
+    "sourceUrl": "https://philipbrocoum.com/",
+    "order": 0
+  }
+]

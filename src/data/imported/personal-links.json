@@ -1,0 +1,70 @@
+[
+  {
+    "id": "my-youtube-channel",
+    "title": "My YouTube Channel",
+    "url": "https://www.youtube.com/watch?v=YQtbcgBWobA",
+    "description": "With 1 million views, my Yoshimoto Cube video is my 15 minutes of fame.",
+    "links": [
+      {
+        "label": "My YouTube Channel",
+        "url": "https://www.youtube.com/watch?v=YQtbcgBWobA"
+      }
+    ],
+    "iconAssetId": "youtube-538bc433330444ccbb935365d6341b8329c39bbdd9de0ec2815f81a155be91aa",
+    "iconHighResAssetId": "youtube-2x-8160219808fa740a726f57395b18af21088d20f467c7c8c8acd92daae3f6d45f",
+    "iconAlt": "Youtube",
+    "order": 0
+  },
+  {
+    "id": "us-chess-federation",
+    "title": "US Chess Federation",
+    "url": "http://www.uschess.org/msa/MbrDtlMain.php?14448371",
+    "description": "Rated 1618 USCF and 2000-ish on Lichess, I'm always looking to improve.",
+    "links": [
+      {
+        "label": "US Chess Federation",
+        "url": "http://www.uschess.org/msa/MbrDtlMain.php?14448371"
+      },
+      {
+        "label": "Lichess",
+        "url": "https://lichess.org/@/PhilChessPDX"
+      }
+    ],
+    "iconAssetId": "chess-a01a5f5e12bcc30dc44f8c391289c9a9da0bbcc0464a568f445d3ebe9eb289a4",
+    "iconHighResAssetId": "chess-2x-06f5d183f9b46589169901c14139589fcf7cef9d6c01af4a1d18ce264b9b2c83",
+    "iconAlt": "Chess",
+    "order": 1
+  },
+  {
+    "id": "poker-in-las-vegas",
+    "title": "Poker in Las Vegas",
+    "url": "https://pokerdb.thehendonmob.com/player.php?a=r&n=862579",
+    "description": "I have over $30,000 in live poker earnings.",
+    "links": [
+      {
+        "label": "Poker in Las Vegas",
+        "url": "https://pokerdb.thehendonmob.com/player.php?a=r&n=862579"
+      }
+    ],
+    "iconAssetId": "aces",
+    "iconHighResAssetId": "",
+    "iconAlt": "Poker",
+    "order": 2
+  },
+  {
+    "id": "toast-the-dog",
+    "title": "Toast the Dog!",
+    "url": "https://www.instagram.com/toastwiththemost/",
+    "description": "Such a good dog.",
+    "links": [
+      {
+        "label": "Toast the Dog!",
+        "url": "https://www.instagram.com/toastwiththemost/"
+      }
+    ],
+    "iconAssetId": "toast-80b7ef0a58eaf08007417c96dc9d24637ac67f9ea642fdae5cba7022d01bbd56",
+    "iconHighResAssetId": "toast-2x-8c24a28ca7752afafa148e90143c4887760e3092bb8727036a78a57f8ffd0636",
+    "iconAlt": "Toast",
+    "order": 3
+  }
+]
