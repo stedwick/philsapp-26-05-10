@@ -1,0 +1,90 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+
+const collectionLinks = [
+  { slug: 'blog-posts', title: 'Blog Posts', collection: 'blogPosts' },
+  { slug: 'profile', title: 'About Me Profile', collection: 'profile' },
+  { slug: 'sections', title: 'Resume Sections', collection: 'sections' },
+  { slug: 'skills', title: 'Skills', collection: 'skills' },
+  { slug: 'experience', title: 'My Career and Previous Jobs', collection: 'experience' },
+  { slug: 'education', title: 'My Education', collection: 'education' },
+  { slug: 'projects', title: 'My Fun Stuff', collection: 'projects' },
+  { slug: 'personal-links', title: 'My Personal Life', collection: 'personalLinks' },
+  { slug: 'contact', title: 'My Contact Info', collection: 'contact' },
+  { slug: 'assets', title: 'Resume Assets', collection: 'assets' },
+  { slug: 'blog-assets', title: 'Blog Assets', collection: 'blogAssets' },
+  { slug: 'cleanup-notes', title: 'Cleanup Notes', collection: 'cleanupNotes' },
+];
+
+const counts = await Promise.all(
+  collectionLinks.map(async (link) => ({
+    ...link,
+    count: (await getCollection(link.collection)).length,
+  })),
+);
+
+const sectionAnchors = [
+  { label: 'About me', href: '/content-audit/sections/#about' },
+  { label: 'My career', href: '/content-audit/sections/#career' },
+  { label: 'My education', href: '/content-audit/sections/#education' },
+  { label: 'My fun stuff', href: '/content-audit/sections/#fun-stuff' },
+  { label: 'My personal life', href: '/content-audit/sections/#personal-life' },
+  { label: 'My contact intro', href: '/content-audit/sections/#contact' },
+];
+---
+
+<Layout>
+  <main class="audit-shell">
+    <header>
+      <p><a href="/">Home</a></p>
+      <h1>Content Audit</h1>
+      <p>Astro Collection test pages for the imported resume and blog content.</p>
+    </header>
+
+    <section>
+      <h2>Collections</h2>
+      <ul class="collection-list">
+        {
+          counts.map((link) => (
+            <li>
+              <a href={`/content-audit/${link.slug}/`}>{link.title}</a>
+              <span>{link.count} entries</span>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+
+    <section>
+      <h2>Section Shortcuts</h2>
+      <ul>
+        {sectionAnchors.map((anchor) => <li><a href={anchor.href}>{anchor.label}</a></li>)}
+      </ul>
+    </section>
+  </main>
+</Layout>
+
+<style>
+  .audit-shell {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 32px 20px;
+    font-family: system-ui, sans-serif;
+    line-height: 1.5;
+  }
+
+  .collection-list {
+    display: grid;
+    gap: 8px;
+    padding-left: 20px;
+  }
+
+  .collection-list li {
+    display: flex;
+    gap: 12px;
+    justify-content: space-between;
+    border-bottom: 1px solid #ddd;
+    padding: 6px 0;
+  }
+</style>

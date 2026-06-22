@@ -170,6 +170,35 @@ const cleanupNotes = defineCollection({
   }),
 });
 
+const blogPosts = defineCollection({
+  loader: file('src/data/imported/blog-posts.json'),
+  schema: z.object({
+    ...orderedSchema,
+    title: z.string(),
+    url: z.string(),
+    datePublished: z.string(),
+    description: z.string(),
+    tags: z.array(z.string()),
+    contentText: z.string(),
+    sourceContentHtml: z.string(),
+    contentHtml: z.string(),
+    links: z.array(linkSchema),
+    assetIds: z.array(z.string()),
+  }),
+});
+
+const blogAssets = defineCollection({
+  loader: file('src/data/imported/blog-assets.json'),
+  schema: z.object({
+    ...orderedSchema,
+    sourceUrl: z.string(),
+    localPath: z.string(),
+    kind: z.string(),
+    alt: z.string(),
+    owners: z.array(ownerSchema),
+  }),
+});
+
 export const collections = {
   profile,
   sections,
@@ -181,4 +210,6 @@ export const collections = {
   contact,
   assets,
   cleanupNotes,
+  blogPosts,
+  blogAssets,
 };

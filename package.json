@@ -14,8 +14,12 @@
     "preview": "astro preview",
     "astro": "astro",
     "import:legacy": "bun scripts/import-legacy-site.mjs",
+    "import:blog": "bun scripts/import-blog-site.mjs",
     "verify:content": "bun scripts/verify-content.mjs",
-    "test:legacy-live": "bun scripts/test-legacy-live.mjs"
+    "verify:blog": "bun scripts/verify-blog-content.mjs",
+    "test": "node --test scripts/*.test.mjs",
+    "test:legacy-live": "bun scripts/test-legacy-live.mjs",
+    "test:blog-live": "bun scripts/test-blog-live.mjs"
   },
   "dependencies": {
     "astro": "^6.3.1"
