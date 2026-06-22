@@ -22,6 +22,7 @@
     "test:blog-live": "bun scripts/test-blog-live.mjs"
   },
   "dependencies": {
+    "@lucide/astro": "^1.14.0",
     "astro": "^6.3.1"
   },
   "devDependencies": {

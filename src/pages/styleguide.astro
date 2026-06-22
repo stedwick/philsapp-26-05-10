@@ -1,0 +1,107 @@
+---
+import ButtonLink from '../components/ButtonLink.astro';
+import ContactForm from '../components/ContactForm.astro';
+import ContactInfo from '../components/ContactInfo.astro';
+import Hero from '../components/Hero.astro';
+import MediaGrid from '../components/MediaGrid.astro';
+import MediaItem from '../components/MediaItem.astro';
+import SectionBand from '../components/SectionBand.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+import SplitIntro from '../components/SplitIntro.astro';
+import WorkCard from '../components/WorkCard.astro';
+import Layout from '../layouts/Layout.astro';
+import {
+	aboutCopy,
+	career,
+	contactItems,
+	icons,
+	profile,
+	skills,
+	socialLinks,
+} from '../data/site';
+
+const swatches = [
+	{ name: 'Light', value: '#f8f9fa', text: '#212529' },
+	{ name: 'White', value: '#ffffff', text: '#212529' },
+	{ name: 'Dark', value: '#343a40', text: '#f8f9fa' },
+	{ name: 'Primary', value: '#007bff', text: '#ffffff' },
+	{ name: 'Info', value: '#17a2b8', text: '#ffffff' },
+	{ name: 'Danger', value: '#dc3545', text: '#ffffff' },
+	{ name: 'Muted', value: '#6c757d', text: '#ffffff' },
+];
+---
+
+<Layout title="Component Styleguide - Philip Brocoum">
+	<SectionBand title="Component Styleguide" tone="light">
+		<p>
+			This page is the public component library and visual QA target for the Astro rebuild. Components should resemble the current site patterns while remaining reusable and themeable.
+		</p>
+		<nav class="c-styleguide-nav" aria-label="Styleguide sections">
+			<ButtonLink href="#tokens" variant="primary" size="sm">Tokens</ButtonLink>
+			<ButtonLink href="#buttons" variant="secondary" size="sm">Buttons</ButtonLink>
+			<ButtonLink href="#media" variant="primary" size="sm">Media</ButtonLink>
+			<ButtonLink href="#cards" variant="secondary" size="sm">Cards</ButtonLink>
+			<ButtonLink href="#forms" variant="primary" size="sm">Forms</ButtonLink>
+			<ButtonLink href="/" variant="outline" size="sm">Homepage</ButtonLink>
+		</nav>
+	</SectionBand>
+
+	<Hero profile={profile} socialLinks={socialLinks} chevronIcon={icons.ChevronDown} />
+
+	<SectionBand id="tokens" title="Design Tokens" tone="white">
+		<div class="c-styleguide-swatch-grid">
+			{swatches.map((swatch) => (
+				<div class="c-styleguide-swatch" style={`--swatch: ${swatch.value}; --swatch-text: ${swatch.text};`}>
+					<strong>{swatch.name}</strong>
+					<code>{swatch.value}</code>
+				</div>
+			))}
+		</div>
+	</SectionBand>
+
+	<SectionBand id="typography" title="Typography" tone="light">
+		<SplitIntro paragraphs={aboutCopy} />
+	</SectionBand>
+
+	<SectionBand id="buttons" title="Buttons" tone="dark">
+		<div class="c-styleguide-nav">
+			<ButtonLink href="/" variant="primary">Primary</ButtonLink>
+			<ButtonLink href="/" variant="secondary">Secondary</ButtonLink>
+			<ButtonLink href="/" variant="outline">Outline</ButtonLink>
+			<ButtonLink href="/" variant="light" size="lg">Large Info</ButtonLink>
+		</div>
+	</SectionBand>
+
+	<SectionBand id="media" title="Media Items" tone="white">
+		<MediaGrid>
+			{skills.slice(0, 4).map((skill) => <MediaItem {...skill} />)}
+		</MediaGrid>
+	</SectionBand>
+
+	<SectionBand id="media-dark" title="Dark Media Items" tone="dark">
+		<MediaGrid columns="two">
+			{skills.slice(4, 8).map((skill) => <MediaItem {...skill} compact />)}
+		</MediaGrid>
+	</SectionBand>
+
+	<SectionBand id="cards" title="Career Cards" tone="white">
+		<div class="l-card-grid">
+			{career.slice(0, 3).map((entry) => <WorkCard {...entry} />)}
+		</div>
+	</SectionBand>
+
+	<SectionBand id="forms" title="Contact Components" tone="light">
+		<div class="l-two-panel c-contact-layout">
+			<section aria-labelledby="sg-contact-info">
+				<h2 id="sg-contact-info" class="u-center">My Contact Info</h2>
+				<ContactInfo items={contactItems} />
+			</section>
+			<section aria-labelledby="sg-contact-form">
+				<h2 id="sg-contact-form" class="u-center">Send Me a Message</h2>
+				<ContactForm />
+			</section>
+		</div>
+	</SectionBand>
+
+	<SiteFooter />
+</Layout>

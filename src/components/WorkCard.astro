@@ -1,0 +1,35 @@
+---
+import ButtonLink from './ButtonLink.astro';
+
+interface Props {
+  title: string;
+  siteLabel: string;
+  href: string;
+  logo: string;
+  image: string;
+  imageAlt: string;
+  body: string;
+  action: string;
+  footer: string[];
+}
+
+const { title, siteLabel, href, logo, image, imageAlt, body, action, footer } = Astro.props;
+---
+
+<article class="c-work-card">
+  <header class="c-work-card__header">
+    <img src={logo} alt="" width="32" height="32" loading="lazy" />
+    <a href={href}>{siteLabel}</a>
+  </header>
+  <div class="c-work-card__body">
+    <a class="c-work-card__image" href={href}>
+      <img src={image} alt={imageAlt} loading="lazy" />
+    </a>
+    <h3>{title}</h3>
+    <p>{body}</p>
+    <ButtonLink href={href}>{action}</ButtonLink>
+  </div>
+  <footer class="c-work-card__footer">
+    {footer.map((line) => <span>{line}</span>)}
+  </footer>
+</article>

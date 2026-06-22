@@ -1,0 +1,14 @@
+---
+interface Props {
+  href: string;
+  label: string;
+  icon: any;
+  variant?: 'outline-light' | 'outline-dark';
+}
+
+const { href, label, icon: Icon, variant = 'outline-light' } = Astro.props;
+---
+
+<a class:list={['c-icon-button', `c-icon-button--${variant}`]} href={href} aria-label={label} title={label}>
+  <Icon aria-hidden="true" />
+</a>

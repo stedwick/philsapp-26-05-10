@@ -1,0 +1,36 @@
+---
+import Container from './Container.astro';
+
+interface Props {
+  id?: string;
+  title?: string;
+  tone?: 'light' | 'white' | 'dark' | 'info';
+  headingLevel?: 2 | 3 | 4;
+  containerSize?: 'normal' | 'narrow';
+  class?: string;
+}
+
+const {
+  id,
+  title,
+  tone = 'light',
+  headingLevel = 2,
+  containerSize = 'normal',
+  class: className,
+} = Astro.props;
+
+const Heading = `h${headingLevel}`;
+const showRule = headingLevel === 2;
+---
+
+<section id={id} class:list={['c-section-band', `c-section-band--${tone}`, className]}>
+  <Container size={containerSize}>
+    {title && (
+      <header class="c-section-band__header">
+        <Heading class="c-section-band__title">{title}</Heading>
+        {showRule && <hr class="c-section-band__rule" />}
+      </header>
+    )}
+    <slot />
+  </Container>
+</section>
