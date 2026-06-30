@@ -580,10 +580,10 @@
 
   .c-education-separator {
     align-self: center;
+    justify-self: stretch;
     display: flex;
     align-items: center;
     gap: var(--space-4);
-    width: 100%;
     color: var(--color-muted-light);
     font-family: Georgia, "Times New Roman", serif;
     font-size: 1.75rem;
@@ -612,6 +612,14 @@
       display: grid;
       grid-row: span 2;
       grid-template-rows: subgrid;
+      min-width: 0;
+    }
+
+    .c-resume-panels .l-stacked-media-list,
+    .c-resume-panels .c-media-item,
+    .c-resume-panels .c-media-item__body {
+      min-width: 0;
+      max-width: 100%;
     }
   }
 
