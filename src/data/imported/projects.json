@@ -3,14 +3,14 @@
     "id": "poker-tracker",
     "title": "Poker Tracker",
     "url": "https://pokertracker-23081.web.app/",
-    "description": "Made with React.js, Material UI, and deployed on Firebase, I built an app to track $30,000 of my own live poker winnings.",
+    "description": "Made with React.js, Material UI, and deployed on Firebase, I built an app to track $77,000 of my own live poker winnings.",
     "links": [
       {
         "label": "Poker Tracker",
         "url": "https://pokertracker-23081.web.app/"
       },
       {
-        "label": "$30,000 of my own live poker winnings",
+        "label": "$77,000 of my own live poker winnings",
         "url": "https://pokerdb.thehendonmob.com/player.php?a=r&n=862579"
       },
       {

@@ -1,5 +1,8 @@
 ---
+import { join } from 'node:path';
+import { Image } from 'astro:assets';
 import { getCollection } from 'astro:content';
+import sharp from 'sharp';
 import Layout from '../../layouts/Layout.astro';
 
 export async function getStaticPaths() {
@@ -57,6 +60,41 @@ function linkedEntries(entry) {
 function dataTitle(data) {
   return data.title || data.company || data.name || data.id;
 }
+
+const imageSizeByPath = new Map();
+
+async function imageProps(publicPath) {
+  if (!imageSizeByPath.has(publicPath)) {
+    const filePath = join(process.cwd(), 'public', publicPath.replace(/^\//, ''));
+    const { width, height } = await sharp(filePath).metadata();
+
+    if (!width || !height) {
+      throw new Error(`Unable to read image dimensions for ${publicPath}`);
+    }
+
+    imageSizeByPath.set(publicPath, { src: publicPath, width, height });
+  }
+
+  return imageSizeByPath.get(publicPath);
+}
+
+const entriesWithAssets = await Promise.all(
+  entries.map(async (entry) => {
+    const previewImage =
+      (route.collection === 'assets' || route.collection === 'blogAssets') &&
+      !entry.data.kind.includes('pdf')
+        ? await imageProps(entry.data.localPath)
+        : undefined;
+    const linkedAssets = await Promise.all(
+      linkedEntries(entry).map(async (asset) => ({
+        ...asset,
+        image: asset.path.endsWith('.pdf') ? undefined : await imageProps(asset.path),
+      })),
+    );
+
+    return { entry, previewImage, linkedAssets };
+  }),
+);
 ---
 
 <Layout>
@@ -68,7 +106,7 @@ function dataTitle(data) {
     </header>
 
     {
-      entries.map((entry) => (
+      entriesWithAssets.map(({ entry, previewImage, linkedAssets }) => (
         <article id={entry.data.id} class="entry">
           <header>
             <h2>{dataTitle(entry.data)}</h2>
@@ -91,22 +129,22 @@ function dataTitle(data) {
             <section class="asset-preview">
               {entry.data.kind.includes('pdf') ? (
                 <a href={entry.data.localPath}>Open local asset</a>
-              ) : (
-                <img src={entry.data.localPath} alt={entry.data.alt} />
-              )}
+              ) : previewImage ? (
+                <Image {...previewImage} alt={entry.data.alt} />
+              ) : null}
               <p><a href={entry.data.sourceUrl}>Source asset</a></p>
             </section>
           ) : null}
 
           {route.collection !== 'assets' && route.collection !== 'blogAssets' && (
             <section class="asset-grid">
-              {linkedEntries(entry).map((asset) => (
+              {linkedAssets.map((asset) => (
                 <figure>
                   {asset.path.endsWith('.pdf') ? (
                     <a href={asset.path}>{asset.label}</a>
-                  ) : (
-                    <img src={asset.path} alt={`${asset.label} for ${dataTitle(entry.data)}`} />
-                  )}
+                  ) : asset.image ? (
+                    <Image {...asset.image} alt={`${asset.label} for ${dataTitle(entry.data)}`} />
+                  ) : null}
                   <figcaption>{asset.label}</figcaption>
                 </figure>
               ))}

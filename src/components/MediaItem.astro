@@ -1,5 +1,7 @@
 ---
+import { Image } from 'astro:assets';
 import ButtonLink from './ButtonLink.astro';
+import { legacyIcons } from '../data/legacy-icons.mjs';
 
 interface Action {
   label: string;
@@ -12,6 +14,7 @@ interface Props {
   href?: string;
   body: string;
   icon?: any;
+  legacyIcon?: keyof typeof legacyIcons;
   image?: {
     src: string;
     srcSet?: string;
@@ -22,19 +25,44 @@ interface Props {
   compact?: boolean;
 }
 
-const { title, href, body, icon: Icon, image, addendum, actions = [], compact = false } = Astro.props;
+const { title, href, body, icon: Icon, legacyIcon, image, addendum, actions = [], compact = false } = Astro.props;
+const LegacyIcon = legacyIcon ? legacyIcons[legacyIcon] : undefined;
 ---
 
 <article class:list={['c-media-item', { 'c-media-item--compact': compact }]}>
-  {image && (
+  {image && href && (
     <a class="c-media-item__icon" href={href ?? '#'} aria-label={title}>
-      <img src={image.src} srcset={image.srcSet} alt="" loading="lazy" />
+      <Image src={image.src} srcset={image.srcSet} alt="" width={64} height={64} loading="lazy" />
     </a>
   )}
-  {!image && Icon && (
+  {image && !href && (
+    <span class="c-media-item__icon" aria-hidden="true">
+      <Image src={image.src} srcset={image.srcSet} alt="" width={64} height={64} loading="lazy" />
+    </span>
+  )}
+  {!image && LegacyIcon && href && (
+    <a class="c-media-item__icon" href={href ?? '#'} aria-label={title}>
+      <svg class="c-legacy-icon" aria-hidden="true" viewBox={LegacyIcon.viewBox} fill="currentColor">
+        <Fragment set:html={LegacyIcon.markup} />
+      </svg>
+    </a>
+  )}
+  {!image && LegacyIcon && !href && (
+    <span class="c-media-item__icon" aria-hidden="true">
+      <svg class="c-legacy-icon" aria-hidden="true" viewBox={LegacyIcon.viewBox} fill="currentColor">
+        <Fragment set:html={LegacyIcon.markup} />
+      </svg>
+    </span>
+  )}
+  {!image && !LegacyIcon && Icon && href && (
     <a class="c-media-item__icon" href={href ?? '#'} aria-label={title}>
       <Icon aria-hidden="true" />
     </a>
+  )}
+  {!image && !LegacyIcon && Icon && !href && (
+    <span class="c-media-item__icon" aria-hidden="true">
+      <Icon aria-hidden="true" />
+    </span>
   )}
   <div class="c-media-item__body">
     <h3 class="c-media-item__title">

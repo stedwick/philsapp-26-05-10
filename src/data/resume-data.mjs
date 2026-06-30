@@ -49,6 +49,33 @@ function iconForLabel(label, iconComponents) {
   return iconComponents[iconNameByLabel[label]] ?? iconComponents.CircleUserRound;
 }
 
+export function legacySocialIconForLabel(label) {
+  const legacyIconByLabel = {
+    GitHub: 'github',
+    LinkedIn: 'linkedin',
+    'Stack Overflow': 'stackoverflow',
+    Twitter: 'twitter',
+  };
+
+  return legacyIconByLabel[label];
+}
+
+export function legacyIconForEntryId(id) {
+  const legacyIconById = {
+    'massachusetts-institute-of-technology': 'mit',
+    'new-york-university': 'nyu',
+    'nyc-department-of-education': 'classroom',
+    'poker-tracker': 'poker',
+    munch: 'cookie',
+    'sci-fi-voter': 'starTrek',
+    'docker-dashboard': 'terminal',
+    'taggy-for-evernote': 'evernote',
+    arkanoid: 'gamecontroller',
+  };
+
+  return legacyIconById[id];
+}
+
 function iconForEntry(entry, iconComponents) {
   const iconNameById = {
     'massachusetts-institute-of-technology': 'GraduationCap',
@@ -104,6 +131,7 @@ export function createResumeViewModel(collections, iconComponents) {
       label: link.label,
       href: link.url,
       icon: iconForLabel(link.label, iconComponents),
+      legacyIcon: legacySocialIconForLabel(link.label),
     })),
     sections: {
       about: sectionById(sections, 'about'),
@@ -115,7 +143,6 @@ export function createResumeViewModel(collections, iconComponents) {
     },
     skills: sortByOrder(collections.skills).map((skill) => ({
       title: skill.title,
-      href: skill.url,
       body: skill.description,
       image: resolveImage(assetLookup, skill.iconAssetId, skill.iconHighResAssetId, skill.iconAlt),
     })),
@@ -130,9 +157,11 @@ export function createResumeViewModel(collections, iconComponents) {
       footer: entry.footerLines,
     })),
     education: sortByOrder(collections.education).map((item) => ({
+      id: item.id,
       title: item.title,
       href: item.url,
       icon: iconForEntry(item, iconComponents),
+      legacyIcon: legacyIconForEntryId(item.id),
       addendum: item.addendum,
       body: item.description,
       actions: actionsFromLinks(item),
@@ -141,6 +170,7 @@ export function createResumeViewModel(collections, iconComponents) {
       title: item.title,
       href: item.url,
       icon: iconForEntry(item, iconComponents),
+      legacyIcon: legacyIconForEntryId(item.id),
       body: item.description,
       actions: actionsFromLinks(item),
     })),

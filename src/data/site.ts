@@ -78,14 +78,15 @@ export const profile = {
 };
 
 export const socialLinks = [
-  { label: 'LinkedIn', href: 'https://www.linkedin.com/in/philipbrocoum', icon: icons.BriefcaseBusiness },
-  { label: 'GitHub', href: 'https://github.com/stedwick', icon: icons.GitFork },
+  { label: 'LinkedIn', href: 'https://www.linkedin.com/in/philipbrocoum', icon: icons.BriefcaseBusiness, legacyIcon: 'linkedin' },
+  { label: 'GitHub', href: 'https://github.com/stedwick', icon: icons.GitFork, legacyIcon: 'github' },
   {
     label: 'Stack Overflow',
     href: 'https://stackoverflow.com/users/103316/philip-brocoum',
     icon: icons.MessageSquareCode,
+    legacyIcon: 'stackoverflow',
   },
-  { label: 'Twitter', href: 'https://twitter.com/stedwick', icon: icons.MessageSquare },
+  { label: 'Twitter', href: 'https://twitter.com/stedwick', icon: icons.MessageSquare, legacyIcon: 'twitter' },
 ];
 
 export const aboutCopy = [
@@ -337,7 +338,7 @@ export const interests = [
     title: 'Poker in Las Vegas',
     href: 'https://pokerdb.thehendonmob.com/player.php?a=r&n=862579',
     icon: icons.Spade,
-    body: 'I have over $30,000 in live poker earnings.',
+    body: 'I have over $77,000 in live poker earnings.',
   },
   {
     title: 'Toast the Dog',

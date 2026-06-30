@@ -75,14 +75,23 @@ const resume = createResumeViewModel(
 	</SectionBand>
 
 	<SectionBand id="education-projects" tone="dark">
-		<div class="l-two-panel">
+		<div class="l-two-panel c-resume-panels">
 			<section aria-labelledby="education-heading">
 				<header class="c-section-band__header">
 					<h2 id="education-heading" class="c-section-band__title">{resume.sections.education.title}</h2>
 					<p>{resume.sections.education.body[0]}</p>
 				</header>
 				<div class="l-stacked-media-list">
-					{resume.education.map((item) => <MediaItem {...item} compact />)}
+					{resume.education.map((item) => (
+						<>
+							<MediaItem {...item} compact />
+							{item.id === 'new-york-university' && (
+								<div class="c-education-separator" aria-hidden="true">
+									<span>&sect;</span>
+								</div>
+							)}
+						</>
+					))}
 				</div>
 			</section>
 
@@ -100,12 +109,12 @@ const resume = createResumeViewModel(
 
 	<SectionBand id="interests" title={resume.sections.personalLife.title} tone="light" headingLevel={3}>
 		<p>{resume.sections.personalLife.body[0]}</p>
-		<MediaGrid class="u-section-stack">
+		<MediaGrid class="c-interest-grid u-section-stack">
 			{resume.interests.map((interest) => <MediaItem {...interest} />)}
 		</MediaGrid>
 	</SectionBand>
 
-	<SectionBand id="hire-me" title={resume.sections.contact.title} tone="info" />
+	<SectionBand id="hire-me" title={resume.sections.contact.title} tone="info" showRule={false} />
 
 	<SectionBand id="contact" tone="white">
 		<p class="c-dropcap">{resume.contactIntro}</p>

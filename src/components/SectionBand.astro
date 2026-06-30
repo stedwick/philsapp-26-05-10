@@ -7,6 +7,7 @@ interface Props {
   tone?: 'light' | 'white' | 'dark' | 'info';
   headingLevel?: 2 | 3 | 4;
   containerSize?: 'normal' | 'narrow';
+  showRule?: boolean;
   class?: string;
 }
 
@@ -16,11 +17,12 @@ const {
   tone = 'light',
   headingLevel = 2,
   containerSize = 'normal',
+  showRule: shouldShowRule,
   class: className,
 } = Astro.props;
 
 const Heading = `h${headingLevel}`;
-const showRule = headingLevel === 2;
+const showRule = shouldShowRule ?? headingLevel === 2;
 ---
 
 <section id={id} class:list={['c-section-band', `c-section-band--${tone}`, className]}>

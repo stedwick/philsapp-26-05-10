@@ -1,4 +1,5 @@
 ---
+import { Image } from 'astro:assets';
 import ButtonLink from './ButtonLink.astro';
 
 interface Props {
@@ -28,13 +29,13 @@ const imageSource = typeof image === 'string' ? { src: image, alt: imageAlt } : 
 
 <article class="c-work-card">
   <header class="c-work-card__header">
-    {logoSource && <img src={logoSource.src} srcset={logoSource.srcSet} alt="" width="32" height="32" loading="lazy" />}
+    {logoSource && <Image src={logoSource.src} srcset={logoSource.srcSet} alt="" width={32} height={32} loading="lazy" />}
     <a href={href}>{siteLabel}</a>
   </header>
   <div class="c-work-card__body">
     {imageSource && (
       <a class="c-work-card__image" href={href}>
-        <img src={imageSource.src} srcset={imageSource.srcSet} alt={imageSource.alt} loading="lazy" />
+        <Image src={imageSource.src} srcset={imageSource.srcSet} alt={imageSource.alt} width={600} height={341} loading="lazy" />
       </a>
     )}
     <h3>{title}</h3>

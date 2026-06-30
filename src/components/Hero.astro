@@ -1,4 +1,5 @@
 ---
+import { Image } from 'astro:assets';
 import ButtonLink from './ButtonLink.astro';
 import IconButton from './IconButton.astro';
 
@@ -25,7 +26,8 @@ interface Profile {
 interface SocialLink {
   label: string;
   href: string;
-  icon: any;
+  icon?: any;
+  legacyIcon?: 'github' | 'linkedin' | 'stackoverflow' | 'twitter';
 }
 
 interface Props {
@@ -50,12 +52,13 @@ const portrait =
     <div class="c-hero__content">
       {portrait && (
         <div class="c-hero__portrait-frame">
-          <img
+          <Image
             src={portrait.src}
             srcset={portrait.srcSet}
             alt={portrait.alt}
-            width="200"
-            height="200"
+            width={200}
+            height={200}
+            loading="eager"
             fetchpriority="high"
           />
         </div>
@@ -65,7 +68,7 @@ const portrait =
       <p class="c-hero__tagline">{profile.tagline}</p>
 
       <nav class="c-hero__social" aria-label="Social links">
-        {socialLinks.map((link) => <IconButton href={link.href} label={link.label} icon={link.icon} />)}
+        {socialLinks.map((link) => <IconButton href={link.href} label={link.label} icon={link.icon} legacyIcon={link.legacyIcon} />)}
       </nav>
 
       <ButtonLink href={primaryAction.target} variant="light" size="lg" class="c-hero__cta">{primaryAction.label}</ButtonLink>

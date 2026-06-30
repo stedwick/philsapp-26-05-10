@@ -3,6 +3,8 @@ import test from 'node:test';
 import {
   actionsFromLinks,
   createAssetLookup,
+  legacyIconForEntryId,
+  legacySocialIconForLabel,
   resolveImage,
   siteLabelFromUrl,
   sortByOrder,
@@ -55,5 +57,29 @@ test('actionsFromLinks removes duplicate title links and marks GitHub links seco
       { label: 'Go all in with Aces', href: 'https://example.com/play', variant: 'outline' },
       { label: 'View on GitHub', href: 'https://github.com/stedwick/pokertracker', variant: 'secondary' },
     ],
+  );
+});
+
+test('legacySocialIconForLabel maps profile social links to legacy brand icons', () => {
+  assert.deepEqual(
+    ['LinkedIn', 'GitHub', 'Stack Overflow', 'Twitter'].map((label) => legacySocialIconForLabel(label)),
+    ['linkedin', 'github', 'stackoverflow', 'twitter'],
+  );
+});
+
+test('legacyIconForEntryId maps education and project entries to legacy icons', () => {
+  assert.deepEqual(
+    [
+      'massachusetts-institute-of-technology',
+      'new-york-university',
+      'nyc-department-of-education',
+      'poker-tracker',
+      'munch',
+      'sci-fi-voter',
+      'docker-dashboard',
+      'taggy-for-evernote',
+      'arkanoid',
+    ].map((id) => legacyIconForEntryId(id)),
+    ['mit', 'nyu', 'classroom', 'poker', 'cookie', 'starTrek', 'terminal', 'evernote', 'gamecontroller'],
   );
 });
