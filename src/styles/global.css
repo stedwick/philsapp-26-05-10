@@ -603,6 +603,15 @@
     }
   }
 
+  /* Keep panel content fluid at every width: flex/grid children otherwise
+     refuse to shrink below their min-content size and overflow small screens. */
+  .c-resume-panels .l-stacked-media-list,
+  .c-resume-panels .c-media-item,
+  .c-resume-panels .c-media-item__body {
+    min-width: 0;
+    max-width: 100%;
+  }
+
   @media (min-width: 768px) {
     .c-resume-panels {
       grid-template-rows: auto 1fr;
@@ -613,13 +622,6 @@
       grid-row: span 2;
       grid-template-rows: subgrid;
       min-width: 0;
-    }
-
-    .c-resume-panels .l-stacked-media-list,
-    .c-resume-panels .c-media-item,
-    .c-resume-panels .c-media-item__body {
-      min-width: 0;
-      max-width: 100%;
     }
   }
 

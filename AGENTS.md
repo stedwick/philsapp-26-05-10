@@ -29,6 +29,8 @@ Unit tests use Node's built-in `node:test` runner with `node:assert/strict`. Nam
 
 The homepage should use Astro Collections as the source of truth, not hand-copied arrays in `src/data/site.ts`. Keep `site.ts` for shared icon imports and styleguide fixtures. Use `src/data/resume-data.mjs` to sort collection entries, resolve asset IDs, recover legacy display labels, and create component-ready props. When rendering imported images, prefer `/legacy/` assets from the collections and include high-res `@2x` paths as `srcset` candidates when available. Work screenshots, skill icons, personal-link icons, portrait images, and the resume PDF should all flow through this collection asset mapping.
 
+The imported data in `src/data/imported/` is current: the source content on `philipbrocoum.com` and `phils.app` has not changed, so do not re-run `bun run import:legacy` / `bun run import:blog` unless the source sites actually change.
+
 ## Commit & Pull Request Guidelines
 
 Recent commits use short imperative subjects such as `Add blog content import pipeline` and `Refine page spacing and section headings`. Keep commits atomic and limited to files you changed. Pull requests should include a concise summary, the commands run for verification, linked issues when applicable, and screenshots or local preview notes for visual changes.
