@@ -22,8 +22,8 @@
     "test:blog-live": "bun scripts/test-blog-live.mjs"
   },
   "dependencies": {
-    "@lucide/astro": "^1.14.0",
-    "astro": "^6.3.1"
+    "@lucide/astro": "^1.27.0",
+    "astro": "^7.1.5"
   },
   "devDependencies": {
     "cheerio": "^1.2.0"
