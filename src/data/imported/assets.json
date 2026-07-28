@@ -45,36 +45,6 @@
     "order": 2
   },
   {
-    "id": "philip-sq-e03ad012d05ecf52056092c116e72cc90453008a28a829e418e62ecfd3b1ab3f",
-    "sourceUrl": "https://philipbrocoum.com/assets/philip-sq-e03ad012d05ecf52056092c116e72cc90453008a28a829e418e62ecfd3b1ab3f.jpg",
-    "localPath": "/legacy/philip-sq-e03ad012d05ecf52056092c116e72cc90453008a28a829e418e62ecfd3b1ab3f.jpg",
-    "kind": "image",
-    "alt": "Philip sq",
-    "owners": [
-      {
-        "collection": "profile",
-        "id": "main",
-        "field": "portrait"
-      }
-    ],
-    "order": 3
-  },
-  {
-    "id": "philip-sq-2x-1018247efaf9a374bfa6abda4f3c36e3cfa263014d8aac9bb49099f4d4e847da",
-    "sourceUrl": "https://philipbrocoum.com/assets/philip-sq@2x-1018247efaf9a374bfa6abda4f3c36e3cfa263014d8aac9bb49099f4d4e847da.jpg",
-    "localPath": "/legacy/philip-sq@2x-1018247efaf9a374bfa6abda4f3c36e3cfa263014d8aac9bb49099f4d4e847da.jpg",
-    "kind": "image-2x",
-    "alt": "Philip sq",
-    "owners": [
-      {
-        "collection": "profile",
-        "id": "main",
-        "field": "portraitHighRes"
-      }
-    ],
-    "order": 4
-  },
-  {
     "id": "atlassian-ca51bc3b243e1b1b55d760e811ce9efb24628f71366c0334c9058d003bea66f2",
     "sourceUrl": "https://philipbrocoum.com/assets/atlassian-ca51bc3b243e1b1b55d760e811ce9efb24628f71366c0334c9058d003bea66f2.png",
     "localPath": "/legacy/atlassian-ca51bc3b243e1b1b55d760e811ce9efb24628f71366c0334c9058d003bea66f2.png",
@@ -853,5 +823,35 @@
       }
     ],
     "order": 56
+  },
+  {
+    "id": "philip-sq",
+    "sourceUrl": "",
+    "localPath": "/legacy/philip-sq.jpg",
+    "kind": "image",
+    "alt": "Philip sq",
+    "owners": [
+      {
+        "collection": "profile",
+        "id": "main",
+        "field": "portrait"
+      }
+    ],
+    "order": 57
+  },
+  {
+    "id": "philip-sq-2x",
+    "sourceUrl": "",
+    "localPath": "/legacy/philip-sq@2x.jpg",
+    "kind": "image-2x",
+    "alt": "Philip sq",
+    "owners": [
+      {
+        "collection": "profile",
+        "id": "main",
+        "field": "portraitHighRes"
+      }
+    ],
+    "order": 58
   }
 ]
