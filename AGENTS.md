@@ -31,6 +31,10 @@ The homepage should use Astro Collections as the source of truth, not hand-copie
 
 The import from `philipbrocoum.com` and `phils.app` is finished and the data in `src/data/imported/` is final. We are no longer importing or verifying data — do not run `bun run import:legacy`, `bun run import:blog`, `bun run verify:content`, or `bun run verify:blog`.
 
+## Theming & Dark Mode
+
+The site supports dark mode automatically via `@media (prefers-color-scheme: dark)`; there is no manual toggle. All themable surface/text colors must go through the `--color-surface*` / `--color-on-surface*` / `--color-link*` custom properties (plus `--color-input-*`, `--color-rule`, `--color-dropcap`), with dark variants defined in the single `@media (prefers-color-scheme: dark)` block in the theme layer of `src/styles/global.css`. Never hardcode hex colors in components or pages. Any future page (e.g. a blog) must use these vars for backgrounds, text, borders, and form elements so it picks up dark mode automatically, and must be spot-checked with emulated dark mode.
+
 ## Commit & Pull Request Guidelines
 
 Recent commits use short imperative subjects such as `Add blog content import pipeline` and `Refine page spacing and section headings`. Keep commits atomic and limited to files you changed. Pull requests should include a concise summary, the commands run for verification, linked issues when applicable, and screenshots or local preview notes for visual changes.
