@@ -3,7 +3,7 @@
     "id": "olio-apps",
     "company": "Olio Apps",
     "websiteUrl": "https://www.olioapps.com/",
-    "description": "Full-stack consulting projects for clients, with AI-assisted development baked into every phase. Shipping AI Account Recs 3.0 for BlackLine, their new AI product for financial account reconciliation. Native web/iOS/Android Daily Reading app for the Grace and Mercy Foundation, like the Kindle app, but fancier. TypeScript and React w/ NextJS on the web; Swift & Kotlin for Native Apps. Claude Code & Codex with Herdr for AI assistance.",
+    "description": "Full-stack consulting with AI-assisted development baked into every phase. Shipping AI Account Recs 3.0 for BlackLine, and the Daily Reading app for the Grace and Mercy Foundation, like the Kindle app, but fancier. TypeScript and React w/ NextJS on the web; Swift & Kotlin for native apps.",
     "visitLabel": "Visit Olio Apps",
     "links": [
       {
