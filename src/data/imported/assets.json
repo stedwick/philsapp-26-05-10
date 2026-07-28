@@ -823,5 +823,35 @@
       }
     ],
     "order": 54
+  },
+  {
+    "id": "ai-assisted",
+    "sourceUrl": "https://img.icons8.com/?id=pt5GrknBznYR&format=png&size=160",
+    "localPath": "/legacy/ai-assisted.png",
+    "kind": "image",
+    "alt": "AI",
+    "owners": [
+      {
+        "collection": "skills",
+        "id": "ai-assisted-development",
+        "field": "icon"
+      }
+    ],
+    "order": 55
+  },
+  {
+    "id": "claude-certified",
+    "sourceUrl": "https://img.icons8.com/?id=12016&format=png&size=160",
+    "localPath": "/legacy/claude-certified.png",
+    "kind": "image",
+    "alt": "Certificate",
+    "owners": [
+      {
+        "collection": "skills",
+        "id": "claude-certified-architect",
+        "field": "icon"
+      }
+    ],
+    "order": 56
   }
 ]
