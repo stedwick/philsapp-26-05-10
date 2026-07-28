@@ -42,7 +42,7 @@ const imageSource = typeof image === 'string' ? { src: image, alt: imageAlt } : 
     <h3>{title}</h3>
     <p>{body}</p>
     {links && links.length > 0 && (
-      <p>{links.map((link, i) => (<>{i > 0 && ' · '}<a href={link.href}>{link.label}</a></>))}</p>
+      <p>Portfolio: {links.map((link, i) => (<>{i > 0 && ' · '}<a href={link.href}>{link.label}</a></>))}</p>
     )}
     <ButtonLink href={href}>{action}</ButtonLink>
   </div>
