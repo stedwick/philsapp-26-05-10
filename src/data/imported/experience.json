@@ -1,14 +1,49 @@
 [
   {
+    "id": "olio-apps",
+    "company": "Olio Apps",
+    "websiteUrl": "https://www.olioapps.com/",
+    "description": "Full-stack consulting projects for clients, with AI-assisted development baked into every phase. Shipping AI Account Recs 3.0 for BlackLine, their new AI product for financial account reconciliation. Native web/iOS/Android Daily Reading app for the Grace and Mercy Foundation, like the Kindle app, but fancier. TypeScript and React w/ NextJS on the web; Swift & Kotlin for Native Apps. Claude Code & Codex with Herdr for AI assistance.",
+    "visitLabel": "Visit Olio Apps",
+    "links": [
+      {
+        "label": "BlackLine",
+        "url": "https://www.blackline.com/"
+      },
+      {
+        "label": "Grace and Mercy Foundation",
+        "url": "https://www.graceandmercy.org/"
+      }
+    ],
+    "roles": [
+      {
+        "title": "Lead Software Engineer",
+        "dates": "May 2025 – Present"
+      }
+    ],
+    "footerLines": [
+      "Lead Software Engineer (May 2025 – Present)",
+      "Portland, OR"
+    ],
+    "location": "Portland, OR",
+    "logoAssetId": "olioapps-logo",
+    "logoHighResAssetId": "",
+    "logoAlt": "Olio Apps",
+    "screenshotAssetId": "olioapps-site",
+    "screenshotHighResAssetId": "olioapps-site-2x",
+    "screenshotAlt": "Olio Apps site",
+    "order": 0
+  },
+  {
     "id": "syncta",
-    "company": "Syncta",
+    "company": "Watts Syncta",
     "websiteUrl": "https://syncta.com/",
-    "description": "Syncta provides mobile software for backflow testers and water purveyors. I hired the team, plan their career advancement, and roadmap our projects. I'm hands-on with our main Ruby on Rails app, the API that powers our iOS and Android apps, and our SOC 2 security compliant AWS infrastructure.",
-    "visitLabel": "Visit Syncta",
+    "description": "Syncta provides mobile software for backflow testers and water purveyors. I hired 12 software engineers and built the development team from the ground up, planned their career advancement, and roadmapped our projects. I'm hands-on with our main Ruby on Rails app, the API that powers our iOS and Android apps, and our SOC 2 security compliant AWS infrastructure.",
+    "visitLabel": "Visit Watts Syncta",
     "roles": [
       {
         "title": "Senior Software Engineering Manager",
-        "dates": "2019 – present"
+        "dates": "2019 – April 2025"
       },
       {
         "title": "Lead Software Engineer",
@@ -16,7 +51,7 @@
       }
     ],
     "footerLines": [
-      "Senior Software Engineering Manager (2019 – present)",
+      "Senior Software Engineering Manager (2019 – April 2025)",
       "Lead Software Engineer (2018 – 2019)",
       "Portland, OR"
     ],
@@ -27,7 +62,7 @@
     "screenshotAssetId": "syncta-site-ab6fe21bc5dc1882378003684814f4f60aaf0bc93987f00116fd2b1ee9614f97",
     "screenshotHighResAssetId": "syncta-site-2x-b93c63d3ae5665b9c2b0badb6f6759755e91a70d76854f435338463698222273",
     "screenshotAlt": "Syncta site",
-    "order": 0
+    "order": 1
   },
   {
     "id": "merit",
@@ -57,7 +92,7 @@
     "screenshotAssetId": "merit-site-a297bb5a30fdba61358c884b469cba781b67a67eeaeee20aa7c86030b26edf68",
     "screenshotHighResAssetId": "merit-site-2x-4e17068cf3675691e6fb460c8fee256b19307005ad341b00f0616f3f19fc395d",
     "screenshotAlt": "Merit site",
-    "order": 1
+    "order": 2
   },
   {
     "id": "go-green-ride",
@@ -67,12 +102,12 @@
     "visitLabel": "Visit Go Green Ride",
     "roles": [
       {
-        "title": "Ruby on Rails consultant",
+        "title": "Software Engineering Consultant",
         "dates": ""
       }
     ],
     "footerLines": [
-      "Ruby on Rails consultant",
+      "Software Engineering Consultant",
       "Bayonne, NJ (2013)"
     ],
     "location": "Bayonne, NJ",
@@ -82,7 +117,7 @@
     "screenshotAssetId": "gogreenride-site-6c93d002836ee83418ca1aeee8014450c96cbc276ed313fe2ded178eeb351d66",
     "screenshotHighResAssetId": "gogreenride-site-2x-5f60ab4a6d4ee5991c489f977af44b4b1dce11e4d9d5f5e085cd0e8a9c1f7321",
     "screenshotAlt": "Gogreenride site",
-    "order": 2
+    "order": 3
   },
   {
     "id": "readabout-me",
@@ -92,12 +127,12 @@
     "visitLabel": "Visit readabout.me",
     "roles": [
       {
-        "title": "Ruby on Rails engineer",
+        "title": "Software Engineer",
         "dates": ""
       }
     ],
     "footerLines": [
-      "Ruby on Rails engineer",
+      "Software Engineer",
       "New York, NY (2012 – 2014)"
     ],
     "location": "New York, NY",
@@ -107,7 +142,7 @@
     "screenshotAssetId": "readaboutme-site-afe12869f8fbb77df4e5871ab30499fcbd7f3b33ed1f1708cc71c6e16b791dfd",
     "screenshotHighResAssetId": "readaboutme-site-2x-320e9823a7c8f4c353a4758337235b55982edcdff23ef1e54d3275f69c26e9aa",
     "screenshotAlt": "Readaboutme site",
-    "order": 3
+    "order": 4
   },
   {
     "id": "readmedia",
@@ -119,15 +154,10 @@
       {
         "title": "Full-Stack Developer",
         "dates": ""
-      },
-      {
-        "title": "Ruby on Rails",
-        "dates": ""
       }
     ],
     "footerLines": [
       "Full-Stack Developer",
-      "Ruby on Rails",
       "New York, NY (2008 – 2012)"
     ],
     "location": "New York, NY",
@@ -137,7 +167,7 @@
     "screenshotAssetId": "readmedia-site-fa449d75ae1e7b64613c749d006b48bbf6704350df95bd5794ed5f001b61464e",
     "screenshotHighResAssetId": "readmedia-site-2x-d30cb9039198cd52770a631385386a304eef8fe114de00b6e00c600e2896ce06",
     "screenshotAlt": "Readmedia site",
-    "order": 4
+    "order": 5
   },
   {
     "id": "brightidea",
@@ -162,6 +192,6 @@
     "screenshotAssetId": "brightidea-site-9ecc25c745d9b89c874cac478d6b6cc6e2caee4f1142b8b7d524e66eb317f345",
     "screenshotHighResAssetId": "brightidea-site-2x-7d3dbd3e2d54d281ebab99f7029bd7ea0f23f5dc4f49351f9ed92cccbd7c8b66",
     "screenshotAlt": "Brightidea site",
-    "order": 5
+    "order": 6
   }
 ]
