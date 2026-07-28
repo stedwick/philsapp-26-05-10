@@ -43,6 +43,8 @@ Recent commits use short imperative subjects such as `Add blog content import pi
 
 The QA/integration worktree lives at `/Users/philip/src/philsapp-qa` (branch `qa/integration`), owned by the QA agent; its dev server at `https://integration.philsapp.dev` is the everything-merged build for final testing. Feature work branches live in their own worktrees (siblings of this checkout, e.g. `/Users/philip/src/philsapp-<feature>`), each with its own Portless dev server subdomain. `git rerere` is enabled in the QA worktree so QA conflict resolutions replay during the real merges.
 
+Only one dev server runs at a time: the QA integration server above. Start it with `bun run dev:portless` in `/Users/philip/src/philsapp-qa`; stop it with ctrl+c in its pane (not `astro dev stop`, which would leave the Portless proxy running). Under Astro 7 the server writes `.astro/dev.json` (pid/port/url) while running — `bunx astro dev status|logs` is a useful out-of-band check without reading the pane. Astro 7's agent auto-backgrounding does not trigger in our plain shell panes, so `bun run dev:portless` stays foreground as before; `ASTRO_DEV_BACKGROUND=0` exists as an opt-out but has not been needed.
+
 ## Agent-Specific Instructions
 
 Make the smallest practical change and reuse existing components, data helpers, and scripts before adding new structure. Do not revert unrelated working-tree changes. After large changes, run `bun run test` and `bun run build`, then update docs if the workflow changed. For final visual checks, run `bun run dev:portless`, open the branch's `https://<branch>.philsapp.dev` URL with `agent-browser --session-name philip`, verify lazy images after scrolling, check for mobile horizontal overflow, and inspect browser errors/console output.
