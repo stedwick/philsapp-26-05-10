@@ -765,9 +765,9 @@
     "order": 50
   },
   {
-    "id": "philip-brocoum-software-engineering-manager-23-03-05c",
-    "sourceUrl": "https://philipbrocoum.com/assets/Philip_Brocoum_-_Software_Engineering_Manager_23-03-05c.pdf",
-    "localPath": "/legacy/Philip_Brocoum_-_Software_Engineering_Manager_23-03-05c.pdf",
+    "id": "philip-brocoum-lead-software-engineer-2026",
+    "sourceUrl": "",
+    "localPath": "/legacy/Philip_Brocoum_Lead_Software_Engineer_2026.pdf",
     "kind": "resume-pdf",
     "alt": "Download my resume",
     "owners": [
@@ -778,5 +778,50 @@
       }
     ],
     "order": 51
+  },
+  {
+    "id": "olioapps-logo",
+    "sourceUrl": "https://www.olioapps.com/",
+    "localPath": "/legacy/olioapps-logo.png",
+    "kind": "image",
+    "alt": "Olio Apps",
+    "owners": [
+      {
+        "collection": "experience",
+        "id": "olio-apps",
+        "field": "logo"
+      }
+    ],
+    "order": 52
+  },
+  {
+    "id": "olioapps-site",
+    "sourceUrl": "https://www.olioapps.com/",
+    "localPath": "/legacy/olioapps-site.png",
+    "kind": "image",
+    "alt": "Olio Apps site",
+    "owners": [
+      {
+        "collection": "experience",
+        "id": "olio-apps",
+        "field": "screenshot"
+      }
+    ],
+    "order": 53
+  },
+  {
+    "id": "olioapps-site-2x",
+    "sourceUrl": "https://www.olioapps.com/",
+    "localPath": "/legacy/olioapps-site@2x.png",
+    "kind": "image-2x",
+    "alt": "Olio Apps site",
+    "owners": [
+      {
+        "collection": "experience",
+        "id": "olio-apps",
+        "field": "screenshotHighRes"
+      }
+    ],
+    "order": 54
   }
 ]
