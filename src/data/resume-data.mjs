@@ -154,6 +154,7 @@ export function createResumeViewModel(collections, iconComponents) {
       image: resolveImage(assetLookup, entry.screenshotAssetId, entry.screenshotHighResAssetId, entry.screenshotAlt),
       body: entry.description,
       action: entry.visitLabel,
+      links: (entry.links ?? []).map((link) => ({ label: link.label, href: link.url })),
       footer: entry.footerLines,
     })),
     education: sortByOrder(collections.education).map((item) => ({

@@ -19,10 +19,11 @@ interface Props {
   imageAlt?: string;
   body: string;
   action: string;
+  links?: { label: string; href: string }[];
   footer: string[];
 }
 
-const { title, siteLabel, href, logo, image, imageAlt = title, body, action, footer } = Astro.props;
+const { title, siteLabel, href, logo, image, imageAlt = title, body, action, links, footer } = Astro.props;
 const logoSource = typeof logo === 'string' ? { src: logo, alt: '' } : logo;
 const imageSource = typeof image === 'string' ? { src: image, alt: imageAlt } : image;
 ---
@@ -40,6 +41,9 @@ const imageSource = typeof image === 'string' ? { src: image, alt: imageAlt } : 
     )}
     <h3>{title}</h3>
     <p>{body}</p>
+    {links && links.length > 0 && (
+      <p>{links.map((link, i) => (<>{i > 0 && ' · '}<a href={link.href}>{link.label}</a></>))}</p>
+    )}
     <ButtonLink href={href}>{action}</ButtonLink>
   </div>
   <footer class="c-work-card__footer">

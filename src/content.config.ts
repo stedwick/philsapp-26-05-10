@@ -75,6 +75,7 @@ const experience = defineCollection({
     websiteUrl: z.string(),
     description: z.string(),
     visitLabel: z.string(),
+    links: z.array(linkSchema).optional(),
     roles: z.array(roleSchema),
     footerLines: z.array(z.string()),
     location: z.string(),
