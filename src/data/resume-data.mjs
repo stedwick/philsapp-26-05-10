@@ -143,6 +143,7 @@ export function createResumeViewModel(collections, iconComponents) {
     },
     skills: sortByOrder(collections.skills).map((skill) => ({
       title: skill.title,
+      href: skill.url,
       body: skill.description,
       image: resolveImage(assetLookup, skill.iconAssetId, skill.iconHighResAssetId, skill.iconAlt),
     })),
