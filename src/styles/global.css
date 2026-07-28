@@ -247,8 +247,10 @@
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
-    #about .l-split-intro > p:last-child {
+    #about .l-split-intro > p:last-child:nth-child(odd) {
       grid-column: 1 / -1;
+      justify-self: center;
+      max-width: calc((100% - var(--space-4)) / 2);
       text-align: center;
     }
 
