@@ -54,7 +54,7 @@
     "title": "React.js & Next.js",
     "url": "http://html-css-js.com/",
     "description": "Responsive single-and-multi-page-apps in TypeScript deployed to Vercel",
-    "iconAssetId": "react-next-2x",
+    "iconAssetId": "react-next",
     "iconHighResAssetId": "",
     "iconAlt": "React",
     "order": 5
@@ -134,8 +134,8 @@
     "title": "Linux",
     "url": "https://www.ubuntu.com/",
     "description": "Ubuntu & CentOS server administration / bash scripting",
-    "iconAssetId": "linux-50df4f1cd041488b7f9394cdd3b47960701735f6fd38615de3dbbb39f83e9070",
-    "iconHighResAssetId": "linux-2x-8910af2b7f29ea3262f66a18e3c901740274a2d33c1ef10b07cc54a1ca7e7c44",
+    "iconAssetId": "linux-tux",
+    "iconHighResAssetId": "",
     "iconAlt": "Linux",
     "order": 13
   }

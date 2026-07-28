@@ -120,21 +120,6 @@
     "order": 9
   },
   {
-    "id": "react-next-2x",
-    "sourceUrl": "https://philipbrocoum.com/assets/react-next@2x.png",
-    "localPath": "/legacy/react-next@2x.png",
-    "kind": "image",
-    "alt": "React",
-    "owners": [
-      {
-        "collection": "skills",
-        "id": "react-js-and-next-js",
-        "field": "icon"
-      }
-    ],
-    "order": 10
-  },
-  {
     "id": "graphqlapi-2x",
     "sourceUrl": "https://philipbrocoum.com/assets/graphqlapi@2x.png",
     "localPath": "/legacy/graphqlapi@2x.png",
@@ -328,36 +313,6 @@
       }
     ],
     "order": 23
-  },
-  {
-    "id": "linux-50df4f1cd041488b7f9394cdd3b47960701735f6fd38615de3dbbb39f83e9070",
-    "sourceUrl": "https://philipbrocoum.com/assets/linux-50df4f1cd041488b7f9394cdd3b47960701735f6fd38615de3dbbb39f83e9070.png",
-    "localPath": "/legacy/linux-50df4f1cd041488b7f9394cdd3b47960701735f6fd38615de3dbbb39f83e9070.png",
-    "kind": "image",
-    "alt": "Linux",
-    "owners": [
-      {
-        "collection": "skills",
-        "id": "linux",
-        "field": "icon"
-      }
-    ],
-    "order": 24
-  },
-  {
-    "id": "linux-2x-8910af2b7f29ea3262f66a18e3c901740274a2d33c1ef10b07cc54a1ca7e7c44",
-    "sourceUrl": "https://philipbrocoum.com/assets/linux@2x-8910af2b7f29ea3262f66a18e3c901740274a2d33c1ef10b07cc54a1ca7e7c44.png",
-    "localPath": "/legacy/linux@2x-8910af2b7f29ea3262f66a18e3c901740274a2d33c1ef10b07cc54a1ca7e7c44.png",
-    "kind": "image-2x",
-    "alt": "Linux",
-    "owners": [
-      {
-        "collection": "skills",
-        "id": "linux",
-        "field": "iconHighRes"
-      }
-    ],
-    "order": 25
   },
   {
     "id": "syncta-6f46bb456734efe2ab2cb1902d6e42d529fc1ca79d0c6996f0fb93f270620d7c",
@@ -853,5 +808,35 @@
       }
     ],
     "order": 58
+  },
+  {
+    "id": "linux-tux",
+    "sourceUrl": "https://img.icons8.com/?id=17842&format=png&size=480",
+    "localPath": "/legacy/linux-tux.png",
+    "kind": "image",
+    "alt": "Linux",
+    "owners": [
+      {
+        "collection": "skills",
+        "id": "linux",
+        "field": "icon"
+      }
+    ],
+    "order": 59
+  },
+  {
+    "id": "react-next",
+    "sourceUrl": "composite: icons8 123603 + simpleicons nextdotjs",
+    "localPath": "/legacy/react-next.png",
+    "kind": "image",
+    "alt": "React",
+    "owners": [
+      {
+        "collection": "skills",
+        "id": "react-js-and-next-js",
+        "field": "icon"
+      }
+    ],
+    "order": 60
   }
 ]
