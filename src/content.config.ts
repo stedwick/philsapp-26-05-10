@@ -32,6 +32,7 @@ const profile = defineCollection({
     name: z.string(),
     headline: z.string(),
     tagline: z.string(),
+    credential: z.string().optional(),
     portraitAssetId: nullableAsset,
     portraitHighResAssetId: nullableAsset,
     coverAssetIds: z.array(z.string()),

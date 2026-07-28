@@ -116,6 +116,7 @@ export function createResumeViewModel(collections, iconComponents) {
       name: profile.name,
       role: profile.headline,
       tagline: profile.tagline,
+      credential: profile.credential,
       portrait: profilePortrait,
       heroImages: {
         sm: coverImages[0],

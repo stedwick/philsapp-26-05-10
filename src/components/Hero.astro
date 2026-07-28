@@ -7,6 +7,7 @@ interface Profile {
   name: string;
   role: string;
   tagline: string;
+  credential?: string;
   portrait?: string | {
     src: string;
     srcSet?: string;
@@ -65,6 +66,7 @@ const portrait =
       )}
       <h1 id="site-title">{profile.name}</h1>
       <p class="c-hero__role">{profile.role}</p>
+      {profile.credential && <p class="c-hero__credential">{profile.credential}</p>}
       <p class="c-hero__tagline">{profile.tagline}</p>
 
       <nav class="c-hero__social" aria-label="Social links">

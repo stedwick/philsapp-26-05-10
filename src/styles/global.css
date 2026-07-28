@@ -321,6 +321,10 @@
     font-weight: 300;
   }
 
+  .c-hero__credential {
+    font-style: italic;
+  }
+
   .c-hero__tagline {
     margin-bottom: var(--space-3);
   }

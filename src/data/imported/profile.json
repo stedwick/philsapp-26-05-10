@@ -3,7 +3,8 @@
     "id": "main",
     "name": "Philip Brocoum",
     "headline": "Lead Software Engineer",
-    "tagline": "coding & shipping at Olio Apps in Portland, OR, and Claude Certified Architect",
+    "tagline": "coding & shipping at Olio Apps in Portland, OR",
+    "credential": "(and Claude Certified Architect)",
     "portraitAssetId": "philip-sq-e03ad012d05ecf52056092c116e72cc90453008a28a829e418e62ecfd3b1ab3f",
     "portraitHighResAssetId": "philip-sq-2x-1018247efaf9a374bfa6abda4f3c36e3cfa263014d8aac9bb49099f4d4e847da",
     "coverAssetIds": [
