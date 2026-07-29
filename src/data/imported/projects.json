@@ -130,7 +130,7 @@
         "url": "https://github.com/stedwick/OpenTrackIR"
       }
     ],
-    "iconName": "Eye",
+    "iconName": "",
     "order": 6
   },
   {
@@ -148,7 +148,7 @@
         "url": "https://philipb.gumroad.com/l/philnav"
       }
     ],
-    "iconName": "Navigation",
+    "iconName": "",
     "order": 7
   },
   {
@@ -166,7 +166,7 @@
         "url": "https://apps.microsoft.com/detail/9ntphh45ffrn"
       }
     ],
-    "iconName": "Mic",
+    "iconName": "",
     "order": 8
   },
   {
@@ -184,7 +184,7 @@
         "url": "https://tatertalk.app"
       }
     ],
-    "iconName": "MessagesSquare",
+    "iconName": "",
     "order": 9
   }
 ]
