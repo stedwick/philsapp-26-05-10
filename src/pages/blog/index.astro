@@ -1,0 +1,75 @@
+---
+import { getCollection } from 'astro:content';
+import SectionBand from '../../components/SectionBand.astro';
+import SiteFooter from '../../components/SiteFooter.astro';
+import Layout from '../../layouts/Layout.astro';
+import { formatPostDate, sortPostsByDate } from '../../data/blog-data.mjs';
+
+const posts = sortPostsByDate((await getCollection('blogPosts')).map((entry) => entry.data));
+---
+
+<Layout title="Phil's Blog" description="Blog posts from Philip Brocoum.">
+  <SectionBand tone="white" containerSize="narrow" class="c-blog-band">
+    <h1>Phil's Blog</h1>
+    <ul class="c-post-list">
+      {
+        posts.map((post) => (
+          <li class="c-post-list__item">
+            <a class="c-post-list__title" href={`/blog/${post.id}/`}>
+              {post.title}
+            </a>
+            <time datetime={post.datePublished}>{formatPostDate(post.datePublished)}</time>
+            <p>{post.description}</p>
+          </li>
+        ))
+      }
+    </ul>
+  </SectionBand>
+  <SiteFooter />
+</Layout>
+
+<style>
+  :global(body) {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+
+  /* class is passed through SectionBand, so it carries no scope attribute. */
+  :global(.c-blog-band) {
+    flex: 1;
+  }
+
+  .c-post-list {
+    display: grid;
+    gap: var(--space-5);
+    margin: var(--space-5) 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .c-post-list__item {
+    border-top: 1px solid var(--color-rule);
+    padding-top: var(--space-4);
+  }
+
+  .c-post-list__item:first-child {
+    border-top: 0;
+    padding-top: 0;
+  }
+
+  .c-post-list__title {
+    display: block;
+    font-family: var(--font-heading);
+    font-size: 1.25rem;
+  }
+
+  .c-post-list__item time {
+    color: var(--color-on-surface-muted);
+    font-size: 0.875rem;
+  }
+
+  .c-post-list__item p {
+    margin-top: var(--space-2);
+  }
+</style>
