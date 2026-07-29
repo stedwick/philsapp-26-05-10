@@ -16,7 +16,7 @@
     "field": "description",
     "originalText": "Such a good dog, but he sometimes sits onkjf ssadkl",
     "cleanedText": "Such a good dog.",
-    "reason": "Removed obvious trailing keyboard-mash artifact from the Toast description.",
+    "reason": "Removed obvious trailing keyboard-mash artifact from the Toast description. NOTE: the cleanup was wrong and has been reverted — the keyboard mash is intentional (the dog sat on the keyboard; that is the joke). Do not clean this again.",
     "order": 1
   },
   {
