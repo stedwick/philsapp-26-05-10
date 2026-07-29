@@ -1003,5 +1003,20 @@
       }
     ],
     "order": 71
+  },
+  {
+    "id": "icons8-dashboard-gauge-160",
+    "sourceUrl": "https://img.icons8.com/?id=63251&format=png&size=160",
+    "localPath": "/legacy/icons8-dashboard-gauge-160.png",
+    "kind": "image",
+    "alt": "Roadmapping",
+    "owners": [
+      {
+        "collection": "skills",
+        "id": "roadmapping-team-velocity",
+        "field": "icon"
+      }
+    ],
+    "order": 72
   }
 ]

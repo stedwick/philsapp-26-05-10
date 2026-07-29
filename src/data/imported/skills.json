@@ -273,5 +273,16 @@
     "iconAlt": "Hiring",
     "category": "leadership",
     "order": 24
+  },
+  {
+    "id": "roadmapping-team-velocity",
+    "title": "Roadmapping & Team Velocity",
+    "url": "https://www.productplan.com/learn/what-is-a-product-roadmap",
+    "description": "Quarterly roadmaps that ship \u2014 balancing scope, tech debt & team velocity",
+    "iconAssetId": "icons8-dashboard-gauge-160",
+    "iconHighResAssetId": "",
+    "iconAlt": "Roadmapping",
+    "category": "leadership",
+    "order": 25
   }
 ]
