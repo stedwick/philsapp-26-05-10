@@ -1,12 +1,13 @@
 [
   {
     "id": "ai-assisted-development",
-    "title": "AI-assisted development (Claude Code, LLM integration)",
+    "title": "AI-assisted Development",
     "url": "https://www.anthropic.com/claude-code",
-    "description": "Claude Code & Codex with Herdr baked into every phase of development",
+    "description": "Claude Code, Codex, Cursor & Copilot woven into every phase of development; LLM integration & prompt engineering",
     "iconAssetId": "ai-assisted",
     "iconHighResAssetId": "",
     "iconAlt": "AI",
+    "category": "technical",
     "order": 0
   },
   {
@@ -17,37 +18,19 @@
     "iconAssetId": "claude-certified",
     "iconHighResAssetId": "",
     "iconAlt": "Certificate",
+    "category": "technical",
     "order": 1
   },
   {
-    "id": "management",
-    "title": "Management",
-    "url": "https://atlassian.com/",
-    "description": "Engineering leadership, hiring & management of remote Agile teams across the world",
-    "iconAssetId": "atlassian-ca51bc3b243e1b1b55d760e811ce9efb24628f71366c0334c9058d003bea66f2",
-    "iconHighResAssetId": "atlassian-2x-b033bee89af89a7b7badc40bcc9425c23c0ad09e8e61043f87c3c77af3cf49f7",
-    "iconAlt": "Atlassian",
-    "order": 2
-  },
-  {
-    "id": "full-stack-development",
-    "title": "Full-Stack Development",
-    "url": "http://rubyonrails.org/",
-    "description": "Shipping apps since 2007. Backend, front-end, APIs, web, mobile, App Stores.",
-    "iconAssetId": "icons8-layers-160",
+    "id": "typescript",
+    "title": "TypeScript",
+    "url": "https://www.typescriptlang.org/",
+    "description": "Type-safe JavaScript across every frontend & backend codebase",
+    "iconAssetId": "icons8-typescript-160",
     "iconHighResAssetId": "",
-    "iconAlt": "Full-Stack",
-    "order": 3
-  },
-  {
-    "id": "ruby-on-rails",
-    "title": "Ruby on Rails",
-    "url": "http://rubyonrails.org/",
-    "description": "App development with Ruby on Rails majestic monolith",
-    "iconAssetId": "ruby-432990b3f3b0fc712e89a6474d3d65b12be0b6d75f5bd7a006de013a4d209556",
-    "iconHighResAssetId": "ruby-2x-5982ced9f3ef621aecafe190575d53aa36263de4fd4fef95cb2e72fd44b1d089",
-    "iconAlt": "Ruby",
-    "order": 4
+    "iconAlt": "TypeScript",
+    "category": "technical",
+    "order": 2
   },
   {
     "id": "react-js-and-next-js",
@@ -57,6 +40,29 @@
     "iconAssetId": "react-next",
     "iconHighResAssetId": "",
     "iconAlt": "React",
+    "category": "technical",
+    "order": 3
+  },
+  {
+    "id": "node-js",
+    "title": "Node.js",
+    "url": "https://nodejs.org/",
+    "description": "Server-side JavaScript runtimes, tooling & APIs",
+    "iconAssetId": "icons8-nodejs-160",
+    "iconHighResAssetId": "",
+    "iconAlt": "Node.js",
+    "category": "technical",
+    "order": 4
+  },
+  {
+    "id": "ruby-on-rails",
+    "title": "Ruby on Rails",
+    "url": "http://rubyonrails.org/",
+    "description": "App development with Ruby on Rails majestic monolith",
+    "iconAssetId": "ruby-432990b3f3b0fc712e89a6474d3d65b12be0b6d75f5bd7a006de013a4d209556",
+    "iconHighResAssetId": "ruby-2x-5982ced9f3ef621aecafe190575d53aa36263de4fd4fef95cb2e72fd44b1d089",
+    "iconAlt": "Ruby",
+    "category": "technical",
     "order": 5
   },
   {
@@ -67,7 +73,19 @@
     "iconAssetId": "graphqlapi-2x",
     "iconHighResAssetId": "",
     "iconAlt": "GraphQL",
+    "category": "technical",
     "order": 6
+  },
+  {
+    "id": "full-stack-development",
+    "title": "Full-Stack Development",
+    "url": "http://rubyonrails.org/",
+    "description": "Shipping apps since 2007. Frontend & backend, APIs, web, mobile, App Stores.",
+    "iconAssetId": "icons8-layers-160",
+    "iconHighResAssetId": "",
+    "iconAlt": "Full-Stack",
+    "category": "technical",
+    "order": 7
   },
   {
     "id": "html-css-js",
@@ -77,37 +95,52 @@
     "iconAssetId": "html-79ea44613dcbe9e4b311e919538deec10aad5dd096d81538bbca213a5af25034",
     "iconHighResAssetId": "html-2x-86e9e85c492b6e5a8f8bcb60969c5a5b0fc9193c65cb163eb132ccb72f55c3f1",
     "iconAlt": "Html",
-    "order": 7
+    "category": "technical",
+    "order": 8
   },
   {
     "id": "mysql-postgresql",
-    "title": "MySQL/PostgreSQL",
+    "title": "PostgreSQL & MySQL",
     "url": "https://www.mysql.com/",
     "description": "DB administration of MySQL & PostgreSQL",
     "iconAssetId": "mysql-9b36604739ad2843bd229aa9831aa96c38462e0b81fb726e5ec75d09494c5cc3",
     "iconHighResAssetId": "mysql-2x-e7f3a2796dd55eba940fc2a7a8942feec8463c29f2048f3f3423b085ab7683c5",
     "iconAlt": "Mysql",
-    "order": 8
+    "category": "technical",
+    "order": 9
+  },
+  {
+    "id": "nosql",
+    "title": "NoSQL",
+    "url": "https://www.mongodb.com/nosql-explained",
+    "description": "Document & key-value stores when relational doesn't fit",
+    "iconAssetId": "icons8-database-160",
+    "iconHighResAssetId": "",
+    "iconAlt": "NoSQL database",
+    "category": "technical",
+    "order": 10
+  },
+  {
+    "id": "firebase",
+    "title": "Firebase",
+    "url": "https://firebase.google.com/",
+    "description": "Auth, Firestore & hosting for rapid app prototypes",
+    "iconAssetId": "icons8-firebase-160",
+    "iconHighResAssetId": "",
+    "iconAlt": "Firebase",
+    "category": "technical",
+    "order": 11
   },
   {
     "id": "aws-azure",
-    "title": "AWS/Azure",
+    "title": "AWS & Azure",
     "url": "https://aws.amazon.com/",
     "description": "Scaling cloud infrastructure in AWS and Azure with Chef, including EC2, RDS, and S3",
     "iconAssetId": "aws-cdf14bcebf3d3a7449c34ca6eaf9dd44164a840eff0604b834b96df290a43c3b",
     "iconHighResAssetId": "aws-2x-fae84a4b557d7ddf6c1a4a2a71c77e2fea632c66f05b45c2dbf389cf778b0cb6",
     "iconAlt": "Aws",
-    "order": 9
-  },
-  {
-    "id": "devsecops",
-    "title": "DevSecOps",
-    "url": "https://www.phusionpassenger.com/",
-    "description": "Production apps w/ SOC 2 compliance & CI/CD on Bitbucket, AWS, Vercel, Apache, Nginx, and Puma",
-    "iconAssetId": "web-b208a15120c60e4178da9008357f8dac3dcddfd2d3d005e05dd7a51eb6cd2fda",
-    "iconHighResAssetId": "web-2x-5af77fcd6b11c1f45d81d27655c1cb90e15606882a28f143ce1fb8476ba539a9",
-    "iconAlt": "DevSecOps",
-    "order": 10
+    "category": "technical",
+    "order": 12
   },
   {
     "id": "docker",
@@ -117,7 +150,63 @@
     "iconAssetId": "docker-38ed8b149892718d0115780b25d0c12ad499afa4a7f8e8ca1f2115319f59b060",
     "iconHighResAssetId": "docker-2x-3e35bf5997a1e61d4d3fa4caaf657f9e247a32c21894a5d56f7e237cc8148592",
     "iconAlt": "Docker",
-    "order": 11
+    "category": "technical",
+    "order": 13
+  },
+  {
+    "id": "devops-ci-cd",
+    "title": "DevOps & CI/CD",
+    "url": "https://www.phusionpassenger.com/",
+    "description": "CI/CD pipelines on Bitbucket, AWS & Vercel; observability, deployment & maintainability of production apps on Apache, Nginx & Puma",
+    "iconAssetId": "web-b208a15120c60e4178da9008357f8dac3dcddfd2d3d005e05dd7a51eb6cd2fda",
+    "iconHighResAssetId": "web-2x-5af77fcd6b11c1f45d81d27655c1cb90e15606882a28f143ce1fb8476ba539a9",
+    "iconAlt": "DevOps",
+    "category": "technical",
+    "order": 14
+  },
+  {
+    "id": "security-soc-2",
+    "title": "Security w/ SOC 2",
+    "url": "https://www.aicpa-cima.com/topic/audit-assurance/audit-and-assurance-greater-than-soc-2",
+    "description": "Production apps with SOC 2 compliance & DevSecOps practices",
+    "iconAssetId": "icons8-security-lock-160",
+    "iconHighResAssetId": "",
+    "iconAlt": "Security",
+    "category": "technical",
+    "order": 15
+  },
+  {
+    "id": "testing-test-coverage",
+    "title": "Testing & Test Coverage",
+    "url": "https://vitest.dev/",
+    "description": "Unit, integration & E2E suites with meaningful coverage gates",
+    "iconAssetId": "icons8-test-tube-160",
+    "iconHighResAssetId": "",
+    "iconAlt": "Testing",
+    "category": "technical",
+    "order": 16
+  },
+  {
+    "id": "documentation",
+    "title": "Documentation",
+    "url": "https://diataxis.fr/",
+    "description": "Clear READMEs, runbooks & API docs that teams actually read",
+    "iconAssetId": "icons8-bookmark-page-160",
+    "iconHighResAssetId": "",
+    "iconAlt": "Documentation",
+    "category": "technical",
+    "order": 17
+  },
+  {
+    "id": "linux",
+    "title": "Linux & bash",
+    "url": "https://www.ubuntu.com/",
+    "description": "Ubuntu & CentOS server administration / bash scripting",
+    "iconAssetId": "linux-tux",
+    "iconHighResAssetId": "",
+    "iconAlt": "Linux",
+    "category": "technical",
+    "order": 18
   },
   {
     "id": "git",
@@ -127,16 +216,62 @@
     "iconAssetId": "git-1d660a4943eaafaa1b808664d979be481cb89dec342cdec714c1892c944df148",
     "iconHighResAssetId": "git-2x-f0b383c59ed60b6aa87daca66666b4fb92f13cdeba04dd5574afb61431665711",
     "iconAlt": "Git",
-    "order": 12
+    "category": "technical",
+    "order": 19
   },
   {
-    "id": "linux",
-    "title": "Linux",
-    "url": "https://www.ubuntu.com/",
-    "description": "Ubuntu & CentOS server administration / bash scripting",
-    "iconAssetId": "linux-tux",
+    "id": "staff-engineer-leadership",
+    "title": "Staff Engineer & Technical Leadership",
+    "url": "https://staffeng.com/",
+    "description": "Technical direction, architecture decisions & cross-team influence",
+    "iconAssetId": "icons8-leadership-160",
     "iconHighResAssetId": "",
-    "iconAlt": "Linux",
-    "order": 13
+    "iconAlt": "Leadership",
+    "category": "leadership",
+    "order": 20
+  },
+  {
+    "id": "mentoring-pairing",
+    "title": "Mentoring & Pairing",
+    "url": "https://martinfowler.com/articles/on-pair-programming.html",
+    "description": "Growing engineers through mentorship & pair programming",
+    "iconAssetId": "icons8-teamwork-160",
+    "iconHighResAssetId": "",
+    "iconAlt": "Mentoring",
+    "category": "leadership",
+    "order": 21
+  },
+  {
+    "id": "code-review-debugging",
+    "title": "Code Review & Debugging",
+    "url": "https://google.github.io/eng-practices/review/",
+    "description": "Rigorous, kind reviews & systematic root-cause debugging",
+    "iconAssetId": "icons8-code-160",
+    "iconHighResAssetId": "",
+    "iconAlt": "Code review",
+    "category": "leadership",
+    "order": 22
+  },
+  {
+    "id": "agile-w-jira",
+    "title": "Agile w/ Jira",
+    "url": "https://atlassian.com/",
+    "description": "Remote Agile teams across the world — sprint rituals, Jira workflows & delivery",
+    "iconAssetId": "atlassian-ca51bc3b243e1b1b55d760e811ce9efb24628f71366c0334c9058d003bea66f2",
+    "iconHighResAssetId": "atlassian-2x-b033bee89af89a7b7badc40bcc9425c23c0ad09e8e61043f87c3c77af3cf49f7",
+    "iconAlt": "Atlassian",
+    "category": "leadership",
+    "order": 23
+  },
+  {
+    "id": "hiring-growth",
+    "title": "Hiring & Growth",
+    "url": "https://www.linkedin.com/in/philipbrocoum",
+    "description": "Hiring, onboarding & career growth for engineering teams",
+    "iconAssetId": "icons8-new-job-160",
+    "iconHighResAssetId": "",
+    "iconAlt": "Hiring",
+    "category": "leadership",
+    "order": 24
   }
 ]

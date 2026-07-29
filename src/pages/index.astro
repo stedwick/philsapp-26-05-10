@@ -59,8 +59,13 @@ const resume = createResumeViewModel(
 	</SectionBand>
 
 	<SectionBand id="about-skills" title="My Skillset" tone="white" headingLevel={4}>
-		<MediaGrid>
-			{resume.skills.map((skill) => <MediaItem {...skill} />)}
+		<h5 class="c-skill-group__title">Technical</h5>
+		<MediaGrid class="c-skill-grid">
+			{resume.skills.technical.map((skill) => <MediaItem {...skill} />)}
+		</MediaGrid>
+		<h5 class="c-skill-group__title">Leadership</h5>
+		<MediaGrid class="c-skill-grid">
+			{resume.skills.leadership.map((skill) => <MediaItem {...skill} />)}
 		</MediaGrid>
 	</SectionBand>
 
