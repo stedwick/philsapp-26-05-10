@@ -665,16 +665,18 @@
     max-width: 100%;
   }
 
-  @media (min-width: 768px) {
-    .c-resume-panels {
-      grid-template-rows: auto 1fr;
+  .c-resume-panels {
+    display: grid;
+    gap: var(--space-6);
+  }
+
+  @media (min-width: 992px) {
+    .c-resume-panels .l-stacked-media-list {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
-    .c-resume-panels > section {
-      display: grid;
-      grid-row: span 2;
-      grid-template-rows: subgrid;
-      min-width: 0;
+    .c-education-separator {
+      grid-column: 1 / -1;
     }
   }
 
