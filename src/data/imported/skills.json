@@ -220,8 +220,8 @@
     "order": 19
   },
   {
-    "id": "staff-engineer-leadership",
-    "title": "Staff Engineer & Technical Leadership",
+    "id": "staff-engineer-engineering-manager",
+    "title": "Staff Engineer & Engineering Manager",
     "url": "https://staffeng.com/",
     "description": "Technical direction, architecture decisions & cross-team influence",
     "iconAssetId": "icons8-leadership-160",
@@ -256,7 +256,7 @@
     "id": "agile-w-jira",
     "title": "Agile w/ Jira",
     "url": "https://atlassian.com/",
-    "description": "Remote Agile teams across the world — sprint rituals, Jira workflows & delivery",
+    "description": "Remote Agile teams across the world \u2014 sprint rituals, Jira workflows & delivery",
     "iconAssetId": "atlassian-ca51bc3b243e1b1b55d760e811ce9efb24628f71366c0334c9058d003bea66f2",
     "iconHighResAssetId": "atlassian-2x-b033bee89af89a7b7badc40bcc9425c23c0ad09e8e61043f87c3c77af3cf49f7",
     "iconAlt": "Atlassian",
