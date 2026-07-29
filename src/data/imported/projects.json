@@ -1,5 +1,77 @@
 [
   {
+    "id": "opentrackir",
+    "title": "OpenTrackIR",
+    "url": "https://github.com/stedwick/OpenTrackIR",
+    "description": "An open-source infrared head-mouse to move your cursor on macOS & Windows if you're disabled — I'm reverse engineering TrackIR hardware to read the camera without the proprietary NaturalPoint drivers.",
+    "links": [
+      {
+        "label": "OpenTrackIR",
+        "url": "https://github.com/stedwick/OpenTrackIR"
+      },
+      {
+        "label": "View on GitHub",
+        "url": "https://github.com/stedwick/OpenTrackIR"
+      }
+    ],
+    "iconName": "",
+    "order": 0
+  },
+  {
+    "id": "philnav",
+    "title": "PhilNav",
+    "url": "https://philipb.gumroad.com/l/philnav",
+    "description": "My very good infrared head mouse, sorta like the discontinued NaturalPoint SmartNav — 75 FPS, buttery smooth, pixel-perfect. Buy a pre-built one here!",
+    "links": [
+      {
+        "label": "PhilNav",
+        "url": "https://philipb.gumroad.com/l/philnav"
+      },
+      {
+        "label": "Buy a pre-built PhilNav",
+        "url": "https://philipb.gumroad.com/l/philnav"
+      }
+    ],
+    "iconName": "",
+    "order": 1
+  },
+  {
+    "id": "phils-dictation-app",
+    "title": "Phil's Dictation App",
+    "url": "https://apps.microsoft.com/detail/9ntphh45ffrn",
+    "description": "My speech-to-text dictation app for Windows, available on the Microsoft Store — combined with a head mouse, use your computer completely hands-free.",
+    "links": [
+      {
+        "label": "Phil's Dictation App",
+        "url": "https://apps.microsoft.com/detail/9ntphh45ffrn"
+      },
+      {
+        "label": "Get it from the Microsoft Store",
+        "url": "https://apps.microsoft.com/detail/9ntphh45ffrn"
+      }
+    ],
+    "iconName": "",
+    "order": 2
+  },
+  {
+    "id": "tater-talk",
+    "title": "Tater Talk",
+    "url": "https://tatertalk.app",
+    "description": "Free cross-platform speech-to-text dictation in your browser — no downloads, no setup, just talk.",
+    "links": [
+      {
+        "label": "Tater Talk",
+        "url": "https://tatertalk.app"
+      },
+      {
+        "label": "Start talking",
+        "url": "https://tatertalk.app"
+      }
+    ],
+    "iconName": "",
+    "order": 3
+  },
+  {
     "id": "poker-tracker",
     "title": "Poker Tracker",
     "url": "https://pokertracker-23081.web.app/",
@@ -23,7 +95,7 @@
       }
     ],
     "iconName": "",
-    "order": 0
+    "order": 4
   },
   {
     "id": "munch",
@@ -41,7 +113,7 @@
       }
     ],
     "iconName": "",
-    "order": 1
+    "order": 5
   },
   {
     "id": "sci-fi-voter",
@@ -59,7 +131,7 @@
       }
     ],
     "iconName": "",
-    "order": 2
+    "order": 6
   },
   {
     "id": "docker-dashboard",
@@ -77,7 +149,7 @@
       }
     ],
     "iconName": "",
-    "order": 3
+    "order": 7
   },
   {
     "id": "taggy-for-evernote",
@@ -95,7 +167,7 @@
       }
     ],
     "iconName": "",
-    "order": 4
+    "order": 8
   },
   {
     "id": "arkanoid",
@@ -110,78 +182,6 @@
       {
         "label": "View on GitHub",
         "url": "https://github.com/stedwick/arkanoid"
-      }
-    ],
-    "iconName": "",
-    "order": 5
-  },
-  {
-    "id": "opentrackir",
-    "title": "OpenTrackIR",
-    "url": "https://github.com/stedwick/OpenTrackIR",
-    "description": "An open-source infrared head-mouse to move your cursor on macOS & Windows if you're disabled — I'm reverse engineering TrackIR hardware to read the camera without the proprietary NaturalPoint drivers.",
-    "links": [
-      {
-        "label": "OpenTrackIR",
-        "url": "https://github.com/stedwick/OpenTrackIR"
-      },
-      {
-        "label": "View on GitHub",
-        "url": "https://github.com/stedwick/OpenTrackIR"
-      }
-    ],
-    "iconName": "",
-    "order": 6
-  },
-  {
-    "id": "philnav",
-    "title": "PhilNav",
-    "url": "https://philipb.gumroad.com/l/philnav",
-    "description": "My very good infrared head mouse, sorta like the discontinued NaturalPoint SmartNav — 75 FPS, buttery smooth, pixel-perfect. Buy a pre-built one here!",
-    "links": [
-      {
-        "label": "PhilNav",
-        "url": "https://philipb.gumroad.com/l/philnav"
-      },
-      {
-        "label": "Buy a pre-built PhilNav",
-        "url": "https://philipb.gumroad.com/l/philnav"
-      }
-    ],
-    "iconName": "",
-    "order": 7
-  },
-  {
-    "id": "phils-dictation-app",
-    "title": "Phil's Dictation App",
-    "url": "https://apps.microsoft.com/detail/9ntphh45ffrn",
-    "description": "My speech-to-text dictation app for Windows, available on the Microsoft Store — combined with a head mouse, use your computer completely hands-free.",
-    "links": [
-      {
-        "label": "Phil's Dictation App",
-        "url": "https://apps.microsoft.com/detail/9ntphh45ffrn"
-      },
-      {
-        "label": "Get it from the Microsoft Store",
-        "url": "https://apps.microsoft.com/detail/9ntphh45ffrn"
-      }
-    ],
-    "iconName": "",
-    "order": 8
-  },
-  {
-    "id": "tater-talk",
-    "title": "Tater Talk",
-    "url": "https://tatertalk.app",
-    "description": "Free cross-platform speech-to-text dictation in your browser — no downloads, no setup, just talk.",
-    "links": [
-      {
-        "label": "Tater Talk",
-        "url": "https://tatertalk.app"
-      },
-      {
-        "label": "Start talking",
-        "url": "https://tatertalk.app"
       }
     ],
     "iconName": "",
