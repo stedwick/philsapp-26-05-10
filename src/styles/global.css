@@ -251,7 +251,6 @@
       grid-column: 1 / -1;
       justify-self: center;
       max-width: calc((100% - var(--space-4)) / 2);
-      text-align: center;
     }
 
     .l-media-grid {
@@ -399,6 +398,10 @@
   #hire-me .c-section-band__header,
   #hire-me .c-section-band__title {
     margin-bottom: 0;
+  }
+
+  #education-projects .c-section-band__header > p {
+    text-align: left;
   }
 
   .c-section-band__header {
