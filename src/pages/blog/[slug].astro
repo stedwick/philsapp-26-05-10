@@ -1,0 +1,97 @@
+---
+import { getCollection } from 'astro:content';
+import SectionBand from '../../components/SectionBand.astro';
+import SiteFooter from '../../components/SiteFooter.astro';
+import Layout from '../../layouts/Layout.astro';
+import { formatPostDate, localizePostHtml } from '../../data/blog-data.mjs';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blogPosts');
+
+  return posts.map((post) => ({
+    params: { slug: post.data.id },
+    props: { post: post.data },
+  }));
+}
+
+const { post } = Astro.props;
+---
+
+<Layout title={post.title} description={post.description}>
+  <SectionBand tone="white" containerSize="narrow" class="c-blog-band">
+    <article>
+      <header>
+        <h1>{post.title}</h1>
+        <p class="c-post__meta">
+          <time datetime={post.datePublished}>{formatPostDate(post.datePublished)}</time>
+        </p>
+      </header>
+      <div class="c-prose" set:html={localizePostHtml(post.contentHtml)} />
+      <p class="c-post__back"><a href="/blog/">&larr; All posts</a></p>
+    </article>
+  </SectionBand>
+  <SiteFooter />
+</Layout>
+
+<style>
+  :global(body) {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+
+  /* class is passed through SectionBand, so it carries no scope attribute. */
+  :global(.c-blog-band) {
+    flex: 1;
+  }
+
+  .c-post__meta {
+    margin-top: var(--space-2);
+    color: var(--color-on-surface-muted);
+  }
+
+  .c-post__back {
+    margin-top: var(--space-6);
+  }
+
+  /* Post body comes from imported HTML via set:html, so these rules must be
+     global; colors stay on theme vars so dark mode is automatic. */
+  :global(.c-prose) {
+    margin-top: var(--space-5);
+    line-height: 1.6;
+  }
+
+  :global(.c-prose h2),
+  :global(.c-prose h3) {
+    margin-top: var(--space-6);
+    margin-bottom: var(--space-3);
+  }
+
+  :global(.c-prose > :first-child) {
+    margin-top: 0;
+  }
+
+  :global(.c-prose p),
+  :global(.c-prose ol),
+  :global(.c-prose ul) {
+    margin-top: var(--space-4);
+  }
+
+  :global(.c-prose img) {
+    border-radius: var(--radius-md);
+  }
+
+  :global(.c-prose .header-anchor) {
+    color: var(--color-on-surface-muted);
+    text-decoration: none;
+  }
+
+  /* Imported posts embed lucide SVGs inline in links; unsized they render
+     huge, so pin them to text size. */
+  :global(.c-prose svg.lucide) {
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    vertical-align: -0.125em;
+  }
+</style>
