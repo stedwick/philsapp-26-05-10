@@ -601,6 +601,10 @@
 
   .c-skill-grid .c-media-item {
     gap: var(--space-3);
+    /* Quick experiment: faint tile outlines so the grid reads as structured columns. */
+    border: 1px solid var(--color-rule);
+    border-radius: var(--radius-lg);
+    padding: var(--space-2);
   }
 
   .c-skill-grid .c-media-item__title {
