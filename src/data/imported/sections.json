@@ -42,8 +42,15 @@
   {
     "id": "fun-stuff",
     "title": "Phil's App Store",
-    "body": [],
-    "links": [],
+    "body": [
+      "I often program for fun, and you can browse my side projects on GitHub. I once wrote a Ruby script to nab myself tickets to The Daily Show, which was first-come-first-serve on its website at the time, and you never knew when tickets would become available."
+    ],
+    "links": [
+      {
+        "label": "wrote a Ruby script",
+        "url": "https://github.com/stedwick/scripting/blob/master/daily_tix.rb"
+      }
+    ],
     "order": 3
   },
   {
