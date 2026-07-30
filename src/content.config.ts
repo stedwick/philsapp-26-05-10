@@ -112,9 +112,6 @@ const projects = defineCollection({
     description: z.string(),
     links: z.array(linkSchema),
     iconName: z.string(),
-    screenshotAssetId: z.string().optional(),
-    screenshotHighResAssetId: z.string().optional(),
-    screenshotAlt: z.string().optional(),
   }),
 });
 

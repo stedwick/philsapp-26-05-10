@@ -186,19 +186,15 @@ export function createResumeViewModel(collections, iconComponents) {
       body: item.description,
       actions: actionsFromLinks(item),
     })),
-    projects: sortByOrder(collections.projects).map((item) => {
-      const image = resolveImage(assetLookup, item.screenshotAssetId ?? '', item.screenshotHighResAssetId ?? '', item.screenshotAlt ?? '');
-      return {
-        title: item.title,
-        href: item.url,
-        icon: iconForEntry(item, iconComponents),
-        legacyIcon: legacyIconForEntryId(item.id),
-        image,
-        featured: Boolean(image),
-        body: item.description,
-        actions: actionsFromLinks(item),
-      };
-    }),
+    projects: sortByOrder(collections.projects).map((item) => ({
+      id: item.id,
+      title: item.title,
+      href: item.url,
+      icon: iconForEntry(item, iconComponents),
+      legacyIcon: legacyIconForEntryId(item.id),
+      body: item.description,
+      actions: actionsFromLinks(item),
+    })),
     interests: sortByOrder(collections.personalLinks).map((item) => ({
       title: item.title,
       href: item.url,

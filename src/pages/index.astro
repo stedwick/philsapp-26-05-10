@@ -1,5 +1,4 @@
 ---
-import { Image } from 'astro:assets';
 import ButtonLink from '../components/ButtonLink.astro';
 import ContactForm from '../components/ContactForm.astro';
 import ContactInfo from '../components/ContactInfo.astro';
@@ -52,8 +51,8 @@ const resume = createResumeViewModel(
 	icons,
 );
 
-const storeProject = resume.projects.find((item) => item.featured);
-const sideProjects = resume.projects.filter((item) => !item.featured);
+const storeProject = resume.projects.find((item) => item.id === 'phils-app-store');
+const sideProjects = resume.projects.filter((item) => item.id !== 'phils-app-store');
 ---
 
 <Layout>
@@ -110,11 +109,8 @@ const sideProjects = resume.projects.filter((item) => !item.featured);
 					<h2 id="projects-heading" class="c-section-band__title">{resume.sections.projects.title}</h2>
 					<p>{resume.sections.projects.body[0]}</p>
 				</header>
-				{storeProject?.image && (
+				{storeProject && (
 					<div class="c-store-card">
-						<a href={storeProject.href} aria-label={storeProject.title}>
-							<Image src={storeProject.image.src} srcset={storeProject.image.srcSet} alt="" width={640} height={360} loading="lazy" />
-						</a>
 						<p>{storeProject.body}</p>
 						{storeProject.actions.map((action) => (
 							<ButtonLink href={action.href} variant={action.variant} size="sm">

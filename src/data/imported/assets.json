@@ -1033,35 +1033,5 @@
       }
     ],
     "order": 73
-  },
-  {
-    "id": "phils-app-store-site",
-    "sourceUrl": "https://wvw.dev/stores/stedwick/wvw.dev.apps",
-    "localPath": "/site-assets/phils-app-store-site.jpg",
-    "kind": "image",
-    "alt": "Phil's App Store on wvw.dev",
-    "owners": [
-      {
-        "collection": "projects",
-        "id": "phils-app-store",
-        "field": "screenshot"
-      }
-    ],
-    "order": 74
-  },
-  {
-    "id": "phils-app-store-site-2x",
-    "sourceUrl": "https://wvw.dev/stores/stedwick/wvw.dev.apps",
-    "localPath": "/site-assets/phils-app-store-site@2x.jpg",
-    "kind": "image-2x",
-    "alt": "Phil's App Store on wvw.dev",
-    "owners": [
-      {
-        "collection": "projects",
-        "id": "phils-app-store",
-        "field": "screenshotHighRes"
-      }
-    ],
-    "order": 75
   }
 ]
