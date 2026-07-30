@@ -61,11 +61,12 @@ const resume = createResumeViewModel(
 	<SectionBand id="about-skills" title="Phil's Skillset" tone="white" headingLevel={4}>
 		<h5 class="c-skill-group__title">Technical Chops</h5>
 		<MediaGrid class="c-skill-grid">
-			{resume.skills.technical.map((skill) => <MediaItem {...skill} />)}
+			{/* Skill descriptions hidden for now; data stays in skills.json. Restore by passing body through again. */}
+			{resume.skills.technical.map(({ body: _description, ...skill }) => <MediaItem {...skill} />)}
 		</MediaGrid>
 		<h5 class="c-skill-group__title">Leadership Qualities</h5>
 		<MediaGrid class="c-skill-grid">
-			{resume.skills.leadership.map((skill) => <MediaItem {...skill} />)}
+			{resume.skills.leadership.map(({ body: _description, ...skill }) => <MediaItem {...skill} />)}
 		</MediaGrid>
 	</SectionBand>
 
@@ -90,6 +91,10 @@ const resume = createResumeViewModel(
 					{resume.education.map((item) => <MediaItem {...item} compact />)}
 				</div>
 			</section>
+
+			<div class="c-education-separator" aria-hidden="true">
+				<span>&sect;</span>
+			</div>
 
 			<section aria-labelledby="projects-heading">
 				<header class="c-section-band__header">
