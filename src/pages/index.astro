@@ -63,7 +63,7 @@ const sideProjects = resume.projects.filter((item) => !item.featured);
 		<SplitIntro paragraphs={resume.sections.about.body} />
 	</SectionBand>
 
-	<SectionBand id="about-skills" title="My Skillset" tone="white" headingLevel={4}>
+	<SectionBand id="about-skills" title="Phil's Skillset" tone="white" headingLevel={4}>
 		<h5 class="c-skill-group__title">Technical</h5>
 		<MediaGrid class="c-skill-grid">
 			{resume.skills.technical.map((skill) => <MediaItem {...skill} />)}
@@ -143,12 +143,12 @@ const sideProjects = resume.projects.filter((item) => !item.featured);
 		<p class="c-dropcap">{resume.contactIntro}</p>
 		<div class="l-two-panel c-contact-layout u-section-stack">
 			<section aria-labelledby="contact-info-heading">
-				<h2 id="contact-info-heading" class="u-center">My Contact Info</h2>
+				<h2 id="contact-info-heading" class="u-center">Phil's Contact Info</h2>
 				<ContactInfo items={resume.contactItems} />
 			</section>
 
 			<section aria-labelledby="contact-form-heading">
-				<h2 id="contact-form-heading" class="u-center">Send Me a Message</h2>
+				<h2 id="contact-form-heading" class="u-center">Send Phil a Message</h2>
 				<ContactForm action={resume.formAction} />
 			</section>
 		</div>

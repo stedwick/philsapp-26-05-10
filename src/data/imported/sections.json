@@ -1,7 +1,7 @@
 [
   {
     "id": "about",
-    "title": "About Me",
+    "title": "Welcome to Phil's home page! 👋",
     "body": [
       "Hello! 👋 I'm Philip, and I began developing with Ruby on Rails at a startup in NYC in 2007. I have 18+ years of Software Engineering experience, and 8 years as a Manager and Lead Engineer. I've climbed from Developer to Senior Developer, to Lead Developer, to Senior Engineering Manager leading a world-wide remote team of twelve.",
       "Today with Claude Code, I build AI-powered software at Olio Apps as a Lead Software Engineer in Portland, OR. I ship BlackLine's new AI Account Recs 3.0 product, and the Daily Reading app for the Grace and Mercy Foundation.",
@@ -17,7 +17,7 @@
   },
   {
     "id": "career",
-    "title": "My Career",
+    "title": "Phil's Career",
     "body": [
       "I started in tech as an analyst at Brightidea back in 2007 when I was 25. At that time, I was transitioning away from mathematics and education. I taught myself Ruby on Rails and was hired a year later at readMedia as their first full-time developer. We grew the company and turned it into what Merit is today.",
       "Today with Claude Code, I build AI-powered software at Olio Apps as a Lead Software Engineer in Portland, OR. I ship BlackLine's new AI Account Recs 3.0 product, and the Daily Reading app for the Grace and Mercy Foundation. My passion has always been to hire great teams to build great products with great technologies."
@@ -32,7 +32,7 @@
   },
   {
     "id": "education",
-    "title": "Education",
+    "title": "Phil's Education",
     "body": [
       "I majored in mathematics in college and grad school, and my first career was as a teacher in New York City. However, I always loved computers and quickly transitioned to my new career as a developer."
     ],
@@ -55,7 +55,7 @@
   },
   {
     "id": "personal-life",
-    "title": "Personal Life",
+    "title": "Phil's Personal Life",
     "body": [
       "I maintain a healthy work/life balance. If you'd like to learn more about me beyond my professional life, check out the links below!"
     ],
@@ -64,7 +64,7 @@
   },
   {
     "id": "contact",
-    "title": "Contact Me",
+    "title": "Contact Phil",
     "body": [
       "Hi there! Today with Claude Code, I build AI-powered software at Olio Apps as a Lead Software Engineer in Portland, OR. If you've made it this far, drop me a line. Send an email and I'll speak with you soon 👍."
     ],
