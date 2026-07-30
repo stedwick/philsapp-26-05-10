@@ -582,21 +582,6 @@
     object-fit: contain;
   }
 
-  /* The app-store card stands on its own centered row above the compact
-     media items: blurb and action stacked vertically. */
-  .c-store-card {
-    display: grid;
-    justify-items: center;
-    gap: var(--space-3);
-    margin-bottom: var(--space-5);
-    text-align: center;
-  }
-
-  .c-store-card p {
-    margin: 0;
-    max-width: 36rem;
-  }
-
   /* Compact skills grids: denser tiles scoped to #about-skills so the
      interests grid and education/projects lists keep the roomier defaults. */
   .c-skill-group__title {
