@@ -582,33 +582,26 @@
     object-fit: contain;
   }
 
-  /* Featured items (e.g. Phil's App Store) swap the glyph for a 16:9
-     screenshot thumbnail while keeping the compact media-item layout. */
-  .c-media-item--featured .c-media-item__icon {
-    flex: 0 0 12rem;
-    width: 12rem;
+  /* The app-store card stands on its own centered row above the compact
+     media items: screenshot, blurb, and action stacked vertically. */
+  .c-store-card {
+    display: grid;
+    justify-items: center;
+    gap: var(--space-3);
+    margin-bottom: var(--space-5);
+    text-align: center;
+  }
+
+  .c-store-card img {
+    width: min(100%, 28rem);
     height: auto;
-    aspect-ratio: 16 / 9;
     border: 1px solid var(--color-surface-border);
     border-radius: var(--radius-md);
-    overflow: hidden;
   }
 
-  .c-media-item--featured .c-media-item__icon img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-
-  @media (max-width: 575.98px) {
-    .c-media-item--featured {
-      flex-direction: column;
-    }
-
-    .c-media-item--featured .c-media-item__icon {
-      flex: 0 0 auto;
-      width: 100%;
-    }
+  .c-store-card p {
+    margin: 0;
+    max-width: 36rem;
   }
 
   /* Compact skills grids: denser tiles scoped to #about-skills so the

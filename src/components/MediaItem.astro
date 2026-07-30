@@ -20,25 +20,24 @@ interface Props {
     srcSet?: string;
     alt: string;
   };
-  featured?: boolean;
   addendum?: string;
   actions?: Action[];
   compact?: boolean;
 }
 
-const { title, href, body, icon: Icon, legacyIcon, image, featured = false, addendum, actions = [], compact = false } = Astro.props;
+const { title, href, body, icon: Icon, legacyIcon, image, addendum, actions = [], compact = false } = Astro.props;
 const LegacyIcon = legacyIcon ? legacyIcons[legacyIcon] : undefined;
 ---
 
-<article class:list={['c-media-item', { 'c-media-item--compact': compact, 'c-media-item--featured': featured }]}>
+<article class:list={['c-media-item', { 'c-media-item--compact': compact }]}>
   {image && href && (
     <a class="c-media-item__icon" href={href ?? '#'} aria-label={title}>
-      <Image src={image.src} srcset={image.srcSet} alt="" width={featured ? 640 : 64} height={featured ? 360 : 64} loading="lazy" />
+      <Image src={image.src} srcset={image.srcSet} alt="" width={64} height={64} loading="lazy" />
     </a>
   )}
   {image && !href && (
     <span class="c-media-item__icon" aria-hidden="true">
-      <Image src={image.src} srcset={image.srcSet} alt="" width={featured ? 640 : 64} height={featured ? 360 : 64} loading="lazy" />
+      <Image src={image.src} srcset={image.srcSet} alt="" width={64} height={64} loading="lazy" />
     </span>
   )}
   {!image && LegacyIcon && href && (
