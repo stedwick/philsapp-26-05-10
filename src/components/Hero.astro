@@ -39,7 +39,7 @@ interface Props {
 
 const { profile, socialLinks, chevronIcon: ChevronDown } = Astro.props;
 const heroStyle = `--hero-image-sm: url('${profile.heroImages.sm}'); --hero-image-md: url('${profile.heroImages.md}'); --hero-image-lg: url('${profile.heroImages.lg}');`;
-const primaryAction = profile.primaryAction ?? { label: 'Contact Phil', target: '#hire-me' };
+const primaryAction = profile.primaryAction ?? { label: "Let's get in touch", target: '#hire-me' };
 const portrait =
   typeof profile.portrait === 'string'
     ? { src: profile.portrait, alt: profile.name }

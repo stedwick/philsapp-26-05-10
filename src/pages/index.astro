@@ -59,11 +59,11 @@ const resume = createResumeViewModel(
 	</SectionBand>
 
 	<SectionBand id="about-skills" title="Phil's Skillset" tone="white" headingLevel={4}>
-		<h5 class="c-skill-group__title">Technical</h5>
+		<h5 class="c-skill-group__title">Technical Chops</h5>
 		<MediaGrid class="c-skill-grid">
 			{resume.skills.technical.map((skill) => <MediaItem {...skill} />)}
 		</MediaGrid>
-		<h5 class="c-skill-group__title">Leadership</h5>
+		<h5 class="c-skill-group__title">Leadership Qualities</h5>
 		<MediaGrid class="c-skill-grid">
 			{resume.skills.leadership.map((skill) => <MediaItem {...skill} />)}
 		</MediaGrid>
@@ -87,16 +87,7 @@ const resume = createResumeViewModel(
 					<p>{resume.sections.education.body[0]}</p>
 				</header>
 				<div class="l-stacked-media-list">
-					{resume.education.map((item) => (
-						<>
-							<MediaItem {...item} compact />
-							{item.id === 'new-york-university' && (
-								<div class="c-education-separator" aria-hidden="true">
-									<span>&sect;</span>
-								</div>
-							)}
-						</>
-					))}
+					{resume.education.map((item) => <MediaItem {...item} compact />)}
 				</div>
 			</section>
 

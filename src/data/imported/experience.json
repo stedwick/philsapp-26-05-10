@@ -72,18 +72,20 @@
     "visitLabel": "Visit Merit",
     "roles": [
       {
-        "title": "Senior Software Engineer",
-        "dates": ""
+        "title": "Senior Software Engineer / Ruby on Rails",
+        "dates": "2014 – 2016"
       },
       {
-        "title": "Ruby on Rails",
-        "dates": ""
+        "title": "Software Engineer",
+        "dates": "2008 – 2014"
       }
     ],
     "footerLines": [
       "Senior Software Engineer",
       "Ruby on Rails",
-      "New York, NY (2014 – 2016)"
+      "New York, NY (2014 – 2016)",
+      "Software Engineer",
+      "New York, NY (2008 – 2014)"
     ],
     "location": "New York, NY",
     "logoAssetId": "merit-6c70bb158a952060e8a5d6d3f869852065a7427eeecb9002fd3f12fcaaf7c4ff",
@@ -117,7 +119,8 @@
     "screenshotAssetId": "gogreenride-site-6c93d002836ee83418ca1aeee8014450c96cbc276ed313fe2ded178eeb351d66",
     "screenshotHighResAssetId": "gogreenride-site-2x-5f60ab4a6d4ee5991c489f977af44b4b1dce11e4d9d5f5e085cd0e8a9c1f7321",
     "screenshotAlt": "Gogreenride site",
-    "order": 3
+    "order": 3,
+    "hidden": true
   },
   {
     "id": "readabout-me",
@@ -142,7 +145,8 @@
     "screenshotAssetId": "readaboutme-site-afe12869f8fbb77df4e5871ab30499fcbd7f3b33ed1f1708cc71c6e16b791dfd",
     "screenshotHighResAssetId": "readaboutme-site-2x-320e9823a7c8f4c353a4758337235b55982edcdff23ef1e54d3275f69c26e9aa",
     "screenshotAlt": "Readaboutme site",
-    "order": 4
+    "order": 4,
+    "hidden": true
   },
   {
     "id": "readmedia",
@@ -167,7 +171,8 @@
     "screenshotAssetId": "readmedia-site-fa449d75ae1e7b64613c749d006b48bbf6704350df95bd5794ed5f001b61464e",
     "screenshotHighResAssetId": "readmedia-site-2x-d30cb9039198cd52770a631385386a304eef8fe114de00b6e00c600e2896ce06",
     "screenshotAlt": "Readmedia site",
-    "order": 5
+    "order": 5,
+    "hidden": true
   },
   {
     "id": "brightidea",
@@ -192,6 +197,7 @@
     "screenshotAssetId": "brightidea-site-9ecc25c745d9b89c874cac478d6b6cc6e2caee4f1142b8b7d524e66eb317f345",
     "screenshotHighResAssetId": "brightidea-site-2x-7d3dbd3e2d54d281ebab99f7029bd7ea0f23f5dc4f49351f9ed92cccbd7c8b66",
     "screenshotAlt": "Brightidea site",
-    "order": 6
+    "order": 6,
+    "hidden": true
   }
 ]

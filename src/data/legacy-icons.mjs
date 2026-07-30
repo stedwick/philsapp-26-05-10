@@ -89,4 +89,14 @@ export const legacyIcons = {
     markup:
       '<path fill-rule="evenodd" d="M5 6 H45 V12 H5 Z M5 12 H45 L47.5 15 H2.5 Z M3.5 15 V18 A2.5 2.5 0 0 0 8.5 18 V15 Z M11.1 15 V18 A2.5 2.5 0 0 0 16.1 18 V15 Z M18.7 15 V18 A2.5 2.5 0 0 0 23.7 18 V15 Z M26.3 15 V18 A2.5 2.5 0 0 0 31.3 18 V15 Z M33.9 15 V18 A2.5 2.5 0 0 0 38.9 18 V15 Z M41.5 15 V18 A2.5 2.5 0 0 0 46.5 18 V15 Z M4 24 H46 V47 H4 Z M10 30 H26 V42 H10 Z M31 30 H40 V47 H31 Z"></path>',
   },
+  keyboard: {
+    viewBox: '0 0 50 50',
+    markup:
+      '<path fill-rule="evenodd" d="M7 14 H43 A3 3 0 0 1 46 17 V31 A3 3 0 0 1 43 34 H7 A3 3 0 0 1 4 31 V17 A3 3 0 0 1 7 14 Z M8 18 H13 V22 H8 Z M15 18 H20 V22 H15 Z M22 18 H27 V22 H22 Z M29 18 H34 V22 H29 Z M36 18 H41 V22 H36 Z M8 25 H13 V29 H8 Z M16 25 H34 V29 H16 Z M37 25 H42 V29 H37 Z"></path>',
+  },
+  barChart: {
+    viewBox: '0 0 50 50',
+    markup:
+      '<path d="M4 41 H46 V44 H4 Z M9 26 H17 V40 H9 Z M21 18 H29 V40 H21 Z M33 10 H41 V40 H33 Z"></path>',
+  },
 };

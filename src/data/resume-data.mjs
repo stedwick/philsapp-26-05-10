@@ -76,6 +76,8 @@ export function legacyIconForEntryId(id) {
     'phils-dictation-app': 'voice',
     'tater-talk': 'potato',
     'phils-app-store': 'storefront',
+    'better-swipe-keyboard': 'keyboard',
+    'my-net-worth': 'barChart',
   };
 
   return legacyIconById[id];
@@ -166,7 +168,7 @@ export function createResumeViewModel(collections, iconComponents) {
       technical: skillGroups.technical.map(toSkillProps),
       leadership: skillGroups.leadership.map(toSkillProps),
     },
-    career: sortByOrder(collections.experience).map((entry) => ({
+    career: sortByOrder(collections.experience.filter((entry) => !entry.hidden)).map((entry) => ({
       title: entry.company,
       siteLabel: siteLabelFromUrl(entry.websiteUrl),
       href: entry.websiteUrl,
@@ -177,7 +179,7 @@ export function createResumeViewModel(collections, iconComponents) {
       links: (entry.links ?? []).map((link) => ({ label: link.label, href: link.url })),
       footer: entry.footerLines,
     })),
-    education: sortByOrder(collections.education).map((item) => ({
+    education: sortByOrder(collections.education.filter((item) => !item.hidden)).map((item) => ({
       id: item.id,
       title: item.title,
       href: item.url,
@@ -187,7 +189,7 @@ export function createResumeViewModel(collections, iconComponents) {
       body: item.description,
       actions: actionsFromLinks(item),
     })),
-    projects: sortByOrder(collections.projects).map((item) => ({
+    projects: sortByOrder(collections.projects.filter((item) => !item.hidden)).map((item) => ({
       id: item.id,
       title: item.title,
       href: item.url,
