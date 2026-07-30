@@ -71,6 +71,10 @@ export function legacyIconForEntryId(id) {
     'docker-dashboard': 'terminal',
     'taggy-for-evernote': 'evernote',
     arkanoid: 'gamecontroller',
+    opentrackir: 'faceId',
+    philnav: 'mouseClick',
+    'phils-dictation-app': 'voice',
+    'tater-talk': 'potato',
   };
 
   return legacyIconById[id];
