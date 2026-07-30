@@ -228,7 +228,7 @@
     "iconHighResAssetId": "",
     "iconAlt": "Leadership",
     "category": "leadership",
-    "order": 22
+    "order": 20
   },
   {
     "id": "mentoring-pairing",
@@ -239,7 +239,7 @@
     "iconHighResAssetId": "",
     "iconAlt": "Mentoring",
     "category": "leadership",
-    "order": 24
+    "order": 25
   },
   {
     "id": "code-review-debugging",
@@ -250,7 +250,7 @@
     "iconHighResAssetId": "",
     "iconAlt": "Code review",
     "category": "leadership",
-    "order": 25
+    "order": 26
   },
   {
     "id": "agile-w-jira",
@@ -261,7 +261,7 @@
     "iconHighResAssetId": "atlassian-2x-b033bee89af89a7b7badc40bcc9425c23c0ad09e8e61043f87c3c77af3cf49f7",
     "iconAlt": "Atlassian",
     "category": "leadership",
-    "order": 20
+    "order": 23
   },
   {
     "id": "hiring-growth",
@@ -272,7 +272,7 @@
     "iconHighResAssetId": "",
     "iconAlt": "Hiring",
     "category": "leadership",
-    "order": 21
+    "order": 22
   },
   {
     "id": "roadmapping-team-velocity",
@@ -283,7 +283,7 @@
     "iconHighResAssetId": "",
     "iconAlt": "Roadmapping",
     "category": "leadership",
-    "order": 23
+    "order": 24
   },
   {
     "id": "engineering-manager",
@@ -294,6 +294,6 @@
     "iconHighResAssetId": "",
     "iconAlt": "Management",
     "category": "leadership",
-    "order": 26
+    "order": 21
   }
 ]
