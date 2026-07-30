@@ -19,7 +19,7 @@ Run commands from the repository root.
 
 ## Coding Style & Naming Conventions
 
-Use ES modules, TypeScript where the repo already uses it, and two-space indentation. Astro components are PascalCase files, for example `Hero.astro` and `MediaGrid.astro`. Keep props typed in frontmatter, rendering declarative, and collection-to-theme mapping in `src/data/resume-data.mjs`. Put importer parsing logic in `scripts/*.mjs`. CSS uses component classes such as `c-hero__content` and layout helpers such as `l-container`; follow those patterns.
+Use ES modules, TypeScript where the repo already uses it, and two-space indentation. Astro components are PascalCase files, for example `Hero.astro` and `MediaGrid.astro`. Keep props typed in frontmatter, rendering declarative, and collection-to-theme mapping in `src/data/resume-data.mjs`. Put importer parsing logic in `scripts/*.mjs`. CSS uses component classes such as `c-hero__content` and layout helpers such as `l-container`; follow those patterns. Site copy: never use em dashes or en dashes in user-visible text; use plain punctuation (colons, periods, commas) instead.
 
 ## Testing Guidelines
 
