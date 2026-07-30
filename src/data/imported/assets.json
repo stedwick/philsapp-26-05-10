@@ -953,7 +953,7 @@
     "owners": [
       {
         "collection": "skills",
-        "id": "staff-engineer-engineering-manager",
+        "id": "staff-engineer",
         "field": "icon"
       }
     ],
@@ -1018,5 +1018,20 @@
       }
     ],
     "order": 72
+  },
+  {
+    "id": "icons8-manager-160",
+    "sourceUrl": "https://img.icons8.com/?id=12313&format=png&size=160",
+    "localPath": "/legacy/icons8-manager-160.png",
+    "kind": "image",
+    "alt": "Management",
+    "owners": [
+      {
+        "collection": "skills",
+        "id": "engineering-manager",
+        "field": "icon"
+      }
+    ],
+    "order": 73
   }
 ]
