@@ -8,7 +8,7 @@
     "iconHighResAssetId": "",
     "iconAlt": "AI",
     "category": "technical",
-    "order": 0
+    "order": 2
   },
   {
     "id": "claude-certified-architect",
@@ -19,7 +19,7 @@
     "iconHighResAssetId": "",
     "iconAlt": "Certificate",
     "category": "technical",
-    "order": 1
+    "order": 3
   },
   {
     "id": "typescript",
@@ -30,7 +30,7 @@
     "iconHighResAssetId": "",
     "iconAlt": "TypeScript",
     "category": "technical",
-    "order": 2
+    "order": 0
   },
   {
     "id": "react-js-and-next-js",
@@ -41,7 +41,7 @@
     "iconHighResAssetId": "",
     "iconAlt": "React",
     "category": "technical",
-    "order": 3
+    "order": 1
   },
   {
     "id": "node-js",
@@ -250,7 +250,7 @@
     "iconHighResAssetId": "",
     "iconAlt": "Code review",
     "category": "leadership",
-    "order": 26
+    "order": 24
   },
   {
     "id": "agile-w-jira",
@@ -283,7 +283,7 @@
     "iconHighResAssetId": "",
     "iconAlt": "Roadmapping",
     "category": "leadership",
-    "order": 24
+    "order": 26
   },
   {
     "id": "engineering-manager",
