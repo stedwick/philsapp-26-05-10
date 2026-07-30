@@ -582,6 +582,37 @@
     object-fit: contain;
   }
 
+  /* Compact skills grids: denser tiles scoped to #about-skills so the
+     interests grid and education/projects lists keep the roomier defaults. */
+  .c-skill-group__title {
+    margin: var(--space-5) 0 var(--space-4);
+    font-size: 1.25rem;
+  }
+
+  .c-skill-group__title:first-of-type {
+    margin-top: 0;
+  }
+
+  .c-skill-grid {
+    --icon-size: 2.25rem;
+    column-gap: var(--space-4);
+    row-gap: var(--space-4);
+  }
+
+  .c-skill-grid .c-media-item {
+    gap: var(--space-3);
+  }
+
+  .c-skill-grid .c-media-item__title {
+    margin-bottom: var(--space-1);
+    font-size: 1rem;
+  }
+
+  .c-skill-grid .c-media-item__body p {
+    margin: 0;
+    font-size: 0.875rem;
+  }
+
   .c-media-item__title {
     margin-bottom: var(--space-2);
     font-size: 1.25rem;

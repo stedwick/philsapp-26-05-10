@@ -100,11 +100,26 @@ function sectionById(sections, id) {
   return sections.find((section) => section.id === id);
 }
 
+export function groupSkillsByCategory(skills) {
+  const sorted = sortByOrder(skills);
+  return {
+    technical: sorted.filter((skill) => skill.category === 'technical'),
+    leadership: sorted.filter((skill) => skill.category === 'leadership'),
+  };
+}
+
 export function createResumeViewModel(collections, iconComponents) {
   const assetLookup = createAssetLookup(collections.assets);
   const profile = collections.profile[0];
   const contact = collections.contact[0];
   const sections = sortByOrder(collections.sections);
+  const skillGroups = groupSkillsByCategory(collections.skills);
+  const toSkillProps = (skill) => ({
+    title: skill.title,
+    href: skill.url,
+    body: skill.description,
+    image: resolveImage(assetLookup, skill.iconAssetId, skill.iconHighResAssetId, skill.iconAlt),
+  });
 
   const profilePortrait = resolveImage(
     assetLookup,
@@ -146,12 +161,10 @@ export function createResumeViewModel(collections, iconComponents) {
       personalLife: sectionById(sections, 'personal-life'),
       contact: sectionById(sections, 'contact'),
     },
-    skills: sortByOrder(collections.skills).map((skill) => ({
-      title: skill.title,
-      href: skill.url,
-      body: skill.description,
-      image: resolveImage(assetLookup, skill.iconAssetId, skill.iconHighResAssetId, skill.iconAlt),
-    })),
+    skills: {
+      technical: skillGroups.technical.map(toSkillProps),
+      leadership: skillGroups.leadership.map(toSkillProps),
+    },
     career: sortByOrder(collections.experience).map((entry) => ({
       title: entry.company,
       siteLabel: siteLabelFromUrl(entry.websiteUrl),

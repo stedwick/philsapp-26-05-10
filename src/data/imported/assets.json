@@ -53,7 +53,7 @@
     "owners": [
       {
         "collection": "skills",
-        "id": "management",
+        "id": "agile-w-jira",
         "field": "icon"
       }
     ],
@@ -68,7 +68,7 @@
     "owners": [
       {
         "collection": "skills",
-        "id": "management",
+        "id": "agile-w-jira",
         "field": "iconHighRes"
       }
     ],
@@ -229,11 +229,11 @@
     "sourceUrl": "https://philipbrocoum.com/assets/web-b208a15120c60e4178da9008357f8dac3dcddfd2d3d005e05dd7a51eb6cd2fda.png",
     "localPath": "/legacy/web-b208a15120c60e4178da9008357f8dac3dcddfd2d3d005e05dd7a51eb6cd2fda.png",
     "kind": "image",
-    "alt": "DevSecOps",
+    "alt": "DevOps",
     "owners": [
       {
         "collection": "skills",
-        "id": "devsecops",
+        "id": "devops-ci-cd",
         "field": "icon"
       }
     ],
@@ -244,11 +244,11 @@
     "sourceUrl": "https://philipbrocoum.com/assets/web@2x-5af77fcd6b11c1f45d81d27655c1cb90e15606882a28f143ce1fb8476ba539a9.png",
     "localPath": "/legacy/web@2x-5af77fcd6b11c1f45d81d27655c1cb90e15606882a28f143ce1fb8476ba539a9.png",
     "kind": "image-2x",
-    "alt": "DevSecOps",
+    "alt": "DevOps",
     "owners": [
       {
         "collection": "skills",
-        "id": "devsecops",
+        "id": "devops-ci-cd",
         "field": "iconHighRes"
       }
     ],
@@ -838,5 +838,200 @@
       }
     ],
     "order": 60
+  },
+  {
+    "id": "icons8-typescript-160",
+    "sourceUrl": "https://img.icons8.com/?id=uJM6fQYqDaZK&format=png&size=160",
+    "localPath": "/legacy/icons8-typescript-160.png",
+    "kind": "image",
+    "alt": "TypeScript",
+    "owners": [
+      {
+        "collection": "skills",
+        "id": "typescript",
+        "field": "icon"
+      }
+    ],
+    "order": 61
+  },
+  {
+    "id": "icons8-nodejs-160",
+    "sourceUrl": "https://img.icons8.com/?id=hsPbhkOH4FMe&format=png&size=160",
+    "localPath": "/legacy/icons8-nodejs-160.png",
+    "kind": "image",
+    "alt": "Node.js",
+    "owners": [
+      {
+        "collection": "skills",
+        "id": "node-js",
+        "field": "icon"
+      }
+    ],
+    "order": 62
+  },
+  {
+    "id": "icons8-database-160",
+    "sourceUrl": "https://img.icons8.com/?id=11973&format=png&size=160",
+    "localPath": "/legacy/icons8-database-160.png",
+    "kind": "image",
+    "alt": "NoSQL database",
+    "owners": [
+      {
+        "collection": "skills",
+        "id": "nosql",
+        "field": "icon"
+      }
+    ],
+    "order": 63
+  },
+  {
+    "id": "icons8-firebase-160",
+    "sourceUrl": "https://img.icons8.com/?id=62452&format=png&size=160",
+    "localPath": "/legacy/icons8-firebase-160.png",
+    "kind": "image",
+    "alt": "Firebase",
+    "owners": [
+      {
+        "collection": "skills",
+        "id": "firebase",
+        "field": "icon"
+      }
+    ],
+    "order": 64
+  },
+  {
+    "id": "icons8-security-lock-160",
+    "sourceUrl": "https://img.icons8.com/?id=114444&format=png&size=160",
+    "localPath": "/legacy/icons8-security-lock-160.png",
+    "kind": "image",
+    "alt": "Security",
+    "owners": [
+      {
+        "collection": "skills",
+        "id": "security-soc-2",
+        "field": "icon"
+      }
+    ],
+    "order": 65
+  },
+  {
+    "id": "icons8-test-tube-160",
+    "sourceUrl": "https://img.icons8.com/?id=13186&format=png&size=160",
+    "localPath": "/legacy/icons8-test-tube-160.png",
+    "kind": "image",
+    "alt": "Testing",
+    "owners": [
+      {
+        "collection": "skills",
+        "id": "testing-test-coverage",
+        "field": "icon"
+      }
+    ],
+    "order": 66
+  },
+  {
+    "id": "icons8-bookmark-page-160",
+    "sourceUrl": "https://img.icons8.com/?id=12135&format=png&size=160",
+    "localPath": "/legacy/icons8-bookmark-page-160.png",
+    "kind": "image",
+    "alt": "Documentation",
+    "owners": [
+      {
+        "collection": "skills",
+        "id": "documentation",
+        "field": "icon"
+      }
+    ],
+    "order": 67
+  },
+  {
+    "id": "icons8-leadership-160",
+    "sourceUrl": "https://img.icons8.com/?id=114323&format=png&size=160",
+    "localPath": "/legacy/icons8-leadership-160.png",
+    "kind": "image",
+    "alt": "Leadership",
+    "owners": [
+      {
+        "collection": "skills",
+        "id": "staff-engineer",
+        "field": "icon"
+      }
+    ],
+    "order": 68
+  },
+  {
+    "id": "icons8-teamwork-160",
+    "sourceUrl": "https://img.icons8.com/?id=103984&format=png&size=160",
+    "localPath": "/legacy/icons8-teamwork-160.png",
+    "kind": "image",
+    "alt": "Mentoring",
+    "owners": [
+      {
+        "collection": "skills",
+        "id": "mentoring-pairing",
+        "field": "icon"
+      }
+    ],
+    "order": 69
+  },
+  {
+    "id": "icons8-code-160",
+    "sourceUrl": "https://img.icons8.com/?id=19293&format=png&size=160",
+    "localPath": "/legacy/icons8-code-160.png",
+    "kind": "image",
+    "alt": "Code review",
+    "owners": [
+      {
+        "collection": "skills",
+        "id": "code-review-debugging",
+        "field": "icon"
+      }
+    ],
+    "order": 70
+  },
+  {
+    "id": "icons8-new-job-160",
+    "sourceUrl": "https://img.icons8.com/?id=103985&format=png&size=160",
+    "localPath": "/legacy/icons8-new-job-160.png",
+    "kind": "image",
+    "alt": "Hiring",
+    "owners": [
+      {
+        "collection": "skills",
+        "id": "hiring-growth",
+        "field": "icon"
+      }
+    ],
+    "order": 71
+  },
+  {
+    "id": "icons8-dashboard-gauge-160",
+    "sourceUrl": "https://img.icons8.com/?id=63251&format=png&size=160",
+    "localPath": "/legacy/icons8-dashboard-gauge-160.png",
+    "kind": "image",
+    "alt": "Roadmapping",
+    "owners": [
+      {
+        "collection": "skills",
+        "id": "roadmapping-team-velocity",
+        "field": "icon"
+      }
+    ],
+    "order": 72
+  },
+  {
+    "id": "icons8-manager-160",
+    "sourceUrl": "https://img.icons8.com/?id=12313&format=png&size=160",
+    "localPath": "/legacy/icons8-manager-160.png",
+    "kind": "image",
+    "alt": "Management",
+    "owners": [
+      {
+        "collection": "skills",
+        "id": "engineering-manager",
+        "field": "icon"
+      }
+    ],
+    "order": 73
   }
 ]
