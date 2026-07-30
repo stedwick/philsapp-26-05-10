@@ -61,12 +61,12 @@ const resume = createResumeViewModel(
 	<SectionBand id="about-skills" title="Phil's Skillset" tone="white" headingLevel={4}>
 		<h5 class="c-skill-group__title">Technical Chops</h5>
 		<MediaGrid class="c-skill-grid">
-			{/* Skill descriptions hidden for now; data stays in skills.json. Restore by passing body through again. */}
-			{resume.skills.technical.map(({ body: _description, ...skill }) => <MediaItem {...skill} />)}
+			{/* Skill descriptions and links hidden for now; data stays in skills.json. Restore by passing body/href through again. */}
+			{resume.skills.technical.map(({ body: _description, href: _url, ...skill }) => <MediaItem {...skill} />)}
 		</MediaGrid>
 		<h5 class="c-skill-group__title">Leadership Qualities</h5>
 		<MediaGrid class="c-skill-grid">
-			{resume.skills.leadership.map(({ body: _description, ...skill }) => <MediaItem {...skill} />)}
+			{resume.skills.leadership.map(({ body: _description, href: _url, ...skill }) => <MediaItem {...skill} />)}
 		</MediaGrid>
 	</SectionBand>
 
