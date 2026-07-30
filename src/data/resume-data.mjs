@@ -75,7 +75,6 @@ export function legacyIconForEntryId(id) {
     philnav: 'mouseClick',
     'phils-dictation-app': 'voice',
     'tater-talk': 'potato',
-    'phils-app-store': 'storefront',
   };
 
   return legacyIconById[id];
