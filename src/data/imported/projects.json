@@ -1,5 +1,26 @@
 [
   {
+    "id": "phils-app-store",
+    "title": "Phil's App Store",
+    "url": "https://wvw.dev/stores/stedwick/wvw.dev.apps",
+    "description": "All my apps in one place — macOS, Windows, Android, and web — browse them on my World Vibe Web store.",
+    "links": [
+      {
+        "label": "Phil's App Store",
+        "url": "https://wvw.dev/stores/stedwick/wvw.dev.apps"
+      },
+      {
+        "label": "Visit the store",
+        "url": "https://wvw.dev/stores/stedwick/wvw.dev.apps"
+      }
+    ],
+    "iconName": "",
+    "screenshotAssetId": "phils-app-store-site",
+    "screenshotHighResAssetId": "phils-app-store-site-2x",
+    "screenshotAlt": "Phil's App Store on wvw.dev",
+    "order": 0
+  },
+  {
     "id": "opentrackir",
     "title": "OpenTrackIR",
     "url": "https://github.com/stedwick/OpenTrackIR",
@@ -15,7 +36,7 @@
       }
     ],
     "iconName": "",
-    "order": 0
+    "order": 1
   },
   {
     "id": "philnav",
@@ -33,7 +54,7 @@
       }
     ],
     "iconName": "",
-    "order": 1
+    "order": 2
   },
   {
     "id": "phils-dictation-app",
@@ -51,7 +72,7 @@
       }
     ],
     "iconName": "",
-    "order": 2
+    "order": 3
   },
   {
     "id": "tater-talk",
@@ -69,7 +90,7 @@
       }
     ],
     "iconName": "",
-    "order": 3
+    "order": 4
   },
   {
     "id": "poker-tracker",
@@ -95,7 +116,7 @@
       }
     ],
     "iconName": "",
-    "order": 4
+    "order": 5
   },
   {
     "id": "munch",
@@ -113,7 +134,7 @@
       }
     ],
     "iconName": "",
-    "order": 5
+    "order": 6
   },
   {
     "id": "sci-fi-voter",
@@ -131,7 +152,7 @@
       }
     ],
     "iconName": "",
-    "order": 6
+    "order": 7
   },
   {
     "id": "docker-dashboard",
@@ -149,7 +170,7 @@
       }
     ],
     "iconName": "",
-    "order": 7
+    "order": 8
   },
   {
     "id": "taggy-for-evernote",
@@ -167,7 +188,7 @@
       }
     ],
     "iconName": "",
-    "order": 8
+    "order": 9
   },
   {
     "id": "arkanoid",
@@ -185,6 +206,6 @@
       }
     ],
     "iconName": "",
-    "order": 9
+    "order": 10
   }
 ]
