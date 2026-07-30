@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mt Hood Parallax — Layer Preview</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #021935; font-family: system-ui, sans-serif; }
+
+  .landscape {
+    position: relative;
+    height: 75vh;
+    overflow: hidden;
+    background: #87a5d6; /* matches sky top color for the reveal band */
+  }
+  .landscape__layer {
+    position: absolute;
+    inset: 0;
+    transform: translateY(calc(var(--scrollPos, 0px) * var(--offset, 0)));
+  }
+  .landscape__layer img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: bottom;
+    display: block;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .landscape__layer { transform: none; }
+  }
+
+  .content {
+    max-width: 42rem;
+    margin: 0 auto;
+    padding: 4rem 1.5rem 60vh;
+    color: #c3d2ec;
+    line-height: 1.7;
+  }
+  .content h1 { color: #fff; margin-bottom: 1rem; }
+  .content p { margin-bottom: 1rem; }
+  code { background: rgba(255,255,255,.1); padding: .1em .35em; border-radius: 4px; }
+</style>
+</head>
+<body>
+
+<div class="landscape" role="img" aria-label="Layered dawn illustration of Mount Hood behind the Portland skyline">
+  <div class="landscape__layer" style="--offset:0.97"><img src="../assets/proto1-final/layer-00-sky.png" alt=""></div>
+  <div class="landscape__layer" style="--offset:0.95"><img src="../assets/proto1-final/layer-00-clouds.png" alt=""></div>
+  <div class="landscape__layer" style="--offset:0.92"><img src="../assets/proto1-final/layer-01-mt-hood.png" alt=""></div>
+  <div class="landscape__layer" style="--offset:0.88"><img src="../assets/proto1-final/layer-02-ridge-far.png" alt=""></div>
+  <div class="landscape__layer" style="--offset:0.84"><img src="../assets/proto1-final/layer-03-ridge-blue.png" alt=""></div>
+  <div class="landscape__layer" style="--offset:0.78"><img src="../assets/proto1-final/layer-04-city.png" alt=""></div>
+  <div class="landscape__layer" style="--offset:0.66"><img src="../assets/proto1-final/layer-05-mist-hills.png" alt=""></div>
+  <div class="landscape__layer" style="--offset:0.55"><img src="../assets/proto1-final/layer-06-forest-mid.png" alt=""></div>
+  <div class="landscape__layer" style="--offset:0.42"><img src="../assets/proto1-final/layer-07-forest-near.png" alt=""></div>
+  <div class="landscape__layer" style="--offset:0.25"><img src="../assets/proto1-final/layer-08-forest-dark.png" alt=""></div>
+  <div class="landscape__layer" style="--offset:0"><img src="../assets/proto1-final/layer-09-pines.png" alt=""></div>
+</div>
+
+<div class="content">
+  <h1>Scroll to preview the parallax</h1>
+  <p>Eleven independently AI-generated layers (1536×1024 PNG with transparency),
+     each its own self-contained cutout. Depth is controlled per layer with the inline
+     <code>--offset</code> custom property: <code>0</code> scrolls with the page
+     (foreground pines), <code>1</code> would appear pinned in place.</p>
+  <p>Keep scrolling to feel the layers separate.</p>
+</div>
+
+<script>
+  const root = document.documentElement;
+  let scrollPos;
+  function animation() {
+    if (scrollPos !== window.scrollY) {
+      scrollPos = window.scrollY;
+      root.style.setProperty('--scrollPos', scrollPos + 'px');
+    }
+    window.requestAnimationFrame(animation);
+  }
+  window.requestAnimationFrame(animation);
+</script>
+
+</body>
+</html>
