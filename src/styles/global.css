@@ -595,16 +595,17 @@
 
   .c-skill-grid {
     --icon-size: 2.25rem;
-    column-gap: var(--space-4);
-    row-gap: var(--space-4);
+    column-gap: var(--space-3);
+    row-gap: var(--space-3);
   }
 
   .c-skill-grid .c-media-item {
-    gap: var(--space-3);
-    /* Quick experiment: faint tile outlines so the grid reads as structured columns. */
-    border: 1px solid var(--color-rule);
+    align-items: center;
+    gap: var(--space-2);
+    /* Faint tile outlines so the grid reads as structured columns. */
+    border: 1px solid color-mix(in srgb, var(--color-rule) 60%, transparent);
     border-radius: var(--radius-lg);
-    padding: var(--space-2);
+    padding: var(--space-1);
   }
 
   .c-skill-grid .c-media-item__title {
