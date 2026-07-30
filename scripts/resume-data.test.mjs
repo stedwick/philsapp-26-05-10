@@ -3,6 +3,7 @@ import test from 'node:test';
 import {
   actionsFromLinks,
   createAssetLookup,
+  groupSkillsByCategory,
   legacyIconForEntryId,
   legacySocialIconForLabel,
   resolveImage,
@@ -81,5 +82,23 @@ test('legacyIconForEntryId maps education and project entries to legacy icons', 
       'arkanoid',
     ].map((id) => legacyIconForEntryId(id)),
     ['mit', 'nyu', 'classroom', 'poker', 'cookie', 'starTrek', 'terminal', 'evernote', 'gamecontroller'],
+  );
+});
+
+test('groupSkillsByCategory partitions skills and preserves order within each group', () => {
+  const groups = groupSkillsByCategory([
+    { id: 'leadership-second', category: 'leadership', order: 4 },
+    { id: 'technical-second', category: 'technical', order: 3 },
+    { id: 'leadership-first', category: 'leadership', order: 2 },
+    { id: 'technical-first', category: 'technical', order: 1 },
+  ]);
+
+  assert.deepEqual(
+    groups.technical.map((skill) => skill.id),
+    ['technical-first', 'technical-second'],
+  );
+  assert.deepEqual(
+    groups.leadership.map((skill) => skill.id),
+    ['leadership-first', 'leadership-second'],
   );
 });

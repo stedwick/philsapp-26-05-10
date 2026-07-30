@@ -65,6 +65,7 @@ const skills = defineCollection({
     iconAssetId: nullableAsset,
     iconHighResAssetId: nullableAsset,
     iconAlt: z.string(),
+    category: z.enum(['technical', 'leadership']),
   }),
 });
 
