@@ -323,7 +323,7 @@ export const projects = [
 
 export const interests = [
   {
-    title: 'My YouTube Channel',
+    title: 'Phil\'s YouTube Channel',
     href: 'https://www.youtube.com/watch?v=YQtbcgBWobA',
     icon: icons.CirclePlay,
     body: 'With 1 million views, my Yoshimoto Cube video is my 15 minutes of fame.',

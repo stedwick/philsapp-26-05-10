@@ -58,6 +58,7 @@
       }
     ],
     "iconName": "",
-    "order": 2
+    "order": 2,
+    "hidden": true
   }
 ]

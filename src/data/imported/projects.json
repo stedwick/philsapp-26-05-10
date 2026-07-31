@@ -1,9 +1,27 @@
 [
   {
+    "id": "phils-app-store",
+    "title": "World Vibe Web",
+    "url": "https://wvw.dev/stores/stedwick/wvw.dev.apps",
+    "description": "All my apps in one place: for iPhone, Android, macOS, Windows, Linux, and the Web. Browse them on my World Vibe Web store.",
+    "links": [
+      {
+        "label": "World Vibe Web",
+        "url": "https://wvw.dev/stores/stedwick/wvw.dev.apps"
+      },
+      {
+        "label": "Visit the store",
+        "url": "https://wvw.dev/stores/stedwick/wvw.dev.apps"
+      }
+    ],
+    "iconName": "",
+    "order": 0
+  },
+  {
     "id": "opentrackir",
     "title": "OpenTrackIR",
     "url": "https://github.com/stedwick/OpenTrackIR",
-    "description": "An open-source infrared head-mouse to move your cursor on macOS & Windows if you're disabled — I'm reverse engineering TrackIR hardware to read the camera without the proprietary NaturalPoint drivers.",
+    "description": "An open-source infrared head-mouse to move your cursor on macOS & Windows if you're disabled. I'm reverse engineering TrackIR hardware to read the camera without the proprietary NaturalPoint drivers.",
     "links": [
       {
         "label": "OpenTrackIR",
@@ -15,13 +33,13 @@
       }
     ],
     "iconName": "",
-    "order": 0
+    "order": 3
   },
   {
     "id": "philnav",
     "title": "PhilNav",
     "url": "https://philipb.gumroad.com/l/philnav",
-    "description": "My very good infrared head mouse, sorta like the discontinued NaturalPoint SmartNav — 75 FPS, buttery smooth, pixel-perfect. Buy a pre-built one here!",
+    "description": "My very good infrared head mouse, sorta like the discontinued NaturalPoint SmartNav: 75 FPS, buttery smooth, pixel-perfect. Buy a pre-built one here!",
     "links": [
       {
         "label": "PhilNav",
@@ -33,13 +51,13 @@
       }
     ],
     "iconName": "",
-    "order": 1
+    "order": 4
   },
   {
     "id": "phils-dictation-app",
     "title": "Phil's Dictation App",
     "url": "https://apps.microsoft.com/detail/9ntphh45ffrn",
-    "description": "My speech-to-text dictation app for Windows, available on the Microsoft Store — combined with a head mouse, use your computer completely hands-free.",
+    "description": "My speech-to-text dictation app for Windows, available on the Microsoft Store. Combined with a head mouse, use your computer completely hands-free.",
     "links": [
       {
         "label": "Phil's Dictation App",
@@ -51,13 +69,13 @@
       }
     ],
     "iconName": "",
-    "order": 2
+    "order": 5
   },
   {
     "id": "tater-talk",
     "title": "Tater Talk",
     "url": "https://tatertalk.app",
-    "description": "Free cross-platform speech-to-text dictation in your browser — no downloads, no setup, just talk.",
+    "description": "Free cross-platform speech-to-text dictation in your browser: no downloads, no setup, just talk.",
     "links": [
       {
         "label": "Tater Talk",
@@ -69,7 +87,7 @@
       }
     ],
     "iconName": "",
-    "order": 3
+    "order": 6
   },
   {
     "id": "poker-tracker",
@@ -95,7 +113,7 @@
       }
     ],
     "iconName": "",
-    "order": 4
+    "order": 7
   },
   {
     "id": "munch",
@@ -113,7 +131,7 @@
       }
     ],
     "iconName": "",
-    "order": 5
+    "order": 8
   },
   {
     "id": "sci-fi-voter",
@@ -131,7 +149,8 @@
       }
     ],
     "iconName": "",
-    "order": 6
+    "order": 9,
+    "hidden": true
   },
   {
     "id": "docker-dashboard",
@@ -149,7 +168,8 @@
       }
     ],
     "iconName": "",
-    "order": 7
+    "order": 10,
+    "hidden": true
   },
   {
     "id": "taggy-for-evernote",
@@ -167,7 +187,8 @@
       }
     ],
     "iconName": "",
-    "order": 8
+    "order": 11,
+    "hidden": true
   },
   {
     "id": "arkanoid",
@@ -185,6 +206,43 @@
       }
     ],
     "iconName": "",
-    "order": 9
+    "order": 12,
+    "hidden": true
+  },
+  {
+    "id": "better-swipe-keyboard",
+    "title": "Better Swipe Keyboard",
+    "url": "https://wvw.dev/discover/better-swipe-keyboard",
+    "description": "A personal Android keyboard in Kotlin with swipe typing, voice input, and AI proofreading that stays on-device when it can.",
+    "links": [
+      {
+        "label": "Better Swipe Keyboard",
+        "url": "https://wvw.dev/discover/better-swipe-keyboard"
+      },
+      {
+        "label": "View on World Vibe Web",
+        "url": "https://wvw.dev/discover/better-swipe-keyboard"
+      }
+    ],
+    "iconName": "",
+    "order": 1
+  },
+  {
+    "id": "my-net-worth",
+    "title": "My Net Worth",
+    "url": "https://wvw.dev/discover/my-net-worth",
+    "description": "See stocks, ETFs, crypto wallets, retirement accounts, and debt on one page with hourly price updates and no account connections.",
+    "links": [
+      {
+        "label": "My Net Worth",
+        "url": "https://wvw.dev/discover/my-net-worth"
+      },
+      {
+        "label": "View on World Vibe Web",
+        "url": "https://wvw.dev/discover/my-net-worth"
+      }
+    ],
+    "iconName": "",
+    "order": 2
   }
 ]

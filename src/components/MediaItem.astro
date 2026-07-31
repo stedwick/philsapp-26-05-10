@@ -12,7 +12,7 @@ interface Action {
 interface Props {
   title: string;
   href?: string;
-  body: string;
+  body?: string;
   icon?: any;
   legacyIcon?: keyof typeof legacyIcons;
   image?: {
@@ -69,7 +69,7 @@ const LegacyIcon = legacyIcon ? legacyIcons[legacyIcon] : undefined;
       {href ? <a href={href}>{title}</a> : title}
     </h3>
     {addendum && <p class="c-media-item__addendum">{addendum}</p>}
-    <p>{body}</p>
+    {body && <p>{body}</p>}
     {actions.length > 0 && (
       <div class="c-media-item__actions">
         {actions.map((action) => (

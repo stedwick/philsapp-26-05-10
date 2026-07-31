@@ -30,7 +30,7 @@
     "iconHighResAssetId": "",
     "iconAlt": "TypeScript",
     "category": "technical",
-    "order": 2
+    "order": 3
   },
   {
     "id": "react-js-and-next-js",
@@ -41,7 +41,7 @@
     "iconHighResAssetId": "",
     "iconAlt": "React",
     "category": "technical",
-    "order": 3
+    "order": 4
   },
   {
     "id": "node-js",
@@ -52,7 +52,7 @@
     "iconHighResAssetId": "",
     "iconAlt": "Node.js",
     "category": "technical",
-    "order": 4
+    "order": 5
   },
   {
     "id": "ruby-on-rails",
@@ -63,7 +63,7 @@
     "iconHighResAssetId": "ruby-2x-5982ced9f3ef621aecafe190575d53aa36263de4fd4fef95cb2e72fd44b1d089",
     "iconAlt": "Ruby",
     "category": "technical",
-    "order": 5
+    "order": 6
   },
   {
     "id": "graphql-and-rest-apis",
@@ -74,7 +74,7 @@
     "iconHighResAssetId": "",
     "iconAlt": "GraphQL",
     "category": "technical",
-    "order": 6
+    "order": 7
   },
   {
     "id": "full-stack-development",
@@ -85,7 +85,7 @@
     "iconHighResAssetId": "",
     "iconAlt": "Full-Stack",
     "category": "technical",
-    "order": 7
+    "order": 2
   },
   {
     "id": "html-css-js",
@@ -250,7 +250,7 @@
     "iconHighResAssetId": "",
     "iconAlt": "Code review",
     "category": "leadership",
-    "order": 26
+    "order": 24
   },
   {
     "id": "agile-w-jira",
@@ -283,7 +283,7 @@
     "iconHighResAssetId": "",
     "iconAlt": "Roadmapping",
     "category": "leadership",
-    "order": 24
+    "order": 26
   },
   {
     "id": "engineering-manager",
