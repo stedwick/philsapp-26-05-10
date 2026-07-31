@@ -25,3 +25,6 @@ pnpm-debug.log*
 
 # local scratch (handoff notes, resume PDFs)
 tmp/
+
+# parallax experiment tooling (third-party clone + venv; outputs are committed, tool is not)
+parallax/experiments/parallax-maker/
