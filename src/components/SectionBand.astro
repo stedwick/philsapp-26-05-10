@@ -4,6 +4,7 @@ import Container from './Container.astro';
 interface Props {
   id?: string;
   title?: string;
+  mobileTitleLines?: string[];
   tone?: 'light' | 'white' | 'dark' | 'info';
   headingLevel?: 2 | 3 | 4;
   containerSize?: 'normal' | 'narrow';
@@ -14,6 +15,7 @@ interface Props {
 const {
   id,
   title,
+  mobileTitleLines,
   tone = 'light',
   headingLevel = 2,
   containerSize = 'normal',
@@ -29,7 +31,20 @@ const showRule = shouldShowRule ?? headingLevel === 2;
   <Container size={containerSize}>
     {title && (
       <header class="c-section-band__header">
-        <Heading class="c-section-band__title">{title}</Heading>
+        <Heading class="c-section-band__title">
+          {mobileTitleLines ? (
+            <>
+              <span class="c-section-band__title-full">{title}</span>
+              <span class="c-section-band__title-mobile">
+                {mobileTitleLines.map((line, index) => (
+                  <>{index > 0 && <br />}{line}</>
+                ))}
+              </span>
+            </>
+          ) : (
+            title
+          )}
+        </Heading>
         {showRule && <hr class="c-section-band__rule" />}
       </header>
     )}

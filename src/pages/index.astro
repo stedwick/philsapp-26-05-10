@@ -54,11 +54,11 @@ const resume = createResumeViewModel(
 <Layout>
 	<Hero profile={resume.profile} socialLinks={resume.socialLinks} chevronIcon={icons.ChevronDown} />
 
-	<SectionBand id="about" title={resume.sections.about.title} tone="light">
+	<SectionBand id="about" title={resume.sections.about.title} mobileTitleLines={resume.sections.about.titleShort} tone="light">
 		<SplitIntro paragraphs={resume.sections.about.body} />
 	</SectionBand>
 
-	<SectionBand id="about-skills" title="Phil's Skillset" tone="white" headingLevel={4}>
+	<SectionBand id="about-skills" title="Phil's Skillset" tone="white">
 		<h5 class="c-skill-group__title">Technical Chops</h5>
 		<MediaGrid class="c-skill-grid">
 			{/* Skill descriptions and links hidden for now; data stays in skills.json. Restore by passing body/href through again. */}
@@ -108,7 +108,7 @@ const resume = createResumeViewModel(
 		</div>
 	</SectionBand>
 
-	<SectionBand id="interests" title={resume.sections.personalLife.title} tone="light" headingLevel={3}>
+	<SectionBand id="interests" title={resume.sections.personalLife.title} tone="light">
 		<p>{resume.sections.personalLife.body[0]}</p>
 		<MediaGrid class="c-interest-grid u-section-stack">
 			{resume.interests.map((interest) => <MediaItem {...interest} />)}

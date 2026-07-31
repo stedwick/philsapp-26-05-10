@@ -46,7 +46,7 @@
         "url": "https://philipb.gumroad.com/l/philnav"
       },
       {
-        "label": "Buy a pre-built PhilNav",
+        "label": "Buy a PhilNav",
         "url": "https://philipb.gumroad.com/l/philnav"
       }
     ],
@@ -64,7 +64,7 @@
         "url": "https://apps.microsoft.com/detail/9ntphh45ffrn"
       },
       {
-        "label": "Get it from the Microsoft Store",
+        "label": "Buy it from the Microsoft Store",
         "url": "https://apps.microsoft.com/detail/9ntphh45ffrn"
       }
     ],
@@ -74,16 +74,16 @@
   {
     "id": "tater-talk",
     "title": "Tater Talk",
-    "url": "https://tatertalk.app",
+    "url": "https://v2.tatertalk.app/",
     "description": "Free cross-platform speech-to-text dictation in your browser: no downloads, no setup, just talk.",
     "links": [
       {
         "label": "Tater Talk",
-        "url": "https://tatertalk.app"
+        "url": "https://v2.tatertalk.app/"
       },
       {
-        "label": "Start talking",
-        "url": "https://tatertalk.app"
+        "label": "Start talking at v2.tatertalk.app",
+        "url": "https://v2.tatertalk.app/"
       }
     ],
     "iconName": "",
@@ -113,7 +113,7 @@
       }
     ],
     "iconName": "",
-    "order": 7
+    "order": 8
   },
   {
     "id": "munch",
@@ -131,7 +131,7 @@
       }
     ],
     "iconName": "",
-    "order": 8
+    "order": 2
   },
   {
     "id": "sci-fi-voter",
@@ -230,19 +230,19 @@
   {
     "id": "my-net-worth",
     "title": "My Net Worth",
-    "url": "https://wvw.dev/discover/my-net-worth",
+    "url": "https://mynetworthone.com",
     "description": "See stocks, ETFs, crypto wallets, retirement accounts, and debt on one page with hourly price updates and no account connections.",
     "links": [
       {
         "label": "My Net Worth",
-        "url": "https://wvw.dev/discover/my-net-worth"
+        "url": "https://mynetworthone.com"
       },
       {
-        "label": "View on World Vibe Web",
-        "url": "https://wvw.dev/discover/my-net-worth"
+        "label": "Visit mynetworthone.com",
+        "url": "https://mynetworthone.com"
       }
     ],
     "iconName": "",
-    "order": 2
+    "order": 7
   }
 ]

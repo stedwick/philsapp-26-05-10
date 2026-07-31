@@ -50,6 +50,7 @@ const sections = defineCollection({
   schema: z.object({
     ...orderedSchema,
     title: z.string(),
+    titleShort: z.array(z.string()).optional(),
     body: z.array(z.string()),
     links: z.array(linkSchema),
   }),
