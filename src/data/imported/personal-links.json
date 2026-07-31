@@ -1,12 +1,12 @@
 [
   {
     "id": "my-youtube-channel",
-    "title": "My YouTube Channel",
+    "title": "Phil's YouTube Channel",
     "url": "https://www.youtube.com/watch?v=YQtbcgBWobA",
     "description": "With 1 million views, my Yoshimoto Cube video is my 15 minutes of fame.",
     "links": [
       {
-        "label": "My YouTube Channel",
+        "label": "Phil's YouTube Channel",
         "url": "https://www.youtube.com/watch?v=YQtbcgBWobA"
       }
     ],
@@ -17,17 +17,13 @@
   },
   {
     "id": "us-chess-federation",
-    "title": "US Chess Federation",
-    "url": "http://www.uschess.org/msa/MbrDtlMain.php?14448371",
-    "description": "Rated 1618 USCF and 2000-ish on Lichess, I'm always looking to improve.",
+    "title": "Chess.com Expert",
+    "url": "https://www.chess.com/member/philip_b",
+    "description": "Rated 2000-ish on Chess.com, I'm always looking to improve.",
     "links": [
       {
-        "label": "US Chess Federation",
-        "url": "http://www.uschess.org/msa/MbrDtlMain.php?14448371"
-      },
-      {
-        "label": "Lichess",
-        "url": "https://lichess.org/@/PhilChessPDX"
+        "label": "Chess.com Expert",
+        "url": "https://www.chess.com/member/philip_b"
       }
     ],
     "iconAssetId": "chess-a01a5f5e12bcc30dc44f8c391289c9a9da0bbcc0464a568f445d3ebe9eb289a4",

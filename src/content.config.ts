@@ -87,6 +87,7 @@ const experience = defineCollection({
     screenshotAssetId: nullableAsset,
     screenshotHighResAssetId: nullableAsset,
     screenshotAlt: z.string(),
+    hidden: z.boolean().optional(),
   }),
 });
 
@@ -100,6 +101,7 @@ const education = defineCollection({
     description: z.string(),
     links: z.array(linkSchema),
     iconName: z.string(),
+    hidden: z.boolean().optional(),
   }),
 });
 
@@ -112,6 +114,7 @@ const projects = defineCollection({
     description: z.string(),
     links: z.array(linkSchema),
     iconName: z.string(),
+    hidden: z.boolean().optional(),
   }),
 });
 
