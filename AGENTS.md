@@ -2,7 +2,7 @@
 
 ## Project Structure & Module Organization
 
-This is an Astro personal site managed with Bun. Page routes live in `src/pages/`, shared components in `src/components/`, the base layout in `src/layouts/Layout.astro`, and global styles in `src/styles/global.css`. Imported collection JSON is under `src/data/imported/`; `src/data/resume-data.mjs` adapts collections and asset IDs into component props. Static assets belong in `public/`, including `public/legacy/`, `public/blog/`, and `public/site-assets/`. Importers, verifiers, and tests live in `scripts/`.
+This is an Astro personal site managed with Bun. Page routes live in `src/pages/`, shared components in `src/components/`, the base layout in `src/layouts/Layout.astro`, and global styles in `src/styles/global.css`. Imported collection JSON is under `src/data/imported/`; `src/data/resume-data.mjs` adapts collections and asset IDs into component props. Static assets belong in `public/`, including `public/legacy/`, `public/blog/`, and `public/site-assets/`. Importers, verifiers, and tests live in `scripts/`. The `parallax/` directory holds the hero parallax experiment (extracted layer PNGs, cutting/fill scripts, research notes, and a self-contained preview under `parallax/experiments/eval/preview/`); it is not wired into the Astro site, the build ignores it, and future parallax work happens in the main checkout.
 
 ## Build, Test, and Development Commands
 
