@@ -20,6 +20,7 @@
     "test": "node --test scripts/*.test.mjs",
     "test:legacy-live": "bun scripts/test-legacy-live.mjs",
     "test:blog-live": "bun scripts/test-blog-live.mjs",
+    "deploy:dry-run": "bun run build && wrangler deploy --dry-run",
     "deploy": "bun run build && wrangler deploy"
   },
   "dependencies": {
