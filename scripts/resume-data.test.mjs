@@ -63,8 +63,8 @@ test('actionsFromLinks removes duplicate title links and marks GitHub links seco
 
 test('legacySocialIconForLabel maps profile social links to legacy brand icons', () => {
   assert.deepEqual(
-    ['LinkedIn', 'GitHub', 'Stack Overflow', 'Twitter'].map((label) => legacySocialIconForLabel(label)),
-    ['linkedin', 'github', 'stackoverflow', 'twitter'],
+    ['LinkedIn', 'GitHub', 'World Vibe Web', 'Twitter'].map((label) => legacySocialIconForLabel(label)),
+    ['linkedin', 'github', 'storefront', 'twitter'],
   );
 });
 

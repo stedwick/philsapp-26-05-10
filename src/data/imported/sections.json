@@ -13,7 +13,11 @@
         "url": "https://www.olioapps.com/"
       }
     ],
-    "order": 0
+    "order": 0,
+    "titleShort": [
+      "🏔️ Welcome! 👋",
+      "This is Phil's home page."
+    ]
   },
   {
     "id": "career",

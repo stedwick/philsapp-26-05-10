@@ -10,7 +10,7 @@
         "url": "https://wvw.dev/stores/stedwick/wvw.dev.apps"
       },
       {
-        "label": "Visit the store",
+        "label": "Visit Phil's Store",
         "url": "https://wvw.dev/stores/stedwick/wvw.dev.apps"
       }
     ],
@@ -33,7 +33,7 @@
       }
     ],
     "iconName": "",
-    "order": 3
+    "order": 6
   },
   {
     "id": "philnav",
@@ -46,12 +46,12 @@
         "url": "https://philipb.gumroad.com/l/philnav"
       },
       {
-        "label": "Buy a pre-built PhilNav",
+        "label": "Buy on Gumroad",
         "url": "https://philipb.gumroad.com/l/philnav"
       }
     ],
     "iconName": "",
-    "order": 4
+    "order": 3
   },
   {
     "id": "phils-dictation-app",
@@ -64,30 +64,30 @@
         "url": "https://apps.microsoft.com/detail/9ntphh45ffrn"
       },
       {
-        "label": "Get it from the Microsoft Store",
+        "label": "Buy from the Microsoft Store",
         "url": "https://apps.microsoft.com/detail/9ntphh45ffrn"
       }
     ],
     "iconName": "",
-    "order": 5
+    "order": 4
   },
   {
     "id": "tater-talk",
     "title": "Tater Talk",
-    "url": "https://tatertalk.app",
+    "url": "https://v2.tatertalk.app/",
     "description": "Free cross-platform speech-to-text dictation in your browser: no downloads, no setup, just talk.",
     "links": [
       {
         "label": "Tater Talk",
-        "url": "https://tatertalk.app"
+        "url": "https://v2.tatertalk.app/"
       },
       {
         "label": "Start talking",
-        "url": "https://tatertalk.app"
+        "url": "https://v2.tatertalk.app/"
       }
     ],
     "iconName": "",
-    "order": 6
+    "order": 2
   },
   {
     "id": "poker-tracker",
@@ -113,7 +113,7 @@
       }
     ],
     "iconName": "",
-    "order": 7
+    "order": 8
   },
   {
     "id": "munch",
@@ -131,7 +131,7 @@
       }
     ],
     "iconName": "",
-    "order": 8
+    "order": 1
   },
   {
     "id": "sci-fi-voter",
@@ -220,29 +220,29 @@
         "url": "https://wvw.dev/discover/better-swipe-keyboard"
       },
       {
-        "label": "View on World Vibe Web",
+        "label": "Upgrade your keyboard",
         "url": "https://wvw.dev/discover/better-swipe-keyboard"
       }
     ],
     "iconName": "",
-    "order": 1
+    "order": 5
   },
   {
     "id": "my-net-worth",
     "title": "My Net Worth",
-    "url": "https://wvw.dev/discover/my-net-worth",
+    "url": "https://mynetworthone.com",
     "description": "See stocks, ETFs, crypto wallets, retirement accounts, and debt on one page with hourly price updates and no account connections.",
     "links": [
       {
         "label": "My Net Worth",
-        "url": "https://wvw.dev/discover/my-net-worth"
+        "url": "https://mynetworthone.com"
       },
       {
-        "label": "View on World Vibe Web",
-        "url": "https://wvw.dev/discover/my-net-worth"
+        "label": "Track your wealth",
+        "url": "https://mynetworthone.com"
       }
     ],
     "iconName": "",
-    "order": 2
+    "order": 7
   }
 ]

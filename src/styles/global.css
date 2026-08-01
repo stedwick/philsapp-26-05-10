@@ -422,6 +422,21 @@
     font-size: 1.5rem;
   }
 
+  /* Mobile-only short heading variant (e.g. the About heading wraps to two lines). */
+  .c-section-band__title-mobile {
+    display: none;
+  }
+
+  @media (max-width: 767.98px) {
+    .c-section-band__title-full {
+      display: none;
+    }
+
+    .c-section-band__title-mobile {
+      display: inline;
+    }
+  }
+
   .c-section-band__rule {
     width: 100%;
     margin: var(--space-4) auto 0;

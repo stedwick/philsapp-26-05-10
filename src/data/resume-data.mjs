@@ -53,7 +53,7 @@ export function legacySocialIconForLabel(label) {
   const legacyIconByLabel = {
     GitHub: 'github',
     LinkedIn: 'linkedin',
-    'Stack Overflow': 'stackoverflow',
+    'World Vibe Web': 'storefront',
     Twitter: 'twitter',
   };
 
