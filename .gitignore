@@ -28,3 +28,9 @@ tmp/
 
 # parallax experiment tooling (third-party clone + venv; outputs are committed, tool is not)
 parallax/experiments/parallax-maker/
+
+# wrangler files
+.wrangler
+.dev.vars*
+!.dev.vars.example
+!.env.example

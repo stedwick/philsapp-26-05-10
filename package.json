@@ -11,7 +11,7 @@
     "dev:portless": "portless run --name philsapp -- bun run dev:portless:server",
     "dev:portless:server": "astro dev --host \"$HOST\" --port \"$PORT\"",
     "build": "astro build",
-    "preview": "astro preview",
+    "preview": "bun run build && wrangler dev",
     "astro": "astro",
     "import:legacy": "bun scripts/import-legacy-site.mjs",
     "import:blog": "bun scripts/import-blog-site.mjs",
@@ -19,13 +19,17 @@
     "verify:blog": "bun scripts/verify-blog-content.mjs",
     "test": "node --test scripts/*.test.mjs",
     "test:legacy-live": "bun scripts/test-legacy-live.mjs",
-    "test:blog-live": "bun scripts/test-blog-live.mjs"
+    "test:blog-live": "bun scripts/test-blog-live.mjs",
+    "generate-types": "wrangler types",
+    "deploy": "bun run build && wrangler deploy"
   },
   "dependencies": {
+    "@astrojs/cloudflare": "^14.1.7",
     "@lucide/astro": "^1.27.0",
     "astro": "^7.1.5"
   },
   "devDependencies": {
-    "cheerio": "^1.2.0"
+    "cheerio": "^1.2.0",
+    "wrangler": "^4.118.0"
   }
 }
