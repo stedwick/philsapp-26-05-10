@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>fal.ai 5-layer parallax — CURRENT vs VARIANT</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { height: 100%; overflow: hidden; background: #0f170a; }
+  body { display: flex; font-family: system-ui, sans-serif; }
+  .pane { position: relative; flex: 1 1 50%; min-width: 0; }
+  .pane + .pane { border-left: 2px solid #22331a; }
+  .pane iframe {
+    display: block;
+    width: 100%;
+    height: 100vh;
+    border: 0;
+  }
+  .badge {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 10;
+    padding: 6px 10px;
+    border-radius: 6px;
+    background: rgba(15, 23, 10, .82);
+    color: #b8c9a8;
+    font-size: 12px;
+    line-height: 1.45;
+    pointer-events: none;
+    max-width: calc(100% - 20px);
+  }
+  .badge b { color: #fff; font-size: 13px; }
+</style>
+</head>
+<body>
+
+<div class="pane">
+  <div class="badge"><b>CURRENT</b> — commit 90f4674<br>city behind hills, all layers 100%</div>
+  <iframe id="f-old" src="compare-old.html" title="Current composition (commit 90f4674)"></iframe>
+</div>
+
+<div class="pane">
+  <div class="badge"><b>VARIANT</b> — working tree<br>city in front of hills; city + foreground at 85%</div>
+  <iframe id="f-new" src="variant.html" title="Variant composition (city forward, scaled)"></iframe>
+</div>
+
+<script>
+  // Scroll sync relay: child pages postMessage their scrollY; relay to the
+  // other iframe. postMessage because file:// iframes are cross-origin.
+  var frames = {
+    old: document.getElementById('f-old'),
+    new: document.getElementById('f-new')
+  };
+  window.addEventListener('message', function (e) {
+    var d = e.data;
+    if (!d || !d.parallaxSync || d.target) return;
+    var other = d.side === 'old' ? 'new' : 'old';
+    frames[other].contentWindow.postMessage(
+      { parallaxSync: true, target: other, y: d.y }, '*'
+    );
+  });
+</script>
+
+</body>
+</html>
