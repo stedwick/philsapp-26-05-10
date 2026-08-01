@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mt Hood Parallax — extracted-layer preview (eval stack)</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #021935; font-family: system-ui, sans-serif; }
+
+  .landscape {
+    position: relative;
+    height: 100vh;
+    overflow: hidden;
+    background: #81abdf; /* storyboard sky top color for the reveal band */
+  }
+  .landscape__layer {
+    position: absolute;
+    inset: 0;
+    transform: translateY(calc(var(--scrollPos, 0px) * var(--offset, 0)));
+  }
+  .landscape__layer img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: bottom;
+    display: block;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .landscape__layer { transform: none; }
+  }
+
+  .content {
+    max-width: 42rem;
+    margin: 0 auto;
+    padding: 4rem 1.5rem 80vh;
+    color: #c3d2ec;
+    line-height: 1.7;
+  }
+  .content h1 { color: #fff; margin-bottom: 1rem; }
+  .content p { margin-bottom: 1rem; }
+  code { background: rgba(255,255,255,.1); padding: .1em .35em; border-radius: 4px; }
+</style>
+</head>
+<body>
+
+<div class="landscape" role="img" aria-label="Layered dawn illustration of Mount Hood behind the Portland skyline">
+  <div class="landscape__layer" style="--offset:0.95"><img src="stack/layer-00-sky.png" alt=""></div>
+  <div class="landscape__layer" style="--offset:0.94"><img src="stack/layer-01-clouds.png" alt=""></div>
+  <div class="landscape__layer" style="--offset:0.9"><img src="stack/layer-02-mountain.png" alt=""></div>
+  <div class="landscape__layer" style="--offset:0.85"><img src="stack/layer-03-hills-far.png" alt=""></div>
+  <div class="landscape__layer" style="--offset:0.83"><img src="stack/mist-a-behind-city.png" alt=""></div>
+  <div class="landscape__layer" style="--offset:0.8"><img src="stack/layer-04-city.png" alt=""></div>
+  <div class="landscape__layer" style="--offset:0.7"><img src="stack/layer-05-hill-front-city.png" alt=""></div>
+  <div class="landscape__layer" style="--offset:0.65"><img src="stack/mist-b-valley.png" alt=""></div>
+  <div class="landscape__layer" style="--offset:0.6"><img src="stack/layer-07-hill-2.png" alt=""></div>
+  <div class="landscape__layer" style="--offset:0.5"><img src="stack/layer-08-hill-3.png" alt=""></div>
+  <div class="landscape__layer" style="--offset:0.45"><img src="stack/mist-c-near-hills.png" alt=""></div>
+  <div class="landscape__layer" style="--offset:0.4"><img src="stack/layer-09-forest-close.png" alt=""></div>
+  <div class="landscape__layer" style="--offset:0.2"><img src="stack/layer-10-pines.png" alt=""></div>
+  <div class="landscape__layer" style="--offset:0.0"><img src="stack/layer-11-ground.png" alt=""></div>
+</div>
+
+<div class="content">
+  <h1>Extracted-layer parallax (eval stack + mist)</h1>
+  <p>Fourteen layers cut from the actual storyboard: silhouettes segmented with
+     SAM, occlusion gaps behind each layer filled by SDXL inpainting, plus three
+     semi-transparent mist layers (dehaze-difference extraction) and a separate
+     clouds layer. Depth per layer via inline <code>--offset</code>:
+     <code>0</code> scrolls with the page (foreground), near <code>1</code> is
+     nearly pinned (sky).</p>
+  <p>Keep scrolling to feel the layers separate.</p>
+</div>
+
+<script>
+  const root = document.documentElement;
+  let scrollPos;
+  function animation() {
+    if (scrollPos !== window.scrollY) {
+      scrollPos = window.scrollY;
+      root.style.setProperty('--scrollPos', scrollPos + 'px');
+    }
+    window.requestAnimationFrame(animation);
+  }
+  window.requestAnimationFrame(animation);
+</script>
+
+<script>
+  // compare.html scroll-sync shim (postMessage; file:// iframes are cross-origin)
+  (function () {
+    var SIDE = 'old';
+    var applying = false;
+    window.addEventListener('scroll', function () {
+      if (applying) return;
+      parent.postMessage({ parallaxSync: true, side: SIDE, y: window.scrollY }, '*');
+    });
+    window.addEventListener('message', function (e) {
+      var d = e.data;
+      if (!d || !d.parallaxSync || d.target !== SIDE) return;
+      applying = true;
+      window.scrollTo(0, d.y);
+      requestAnimationFrame(function () { applying = false; });
+    });
+  })();
+</script>
+
+</body>
+</html>
