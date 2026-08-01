@@ -1,0 +1,6 @@
+# Local scratch that must never be committed:
+flux-model/        # 10GB offline-quantized local FLUX Fill (superseded by fal.ai)
+flux-tiles/        # tile/API inputs and outputs (regenerable intermediates)
+__pycache__/
+preview-old/       # 70aa9e6 reference copy for compare.html
+masks/recut-city/  # intermediates of the city recut (final mask is ../masks/04-city.png)
