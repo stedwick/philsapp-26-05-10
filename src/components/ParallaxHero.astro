@@ -288,6 +288,10 @@ const { profile, socialLinks, chevronIcon: ChevronDown } = Astro.props;
     background: transparent;
   }
   .c-tuner {
+    /* intentionally hidden for now: Philip wants the tuning panel out of
+       the way, but the markup, styles, and script stay so it can come back
+       on request (flip this to display: block) */
+    display: none;
     position: fixed;
     right: 12px;
     bottom: 12px;
