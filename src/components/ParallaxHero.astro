@@ -1,17 +1,11 @@
 ---
-import ButtonLink from './ButtonLink.astro';
 import IconButton from './IconButton.astro';
 import { legacyIcons } from '../data/legacy-icons.mjs';
 
 interface Profile {
   name: string;
   role: string;
-  tagline: string;
   credential?: string;
-  primaryAction?: {
-    label: string;
-    target: string;
-  };
 }
 
 interface SocialLink {
@@ -28,7 +22,6 @@ interface Props {
 }
 
 const { profile, socialLinks, chevronIcon: ChevronDown } = Astro.props;
-const primaryAction = profile.primaryAction ?? { label: "Let's get in touch", target: '#hire-me' };
 ---
 
 <!-- Fixed-frame scrollytelling scene, ported from parallax/experiments/fal-ai
@@ -54,20 +47,18 @@ const primaryAction = profile.primaryAction ?? { label: "Let's get in touch", ta
      after it start where the playground's content leading edge sits and the
      bottom vignette stays glued to that edge. -->
 <section class="c-parallax-hero" aria-labelledby="site-title">
+  <nav class="c-parallax-hero__social" aria-label="Social links">
+    {socialLinks.map((link) => <IconButton href={link.href} label={link.label} icon={link.icon} legacyIcon={link.legacyIcon} />)}
+  </nav>
+
   <div class="c-parallax-hero__content">
     <h1 id="site-title">{profile.name}</h1>
     <p class="c-parallax-hero__role">{profile.role}</p>
-    <p class="c-parallax-hero__tagline">{profile.tagline}</p>
-
-    <nav class="c-parallax-hero__social" aria-label="Social links">
-      {socialLinks.map((link) => <IconButton href={link.href} label={link.label} icon={link.icon} legacyIcon={link.legacyIcon} />)}
-    </nav>
-
-    <ButtonLink href={primaryAction.target} variant="light" size="lg" class="c-parallax-hero__cta">{primaryAction.label}</ButtonLink>
+    <p class="c-parallax-hero__location">Portland, Oregon</p>
   </div>
 
   <p class="c-parallax-hero__scroll">
-    <span>Scroll to see more...</span>
+    <span>Scroll</span>
     <ChevronDown aria-hidden="true" />
   </p>
 </section>
