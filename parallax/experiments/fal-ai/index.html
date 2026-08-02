@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>fal.ai 5-layer parallax test — variant (round 4: sky anchor, city-lights)</title>
+<title>fal.ai parallax playground — gradient sky + clouds layer</title>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body { background: #0f170a; font-family: system-ui, sans-serif; }
@@ -18,54 +18,63 @@
     height: 130svh;
     overflow: hidden;
     z-index: 0;
-    background: #0f170a; /* near-black green sampled from the foreground layer's bottom edge */
+    /* sky is now a pure-CSS gradient on the scene container (the sky.png
+       layer was removed). Stops sampled from sky.png's vertical falloff
+       (median of cloud-free pixels per row), compressed upward x0.55 so the
+       falloff plays out over the visible sky band: the light near-white
+       bottom color lands at 55% and holds flat to the bottom (hidden behind
+       the mountains anyway). The gradient parallaxes like
+       a layer: JS shifts background-position-y via --gradPos using the
+       sky row's start/end (no-repeat; analysis shows the exposed strip
+       never reaches the viewport for the shipped values). */
+    background-color: #0f170a;
+    background-repeat: no-repeat;
+    background-position: 0 var(--gradPos, 0px);
+    background-image: linear-gradient(to bottom,
+      rgb(3, 182, 227) 0%,
+      rgb(10, 194, 234) 14%,
+      rgb(18, 200, 235) 21%,
+      rgb(45, 214, 242) 29%,
+      rgb(80, 228, 246) 36%,
+      rgb(109, 243, 250) 43%,
+      rgb(126, 250, 251) 49%,
+      rgb(135, 252, 254) 55%,
+      rgb(135, 252, 254) 100%);
   }
-  /* side vignette only on wide viewports (pillarboxed framing); on phones
-     the scene spans the full width and the fades would just eat content */
+  /* tree-bark side edges on wide screens (pillarboxed framing), silhouette
+     only: the scene's side boundary is an SVG mask whose edge is displaced
+     by feTurbulence (organic vertical jitter) against the plain #0f170a
+     background. No texture, striation, or color fills: the rough edge shape
+     alone evokes bark. On phones the scene spans the full width so there is
+     no edge treatment. */
   @media (min-width: 768px) {
     .landscape {
-      --fade-x: 14%;
-      -webkit-mask-image: linear-gradient(to right,
-        transparent,
-        rgba(0,0,0,.25) 6%,
-        rgba(0,0,0,.55) 9.5%,
-        rgba(0,0,0,.85) 12.5%,
-        #000 var(--fade-x),
-        #000 calc(100% - var(--fade-x)),
-        rgba(0,0,0,.85) calc(100% - 12.5%),
-        rgba(0,0,0,.55) calc(100% - 9.5%),
-        rgba(0,0,0,.25) calc(100% - 6%),
-        transparent);
-      mask-image: linear-gradient(to right,
-        transparent,
-        rgba(0,0,0,.25) 6%,
-        rgba(0,0,0,.55) 9.5%,
-        rgba(0,0,0,.85) 12.5%,
-        #000 var(--fade-x),
-        #000 calc(100% - var(--fade-x)),
-        rgba(0,0,0,.85) calc(100% - 12.5%),
-        rgba(0,0,0,.55) calc(100% - 9.5%),
-        rgba(0,0,0,.25) calc(100% - 6%),
-        transparent);
+      mask-image: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='100'%20height='400'%20viewBox='0%200%20100%20400'%20preserveAspectRatio='none'%3E%3Cfilter%20id='r'%20x='-10%25'%20y='-10%25'%20width='120%25'%20height='120%25'%3E%3CfeTurbulence%20type='fractalNoise'%20baseFrequency='0.012%200.045'%20numOctaves='4'%20seed='7'%20result='n'/%3E%3CfeDisplacementMap%20in='SourceGraphic'%20in2='n'%20scale='2.4'%20xChannelSelector='R'%20yChannelSelector='G'/%3E%3C/filter%3E%3Crect%20x='5.5'%20y='-30'%20width='89'%20height='460'%20fill='%23fff'%20filter='url(%23r)'/%3E%3C/svg%3E");
+      mask-size: 100% 100%;
+      mask-repeat: no-repeat;
     }
   }
-  /* bottom vignette at all widths: fade the scene into the page background */
+  /* bottom vignette at all widths: fade the scene into the page background
+     (shortened: roughly half the old fade distance) */
   .landscape::after {
     content: "";
     position: absolute;
     inset: 0;
     background: linear-gradient(to bottom,
-      transparent 62%,
-      rgba(15,23,10,.25) 78%,
-      rgba(15,23,10,.55) 88%,
-      rgba(15,23,10,.85) 95%,
-      #0f170a 99.5%);
+      transparent 80%,
+      rgba(15,23,10,.25) 87%,
+      rgba(15,23,10,.55) 92%,
+      rgba(15,23,10,.85) 96%,
+      #0f170a 99%);
     pointer-events: none;
   }
   .landscape__layer {
     position: absolute;
     inset: 0;
-    transform: translateY(calc(var(--scrollPos, 0px) * var(--offset, 0)));
+    /* start/end model: translation = start + (end - start) * progress,
+       progress = clamped scroll / freeze (0 on load, 1 at the freeze point).
+       --start/--end are unitless px, set per layer from the tuning panel. */
+    transform: translateY(calc((var(--start, 0) + (var(--end, 0) - var(--start, 0)) * var(--progress, 0)) * 1px));
   }
   .landscape__layer img {
     position: absolute;
@@ -76,11 +85,11 @@
     object-position: bottom;
     display: block;
   }
-  /* sky anchor on phones: the centered crop cuts off the left-side clouds;
-     anchor bottom-left on small screens (sky is rearmost and otherwise
-     uniform, so cross-layer registration is unaffected) */
+  /* clouds anchor on phones: the centered crop cuts off the left-side
+     clouds; anchor bottom-left on small screens (clouds have no
+     registration with the other layers, so this is safe) */
   @media (max-width: 767px) {
-    .landscape__layer--sky img { object-position: left bottom; }
+    .landscape__layer--clouds img { object-position: left bottom; }
   }
   @media (prefers-reduced-motion: reduce) {
     .landscape__layer { transform: none; }
@@ -89,46 +98,161 @@
   .content {
     position: relative;
     z-index: 1; /* scrolls up over the pinned scene */
-    background: #0f170a;
+    /* transparent: the frozen scene stays visible as the backdrop and only
+       the text scrolls over it (reverses the earlier full-width background).
+       The bottom padding is outside the text panel so it never becomes a
+       background slab over the images. */
+    padding-bottom: 80vh;
     color: #b8c9a8;
     line-height: 1.7;
   }
+  /* subtle readability treatment behind the text column only; the scene
+     shows through around it */
   .content__inner {
     max-width: 42rem;
+    width: calc(100% - 2rem);
     margin: 0 auto;
-    padding: 4rem 1.5rem 80vh;
+    padding: 2.5rem 1.75rem;
+    background: rgba(10, 16, 6, .55);
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+    border-radius: 14px;
   }
   .content h1 { color: #fff; margin-bottom: 1rem; }
   .content p { margin-bottom: 1rem; }
+  .content p:last-child { margin-bottom: 0; }
   code { background: rgba(255,255,255,.1); padding: .1em .35em; border-radius: 4px; }
+
+  /* ---- tuning panel (dev tool, playground only) ---- */
+  .tuner {
+    position: fixed;
+    right: 12px;
+    bottom: 12px;
+    z-index: 10;
+    width: 308px;
+    max-width: calc(100vw - 24px);
+    background: rgba(9, 14, 6, .93);
+    border: 1px solid #2c4020;
+    border-radius: 10px;
+    color: #b8c9a8;
+    font-size: 11px;
+    line-height: 1.5;
+    box-shadow: 0 6px 24px rgba(0,0,0,.5);
+  }
+  .tuner__toggle {
+    display: block;
+    width: 100%;
+    padding: 8px 10px;
+    background: none;
+    border: 0;
+    color: #dcebc8;
+    font: 600 11px/1 system-ui, sans-serif;
+    letter-spacing: .08em;
+    text-align: left;
+    cursor: pointer;
+  }
+  .tuner__toggle::after { content: "▾"; float: right; }
+  .tuner--collapsed .tuner__toggle::after { content: "▸"; }
+  .tuner--collapsed .tuner__body { display: none; }
+  .tuner__body { padding: 4px 10px 10px; }
+  .tuner__row {
+    display: grid;
+    grid-template-columns: 62px 8px 1fr 34px;
+    gap: 4px;
+    align-items: center;
+    padding: 3px 0;
+    border-top: 1px solid rgba(255,255,255,.06);
+  }
+  .tuner__row--head {
+    border-top: 0;
+    color: #7d916b;
+    letter-spacing: .05em;
+  }
+  .tuner__name { color: #dcebc8; font-weight: 600; }
+  .tuner__tag { color: #7d916b; }
+  .tuner__val { text-align: right; font-variant-numeric: tabular-nums; color: #fff; }
+  .tuner input[type="range"] {
+    width: 100%;
+    height: 14px;
+    accent-color: #7fae4c;
+    cursor: pointer;
+  }
+  .tuner__readout {
+    margin-top: 8px;
+    padding: 6px;
+    background: rgba(255,255,255,.05);
+    border-radius: 6px;
+  }
+  .tuner__readout textarea {
+    width: 100%;
+    height: 3.2em;
+    resize: none;
+    background: none;
+    border: 0;
+    color: #dcebc8;
+    font: 10.5px/1.45 ui-monospace, monospace;
+  }
+  .tuner__btns { display: flex; gap: 6px; margin-top: 6px; }
+  .tuner__btns button {
+    flex: 1;
+    padding: 4px 0;
+    background: #22331a;
+    border: 1px solid #3a542a;
+    border-radius: 5px;
+    color: #dcebc8;
+    font-size: 10.5px;
+    cursor: pointer;
+  }
+  .tuner__btns button:hover { background: #2c4020; }
 </style>
 </head>
 <body>
 
 <div class="landscape" role="img" aria-label="Layered daytime illustration of a mountain, forested hills, a city skyline on the lake, and a foreground meadow">
-  <div class="landscape__layer landscape__layer--sky" style="--offset:0.95"><img src="sky.png" alt=""></div>
-  <div class="landscape__layer" style="--offset:0.62"><img src="w-t-mtn (2).png" alt=""></div>
-  <div class="landscape__layer" style="--offset:0.5"><img src="w-t-hill-river (3).png" alt=""></div>
-  <div class="landscape__layer" style="--offset:0.3"><img src="city-lights-s85.png" alt=""></div>
-  <div class="landscape__layer" style="--offset:0.0"><img src="trans-foreground-s85.png" alt=""></div>
+  <div class="landscape__layer" data-layer="mtn"><img src="w-t-mtn (2).png" alt=""></div>
+  <div class="landscape__layer landscape__layer--clouds" data-layer="clouds"><img src="clouds.png" alt=""></div>
+  <div class="landscape__layer" data-layer="hill-river"><img src="w-t-hill-river (3).png" alt=""></div>
+  <div class="landscape__layer" data-layer="city"><img src="city-lights-s85.png" alt=""></div>
+  <div class="landscape__layer" data-layer="fg"><img src="trans-foreground-s85.png" alt=""></div>
+</div>
+
+<div class="tuner tuner--collapsed" id="tuner">
+  <button class="tuner__toggle" id="tunerToggle" aria-expanded="false">TUNE LAYERS</button>
+  <div class="tuner__body" id="tunerBody">
+    <!-- rows injected by script -->
+    <div class="tuner__readout">
+      <textarea id="tunerReadout" readonly></textarea>
+      <div class="tuner__btns">
+        <button id="tunerCopy" type="button">copy</button>
+        <button id="tunerReset" type="button">reset defaults</button>
+      </div>
+    </div>
+  </div>
 </div>
 
 <div class="content">
   <div class="content__inner">
-  <h1>fal.ai 5-layer parallax test — variant, round 4 experiments</h1>
-  <p>Round 3 pinned end state (sticky band, freeze at 620px, offsets
-     0.95 / 0.62 / 0.5 / 0.3 / 0, side vignette at
-     <code>min-width: 768px</code>, bottom fade at all widths) with round 4
-     experiments: the sky layer anchors <code>left bottom</code> below 768px
-     so the left-side clouds stay in frame on phones. An opaque foreground
-     (<code>foreground-opaque</code>, flattened onto <code>#0f170a</code>)
-     was tried and reverted: its full-width dark forest mass covers the lake
-     and skyline at depth even with a top fade mask
-     (see <code>shot-r4-fgopaque-*.png</code>). City layer:
-     <code>city-lights</code> (the A/B candidate
-     <code>city-lights-2</code> lives in <code>variant-city2.html</code> /
-     compare pane 4).</p>
-  <p>Keep scrolling: the scene separates, freezes, then this text slides over it.</p>
+  <h1>fal.ai parallax playground — gradient sky + clouds layer</h1>
+  <p>Pinned end state (sticky band, freeze at 620px, tree-bark side edges at
+     <code>min-width: 768px</code> as a silhouette-only feTurbulence-displaced
+     SVG mask against the plain background, shortened bottom
+     fade at all widths). Sky is a CSS
+     gradient sampled from sky.png; it parallaxes via the sky row
+     (background-position on the container). Clouds are their own layer
+     (<code>clouds.png</code>, in front of the mountain for occlusion,
+     anchored <code>left bottom</code> below 768px) and share the sky
+     values to stay registered on the gradient. The foreground is
+     <code>trans-foreground-s85.png</code> (the original translucent
+     foreground; the solid/leveled experiments were cancelled and their
+     files kept in this dir for later). Parallax
+     math: each layer translates <code>start + (end - start) * progress</code>,
+     where <code>progress</code> is the clamped scroll divided by the freeze
+     point. The tuning panel (bottom right) ships Philip's tuned defaults:
+     sky -100/264, mtn -162/293, clouds -100/285, hill-river -82/277,
+     city -61/191, fg -65/107. Drag sliders to retune; the readout line is the
+     compact format to paste back.</p>
+  <p>Keep scrolling: the scene separates, freezes, then this text scrolls up
+     over the frozen scene, which stays visible behind it.</p>
   </div>
 </div>
 
@@ -144,16 +268,146 @@
   }
   window.addEventListener('resize', recompute);
   recompute();
-  let scrollPos;
+  let progress;
   function animation() {
     const eff = Math.min(window.scrollY, freeze);
-    if (scrollPos !== eff) {
-      scrollPos = eff;
-      root.style.setProperty('--scrollPos', scrollPos + 'px');
+    const p = freeze > 0 ? eff / freeze : 0;
+    if (progress !== p) {
+      progress = p;
+      root.style.setProperty('--progress', p);
+      // gradient "sky" layer: translate the container's background-position
+      if (window.__gradPos) {
+        root.style.setProperty('--gradPos', window.__gradPos(p) + 'px');
+      }
     }
     window.requestAnimationFrame(animation);
   }
   window.requestAnimationFrame(animation);
+</script>
+
+<script>
+  // Tuning panel (dev tool). Each layer: start (px at progress 0) and
+  // end (px at progress 1, the freeze point). Defaults are Philip's tuned
+  // values = the shipped composition. "sky" drives the container gradient's
+  // background-position; clouds share the sky values so they stay
+  // registered on the gradient exactly as they were inside sky.png.
+  const LAYERS = [
+    { id: 'sky',        label: 'sky',        start: -100, end: 264 },
+    { id: 'mtn',        label: 'mtn',        start: -162, end: 293 },
+    { id: 'clouds',     label: 'clouds',     start: -100, end: 285 },
+    { id: 'hill-river', label: 'hill-river', start: -82,  end: 277 },
+    { id: 'city',       label: 'city',       start: -61,  end: 191 },
+    { id: 'fg',         label: 'fg',         start: -65,  end: 107 },
+  ];
+  const START_MIN = -300, START_MAX = 800;
+  const END_MIN = -100, END_MAX = 800;
+
+  const params = {};
+  function defaults() {
+    LAYERS.forEach(l => {
+      params[l.id] = { start: l.start, end: l.end };
+    });
+  }
+  defaults();
+
+  const fmt = v => String(Math.round(v * 10) / 10);
+
+  // gradient translation for a given progress, from the sky row's params
+  window.__gradPos = function (p) {
+    const s = params.sky;
+    return s.start + (s.end - s.start) * p;
+  };
+
+  function applyLayer(id) {
+    if (id === 'sky') {
+      root.style.setProperty('--gradPos', window.__gradPos(progress || 0) + 'px');
+      return;
+    }
+    const el = document.querySelector(`[data-layer="${id}"]`);
+    if (!el) return;
+    el.style.setProperty('--start', params[id].start);
+    el.style.setProperty('--end', params[id].end);
+  }
+  function readoutText() {
+    return LAYERS.map(l => `${l.label} ${fmt(params[l.id].start)}/${fmt(params[l.id].end)}`).join(' · ');
+  }
+  function refreshReadout() {
+    document.getElementById('tunerReadout').value = readoutText();
+  }
+
+  const body = document.getElementById('tunerBody');
+  const readout = document.getElementById('tunerReadout');
+  const rows = {};
+  LAYERS.forEach(l => {
+    const row = document.createElement('div');
+    row.className = 'tuner__row';
+    row.innerHTML =
+      `<span class="tuner__name">${l.label}</span>` +
+      `<span class="tuner__tag">S</span><input type="range" min="${START_MIN}" max="${START_MAX}" step="1" aria-label="${l.label} start"><span class="tuner__val" data-v="start"></span>` +
+      `<span></span>` +
+      `<span class="tuner__tag">E</span><input type="range" min="${END_MIN}" max="${END_MAX}" step="1" aria-label="${l.label} end"><span class="tuner__val" data-v="end"></span>`;
+    body.insertBefore(row, body.querySelector('.tuner__readout'));
+    const [sInput, eInput] = row.querySelectorAll('input');
+    const sVal = row.querySelector('[data-v="start"]');
+    const eVal = row.querySelector('[data-v="end"]');
+    rows[l.id] = { sInput, eInput, sVal, eVal };
+    sInput.addEventListener('input', () => {
+      params[l.id].start = Number(sInput.value);
+      sVal.textContent = sInput.value;
+      applyLayer(l.id);
+      refreshReadout();
+    });
+    eInput.addEventListener('input', () => {
+      params[l.id].end = Number(eInput.value);
+      eVal.textContent = eInput.value;
+      applyLayer(l.id);
+      refreshReadout();
+    });
+  });
+
+  function syncPanel() {
+    LAYERS.forEach(l => {
+      const r = rows[l.id];
+      r.sInput.value = Math.round(params[l.id].start);
+      r.eInput.value = Math.round(params[l.id].end);
+      r.sVal.textContent = fmt(params[l.id].start);
+      r.eVal.textContent = fmt(params[l.id].end);
+      applyLayer(l.id);
+    });
+    refreshReadout();
+  }
+  syncPanel();
+
+  document.getElementById('tunerReset').addEventListener('click', () => {
+    defaults();
+    syncPanel();
+  });
+
+  document.getElementById('tunerCopy').addEventListener('click', async (e) => {
+    const btn = e.currentTarget;
+    const text = readoutText();
+    try {
+      await navigator.clipboard.writeText(text);
+    } catch {
+      readout.focus();
+      readout.select();
+      document.execCommand('copy');
+    }
+    btn.textContent = 'copied!';
+    setTimeout(() => { btn.textContent = 'copy'; }, 1200);
+  });
+
+  const tuner = document.getElementById('tuner');
+  const toggle = document.getElementById('tunerToggle');
+  toggle.addEventListener('click', () => {
+    const collapsed = tuner.classList.toggle('tuner--collapsed');
+    toggle.setAttribute('aria-expanded', String(!collapsed));
+  });
+  // start expanded on desktop, collapsed on phones
+  if (window.matchMedia('(min-width: 768px)').matches) {
+    tuner.classList.remove('tuner--collapsed');
+    toggle.setAttribute('aria-expanded', 'true');
+  }
 </script>
 
 <script>
