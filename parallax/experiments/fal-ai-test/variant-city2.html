@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>fal.ai 5-layer parallax test — variant (round 4: city-lights-2 candidate)</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #0f170a; font-family: system-ui, sans-serif; }
+
+  .landscape {
+    position: sticky;
+    /* negative top: once scrolled past, only the bottom band of the hero
+       stays visible at the top of the viewport. JS keeps --freezePx in
+       sync with the parallax clamp. */
+    top: var(--freezePx, -620px);
+    height: 130vh;
+    height: 130svh;
+    overflow: hidden;
+    z-index: 0;
+    background: #0f170a; /* near-black green sampled from the foreground layer's bottom edge */
+  }
+  /* side vignette only on wide viewports (pillarboxed framing); on phones
+     the scene spans the full width and the fades would just eat content */
+  @media (min-width: 768px) {
+    .landscape {
+      --fade-x: 14%;
+      -webkit-mask-image: linear-gradient(to right,
+        transparent,
+        rgba(0,0,0,.25) 6%,
+        rgba(0,0,0,.55) 9.5%,
+        rgba(0,0,0,.85) 12.5%,
+        #000 var(--fade-x),
+        #000 calc(100% - var(--fade-x)),
+        rgba(0,0,0,.85) calc(100% - 12.5%),
+        rgba(0,0,0,.55) calc(100% - 9.5%),
+        rgba(0,0,0,.25) calc(100% - 6%),
+        transparent);
+      mask-image: linear-gradient(to right,
+        transparent,
+        rgba(0,0,0,.25) 6%,
+        rgba(0,0,0,.55) 9.5%,
+        rgba(0,0,0,.85) 12.5%,
+        #000 var(--fade-x),
+        #000 calc(100% - var(--fade-x)),
+        rgba(0,0,0,.85) calc(100% - 12.5%),
+        rgba(0,0,0,.55) calc(100% - 9.5%),
+        rgba(0,0,0,.25) calc(100% - 6%),
+        transparent);
+    }
+  }
+  /* bottom vignette at all widths: fade the scene into the page background */
+  .landscape::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom,
+      transparent 62%,
+      rgba(15,23,10,.25) 78%,
+      rgba(15,23,10,.55) 88%,
+      rgba(15,23,10,.85) 95%,
+      #0f170a 99.5%);
+    pointer-events: none;
+  }
+  .landscape__layer {
+    position: absolute;
+    inset: 0;
+    transform: translateY(calc(var(--scrollPos, 0px) * var(--offset, 0)));
+  }
+  .landscape__layer img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: bottom;
+    display: block;
+  }
+  /* sky anchor on phones: the centered crop cuts off the left-side clouds;
+     anchor bottom-left on small screens (sky is rearmost and otherwise
+     uniform, so cross-layer registration is unaffected) */
+  @media (max-width: 767px) {
+    .landscape__layer--sky img { object-position: left bottom; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .landscape__layer { transform: none; }
+  }
+
+  .content {
+    position: relative;
+    z-index: 1; /* scrolls up over the pinned scene */
+    background: #0f170a;
+    color: #b8c9a8;
+    line-height: 1.7;
+  }
+  .content__inner {
+    max-width: 42rem;
+    margin: 0 auto;
+    padding: 4rem 1.5rem 80vh;
+  }
+  .content h1 { color: #fff; margin-bottom: 1rem; }
+  .content p { margin-bottom: 1rem; }
+  code { background: rgba(255,255,255,.1); padding: .1em .35em; border-radius: 4px; }
+</style>
+</head>
+<body>
+
+<div class="landscape" role="img" aria-label="Layered daytime illustration of a mountain, forested hills, a city skyline on the lake, and a foreground meadow">
+  <div class="landscape__layer landscape__layer--sky" style="--offset:0.95"><img src="sky.png" alt=""></div>
+  <div class="landscape__layer" style="--offset:0.62"><img src="w-t-mtn (2).png" alt=""></div>
+  <div class="landscape__layer" style="--offset:0.5"><img src="w-t-hill-river (3).png" alt=""></div>
+  <div class="landscape__layer" style="--offset:0.3"><img src="city-lights2-s85.png" alt=""></div>
+  <div class="landscape__layer" style="--offset:0.0"><img src="trans-foreground-s85.png" alt=""></div>
+</div>
+
+<div class="content">
+  <div class="content__inner">
+  <h1>fal.ai 5-layer parallax test — variant, round 4 experiments (city-lights-2)</h1>
+  <p>Round 3 pinned end state (sticky band, freeze at 620px, offsets
+     0.95 / 0.62 / 0.5 / 0.3 / 0, side vignette at
+     <code>min-width: 768px</code>, bottom fade at all widths) with round 4
+     experiments: the sky layer anchors <code>left bottom</code> below 768px
+     so the left-side clouds stay in frame on phones. City layer:
+     <code>city-lights-2</code> (the A/B candidate; the current winner
+     <code>city-lights</code> stays in <code>variant.html</code> /
+     compare pane 3).</p>
+  <p>Keep scrolling: the scene separates, freezes, then this text slides over it.</p>
+  </div>
+</div>
+
+<script>
+  const root = document.documentElement;
+  const hero = document.querySelector('.landscape');
+  const FREEZE_TARGET = 620;  // scroll px of parallax travel before the freeze
+  const MIN_BAND = 250;       // smallest acceptable pinned band height
+  let freeze;
+  function recompute() {
+    freeze = Math.min(FREEZE_TARGET, Math.max(0, hero.offsetHeight - MIN_BAND));
+    root.style.setProperty('--freezePx', (-freeze) + 'px');
+  }
+  window.addEventListener('resize', recompute);
+  recompute();
+  let scrollPos;
+  function animation() {
+    const eff = Math.min(window.scrollY, freeze);
+    if (scrollPos !== eff) {
+      scrollPos = eff;
+      root.style.setProperty('--scrollPos', scrollPos + 'px');
+    }
+    window.requestAnimationFrame(animation);
+  }
+  window.requestAnimationFrame(animation);
+</script>
+
+<script>
+  // compare.html scroll-sync shim (postMessage; file:// iframes are cross-origin)
+  (function () {
+    var SIDE = 'city2';
+    var applying = false;
+    window.addEventListener('scroll', function () {
+      if (applying) return;
+      parent.postMessage({ parallaxSync: true, side: SIDE, y: window.scrollY }, '*');
+    });
+    window.addEventListener('message', function (e) {
+      var d = e.data;
+      if (!d || !d.parallaxSync || d.target !== SIDE) return;
+      applying = true;
+      window.scrollTo(0, d.y);
+      requestAnimationFrame(function () { applying = false; });
+    });
+  })();
+</script>
+
+</body>
+</html>

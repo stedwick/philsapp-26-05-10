@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>fal.ai 5-layer parallax test — variant (w-t-city; vignette, tall hero, clamped stop)</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #0f170a; font-family: system-ui, sans-serif; }
+
+  .landscape {
+    position: relative;
+    height: 130vh;
+    height: 130svh;
+    overflow: hidden;
+    background: #0f170a; /* near-black green sampled from the foreground layer's bottom edge */
+    /* vignette: soft symmetrical fade on the left/right edges (mask) and at
+       the bottom (painted overlay), into the page background */
+    --fade-x: 14%;
+    -webkit-mask-image: linear-gradient(to right,
+      transparent,
+      rgba(0,0,0,.25) 6%,
+      rgba(0,0,0,.55) 9.5%,
+      rgba(0,0,0,.85) 12.5%,
+      #000 var(--fade-x),
+      #000 calc(100% - var(--fade-x)),
+      rgba(0,0,0,.85) calc(100% - 12.5%),
+      rgba(0,0,0,.55) calc(100% - 9.5%),
+      rgba(0,0,0,.25) calc(100% - 6%),
+      transparent);
+    mask-image: linear-gradient(to right,
+      transparent,
+      rgba(0,0,0,.25) 6%,
+      rgba(0,0,0,.55) 9.5%,
+      rgba(0,0,0,.85) 12.5%,
+      #000 var(--fade-x),
+      #000 calc(100% - var(--fade-x)),
+      rgba(0,0,0,.85) calc(100% - 12.5%),
+      rgba(0,0,0,.55) calc(100% - 9.5%),
+      rgba(0,0,0,.25) calc(100% - 6%),
+      transparent);
+  }
+  .landscape::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom,
+      transparent 55%,
+      rgba(15,23,10,.3) 72%,
+      rgba(15,23,10,.6) 84%,
+      rgba(15,23,10,.88) 93%,
+      #0f170a 99%);
+    pointer-events: none;
+  }
+  .landscape__layer {
+    position: absolute;
+    inset: 0;
+    transform: translateY(calc(var(--scrollPos, 0px) * var(--offset, 0)));
+  }
+  .landscape__layer img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: bottom;
+    display: block;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .landscape__layer { transform: none; }
+  }
+
+  .content {
+    max-width: 42rem;
+    margin: 0 auto;
+    padding: 4rem 1.5rem 80vh;
+    color: #b8c9a8;
+    line-height: 1.7;
+  }
+  .content h1 { color: #fff; margin-bottom: 1rem; }
+  .content p { margin-bottom: 1rem; }
+  code { background: rgba(255,255,255,.1); padding: .1em .35em; border-radius: 4px; }
+</style>
+</head>
+<body>
+
+<div class="landscape" role="img" aria-label="Layered daytime illustration of a mountain, forested hills, a city skyline on the lake, and a foreground meadow">
+  <div class="landscape__layer" style="--offset:0.95"><img src="sky.png" alt=""></div>
+  <div class="landscape__layer" style="--offset:0.75"><img src="w-t-mtn (2).png" alt=""></div>
+  <div class="landscape__layer" style="--offset:0.5"><img src="w-t-hill-river (3).png" alt=""></div>
+  <div class="landscape__layer" style="--offset:0.3"><img src="w-t-city-s85.png" alt=""></div>
+  <div class="landscape__layer" style="--offset:0.0"><img src="trans-foreground-s85.png" alt=""></div>
+</div>
+
+<div class="content">
+  <h1>fal.ai 5-layer parallax test — variant, round 2 (w-t-city)</h1>
+  <p>Round 2 on the variant composition (back to front: <code>sky</code>,
+     <code>w-t-mtn</code>, <code>w-t-hill-river</code>, <code>w-t-city</code>,
+     <code>trans-foreground</code>; city and foreground at 85% via padded
+     canvases). New this round: the scene is vignetted into the page
+     background (<code>#0f170a</code>, sampled from the foreground's bottom
+     edge) with pure-CSS masks on the layer container, the hero is
+     <code>130svh</code> tall, the mountain travels more against the sky
+     (<code>--offset</code> 0.75, was 0.88), and the parallax clamps: the
+     effective scroll value fed to the transforms is capped so the effect
+     stops when ~2in of scene remain at the top of the viewport, mountain
+     peak nearly touching the top edge. Past that point everything scrolls
+     normally.</p>
+  <p>Keep scrolling to feel the layers separate, then stop.</p>
+</div>
+
+<script>
+  const root = document.documentElement;
+  const hero = document.querySelector('.landscape');
+  const STOP_GAP = Math.round(2 * 96); // ~2in of scene left when the effect stops
+  let maxScroll = Math.max(0, hero.offsetHeight - STOP_GAP);
+  window.addEventListener('resize', () => {
+    maxScroll = Math.max(0, hero.offsetHeight - STOP_GAP);
+  });
+  let scrollPos;
+  function animation() {
+    const eff = Math.min(window.scrollY, maxScroll);
+    if (scrollPos !== eff) {
+      scrollPos = eff;
+      root.style.setProperty('--scrollPos', scrollPos + 'px');
+    }
+    window.requestAnimationFrame(animation);
+  }
+  window.requestAnimationFrame(animation);
+</script>
+
+<script>
+  // compare.html scroll-sync shim (postMessage; file:// iframes are cross-origin)
+  (function () {
+    var SIDE = 'mid';
+    var applying = false;
+    window.addEventListener('scroll', function () {
+      if (applying) return;
+      parent.postMessage({ parallaxSync: true, side: SIDE, y: window.scrollY }, '*');
+    });
+    window.addEventListener('message', function (e) {
+      var d = e.data;
+      if (!d || !d.parallaxSync || d.target !== SIDE) return;
+      applying = true;
+      window.scrollTo(0, d.y);
+      requestAnimationFrame(function () { applying = false; });
+    });
+  })();
+</script>
+
+</body>
+</html>
