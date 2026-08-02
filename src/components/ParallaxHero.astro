@@ -200,7 +200,8 @@ const { profile, socialLinks, chevronIcon: ChevronDown } = Astro.props;
     height: 100vh;
     height: 100svh;
     display: grid;
-    grid-template-rows: 1fr auto 1fr;
+    /* copy near the top (under the icon row), scroll cue at the bottom */
+    grid-template-rows: auto 1fr auto;
     justify-items: center;
     padding: var(--space-5) var(--container-padding);
     text-align: center;
@@ -211,23 +212,28 @@ const { profile, socialLinks, chevronIcon: ChevronDown } = Astro.props;
     .c-parallax-hero { height: 77vh; height: 77svh; }
   }
   .c-parallax-hero__content {
-    grid-row: 2;
+    grid-row: 1;
     display: grid;
     justify-items: center;
-    gap: var(--space-3);
-    padding: var(--space-5) var(--space-6);
+    /* the three lines read as one tight block */
+    gap: var(--space-1);
+    /* top padding clears the absolutely-positioned social icon row
+       (2.08rem tall, --space-5 from the top) */
+    padding: calc(2.08rem + var(--space-5) + var(--space-4)) var(--space-6) var(--space-5);
   }
   .c-parallax-hero h1 {
     font-size: clamp(2rem, 9vw, 3rem);
-    margin-bottom: var(--space-2);
+    margin-bottom: 0;
   }
   .c-parallax-hero__role {
     font-size: 1.25rem;
     font-weight: 300;
   }
   /* upper-right icon row (to become the header bar), shrunk to 2/3 of the
-     stock c-icon-button size (3.125rem button, 2rem icon). Black text/icons
-     provide the contrast over the bright sky now, so no scrim or shadows. */
+     stock c-icon-button size (3.125rem button, 2rem icon). White icon and
+     border (border is currentColor in the stock styles); the stock hover
+     (light background, dark icon) is overridden so the white icon does not
+     vanish on a white square. */
   .c-parallax-hero__social {
     position: absolute;
     top: var(--space-5);
@@ -238,6 +244,11 @@ const { profile, socialLinks, chevronIcon: ChevronDown } = Astro.props;
   .c-parallax-hero__social :global(.c-icon-button) {
     width: 2.08rem;
     height: 2.08rem;
+    color: var(--color-white);
+  }
+  .c-parallax-hero__social :global(.c-icon-button:hover) {
+    background: rgb(255 255 255 / 25%);
+    color: var(--color-white);
   }
   .c-parallax-hero__social :global(.c-icon-button svg) {
     width: 1.33rem;
