@@ -1,0 +1,528 @@
+---
+import ButtonLink from './ButtonLink.astro';
+import IconButton from './IconButton.astro';
+import { legacyIcons } from '../data/legacy-icons.mjs';
+
+interface Profile {
+  name: string;
+  role: string;
+  tagline: string;
+  credential?: string;
+  primaryAction?: {
+    label: string;
+    target: string;
+  };
+}
+
+interface SocialLink {
+  label: string;
+  href: string;
+  icon?: any;
+  legacyIcon?: keyof typeof legacyIcons;
+}
+
+interface Props {
+  profile: Profile;
+  socialLinks: SocialLink[];
+  chevronIcon: any;
+}
+
+const { profile, socialLinks, chevronIcon: ChevronDown } = Astro.props;
+const primaryAction = profile.primaryAction ?? { label: "Let's get in touch", target: '#hire-me' };
+---
+
+<!-- Fixed-frame scrollytelling scene, ported from parallax/experiments/fal-ai
+     (the shipped playground). The frame never moves; JS slides the canvas
+     inside it (sinkPx = progress * travel) and parallaxes the layers on
+     progress = clamp(scrollY / travel, 0, 1). z-index: -1 puts the scene
+     behind normal-flow page content, which scrolls up over the frozen end
+     frame (the playground achieved the same with content z-index: 1, but our
+     sections are non-positioned, so the negative z-index is the equivalent). -->
+<div class="c-parallax" role="img" aria-label="Layered daytime illustration of a mountain, forested hills, a city skyline on the lake, and a foreground meadow">
+  <div class="c-parallax__canvas">
+    <!-- layer images: AVIF first, WebP second, original PNG fallback -->
+    <div class="c-parallax__layer" data-layer="mtn"><picture><source srcset="/parallax/mountain.avif" type="image/avif"><source srcset="/parallax/mountain.webp" type="image/webp"><img src="/parallax/mountain.png" alt=""></picture></div>
+    <div class="c-parallax__layer c-parallax__layer--clouds" data-layer="clouds"><picture><source srcset="/parallax/clouds.avif" type="image/avif"><source srcset="/parallax/clouds.webp" type="image/webp"><img src="/parallax/clouds.png" alt=""></picture></div>
+    <div class="c-parallax__layer" data-layer="hill-river"><picture><source srcset="/parallax/hill-river.avif" type="image/avif"><source srcset="/parallax/hill-river.webp" type="image/webp"><img src="/parallax/hill-river.png" alt=""></picture></div>
+    <div class="c-parallax__layer" data-layer="city"><picture><source srcset="/parallax/city.avif" type="image/avif"><source srcset="/parallax/city.webp" type="image/webp"><img src="/parallax/city.png" alt=""></picture></div>
+    <div class="c-parallax__layer" data-layer="fg"><picture><source srcset="/parallax/foreground.avif" type="image/avif"><source srcset="/parallax/foreground.webp" type="image/webp"><img src="/parallax/foreground.png" alt=""></picture></div>
+  </div>
+</div>
+
+<!-- Hero copy: normal-flow, transparent, exactly one viewport tall (77svh
+     below 768px, matching the playground's content margin) so the sections
+     after it start where the playground's content leading edge sits and the
+     bottom vignette stays glued to that edge. -->
+<section class="c-parallax-hero" aria-labelledby="site-title">
+  <div class="c-parallax-hero__content">
+    <h1 id="site-title">{profile.name}</h1>
+    <p class="c-parallax-hero__role">{profile.role}</p>
+    <p class="c-parallax-hero__tagline">{profile.tagline}</p>
+
+    <nav class="c-parallax-hero__social" aria-label="Social links">
+      {socialLinks.map((link) => <IconButton href={link.href} label={link.label} icon={link.icon} legacyIcon={link.legacyIcon} />)}
+    </nav>
+
+    <ButtonLink href={primaryAction.target} variant="light" size="lg" class="c-parallax-hero__cta">{primaryAction.label}</ButtonLink>
+  </div>
+
+  <p class="c-parallax-hero__scroll">
+    <span>Scroll to see more...</span>
+    <ChevronDown aria-hidden="true" />
+  </p>
+</section>
+
+<!-- Tuning panel (dev tool from the playground, collapsed by default) -->
+<div class="c-tuner c-tuner--collapsed" id="tuner">
+  <button class="c-tuner__toggle" id="tunerToggle" aria-expanded="false">TUNE LAYERS</button>
+  <div class="c-tuner__body" id="tunerBody">
+    <!-- rows injected by script -->
+    <div class="c-tuner__readout">
+      <textarea id="tunerReadout" readonly></textarea>
+      <div class="c-tuner__btns">
+        <button id="tunerCopy" type="button">copy</button>
+        <button id="tunerReset" type="button">reset defaults</button>
+      </div>
+      <div class="c-tuner__note">values are px against a 1170px reference hero; translations auto-scale to the measured hero height (zoom-robust)</div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .c-parallax {
+    /* fixed full-viewport frame (textbook scrollytelling): it never moves;
+       the canvas inside it slides and the layers parallax inside the
+       canvas. Plain page dark wherever the canvas does not cover. */
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background: #0f170a;
+  }
+  .c-parallax__canvas {
+    position: relative;
+    /* the canvas keeps the tuned 130svh geometry (100svh at or below
+       767px); on wide screens the bottom 30% overhangs below the viewport
+       and is clipped by it */
+    height: 130vh;
+    height: 130svh;
+    /* scene width capped in CSS px so it composes with browser zoom;
+       centered, plain page dark beyond, bark silhouette edge at the
+       boundary (the mask below). Below the cap this is a no-op. */
+    max-width: 2048px;
+    margin: 0 auto;
+    overflow: hidden;
+    /* anti-sink compensation: JS sets --sinkPx = progress * travel in the
+       same rAF block as progress, sliding the canvas window exactly like
+       the old sticky hero did */
+    transform: translateY(calc(-1 * var(--sinkPx, 0px)));
+    /* sky is a pure-CSS gradient on the scene canvas (stops sampled from
+       the removed sky.png, falloff compressed upward x0.55). It parallaxes
+       like a layer: JS shifts background-position-y via --gradPos using the
+       sky row's start/end. The static underlay gradient (second background
+       layer) fills exposures when the parallaxing gradient is translated:
+       sky cyan held flat at the top, page dark at the bottom. */
+    background-color: #0f170a;
+    background-repeat: no-repeat, no-repeat;
+    background-position: 0 var(--gradPos, 0px), 0 0;
+    background-image: linear-gradient(to bottom,
+      rgb(3, 182, 227) 0%,
+      rgb(10, 194, 234) 14%,
+      rgb(18, 200, 235) 21%,
+      rgb(45, 214, 242) 29%,
+      rgb(80, 228, 246) 36%,
+      rgb(109, 243, 250) 43%,
+      rgb(126, 250, 251) 49%,
+      rgb(135, 252, 254) 55%,
+      rgb(135, 252, 254) 100%),
+      linear-gradient(to bottom,
+      rgb(3, 182, 227) 30%,
+      #0f170a 90%);
+  }
+  /* tree-bark side edges on wide screens (pillarboxed framing), silhouette
+     only: feTurbulence-displaced SVG mask against the plain background. At
+     the 2048px cap on ultra-wide screens the bark edge sits at the cap
+     boundary. */
+  @media (min-width: 768px) {
+    .c-parallax__canvas {
+      mask-image: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='100'%20height='400'%20viewBox='0%200%20100%20400'%20preserveAspectRatio='none'%3E%3Cfilter%20id='r'%20x='-10%25'%20y='-10%25'%20width='120%25'%20height='120%25'%3E%3CfeTurbulence%20type='fractalNoise'%20baseFrequency='0.012%200.045'%20numOctaves='4'%20seed='7'%20result='n'/%3E%3CfeDisplacementMap%20in='SourceGraphic'%20in2='n'%20scale='2.4'%20xChannelSelector='R'%20yChannelSelector='G'/%3E%3C/filter%3E%3Crect%20x='5.5'%20y='-30'%20width='89'%20height='460'%20fill='%23fff'%20filter='url(%23r)'/%3E%3C/svg%3E");
+      mask-size: 100% 100%;
+      mask-repeat: no-repeat;
+    }
+  }
+  /* bottom vignette at all widths: fade the scene into the page background.
+     The ramp is anchored to the content's leading edge: with the anti-sink
+     slide, its solid point is a CONSTANT in canvas space during the journey
+     (viewport height minus the 0.5cm pad, set by JS as --lift on resize),
+     which lands it just above the content's top edge at every scroll depth.
+     Post-freeze the slide clamps, so the fade stays put and the content
+     scrolls over the dark zone. */
+  .c-parallax__canvas::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom,
+      transparent calc(80% - var(--lift, 0%)),
+      rgba(15,23,10,.25) calc(84% - var(--lift, 0%)),
+      rgba(15,23,10,.55) calc(88% - var(--lift, 0%)),
+      rgba(15,23,10,.85) calc(91% - var(--lift, 0%)),
+      #0f170a calc(93% - var(--lift, 0%)));
+    pointer-events: none;
+  }
+  .c-parallax__layer {
+    position: absolute;
+    inset: 0;
+    /* start/end model: translation = start + (end - start) * progress.
+       --start/--end are unitless REFERENCE px (tuned against a 1170px-tall
+       hero, i.e. 130svh at 900px window height); --pxScale is set by JS to
+       measuredHeroHeight / 1170 so the composition re-fits to any viewport
+       or browser-zoom level instead of breaking. */
+    transform: translateY(calc((var(--start, 0) + (var(--end, 0) - var(--start, 0)) * var(--progress, 0)) * var(--pxScale, 1) * 1px));
+  }
+  .c-parallax__layer img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: bottom;
+    display: block;
+  }
+  /* phones: 100svh scene canvas (wider viewports keep 130svh). Same
+     breakpoint as the clouds left-anchor and the bark edges, so the layout
+     flips at exactly 768px. */
+  @media (max-width: 767px) {
+    .c-parallax__canvas { height: 100vh; height: 100svh; }
+  }
+  /* clouds anchor on phones: the centered crop cuts off the left-side
+     clouds; anchor bottom-left on small screens (clouds have no
+     registration with the other layers, so this is safe) */
+  @media (max-width: 767px) {
+    .c-parallax__layer--clouds img { object-position: left bottom; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .c-parallax__layer { transform: none; }
+  }
+
+  /* hero copy over the fixed scene; exactly one viewport tall so the
+     sections after it start at the playground's content leading edge */
+  .c-parallax-hero {
+    height: 100vh;
+    height: 100svh;
+    display: grid;
+    grid-template-rows: 1fr auto 1fr;
+    justify-items: center;
+    padding: var(--space-5) var(--container-padding);
+    text-align: center;
+    color: var(--color-light);
+    text-shadow: 0 1px 3px rgb(0 0 0 / 55%), 0 0 1.5rem rgb(0 0 0 / 40%);
+  }
+  @media (max-width: 767px) {
+    .c-parallax-hero { height: 77vh; height: 77svh; }
+  }
+  .c-parallax-hero__content {
+    grid-row: 2;
+    display: grid;
+    justify-items: center;
+    gap: var(--space-3);
+  }
+  .c-parallax-hero h1 {
+    font-size: clamp(2rem, 9vw, 3rem);
+    color: var(--color-white);
+    margin-bottom: var(--space-2);
+  }
+  .c-parallax-hero__role {
+    font-size: 1.25rem;
+    font-weight: 300;
+  }
+  .c-parallax-hero__tagline {
+    margin-bottom: var(--space-3);
+  }
+  .c-parallax-hero__social {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.625rem;
+    filter: drop-shadow(0 1px 2px rgb(0 0 0 / 55%));
+  }
+  .c-parallax-hero__content > :global(.c-parallax-hero__cta) {
+    margin-top: 2.25rem;
+  }
+  .c-parallax-hero__scroll {
+    grid-row: 3;
+    align-self: end;
+    display: grid;
+    justify-items: center;
+    gap: var(--space-1);
+    font-size: 1rem;
+    transform: translateY(-1.25rem);
+  }
+  .c-parallax-hero__scroll svg {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+</style>
+
+<!-- tuner styles are global: the rows are injected by the script, so scoped
+     styles (which key off a build-time attribute) would not match them -->
+<style is:global>
+  .c-tuner {
+    position: fixed;
+    right: 12px;
+    bottom: 12px;
+    z-index: 10;
+    width: 308px;
+    max-width: calc(100vw - 24px);
+    background: rgba(9, 14, 6, .93);
+    border: 1px solid #2c4020;
+    border-radius: 10px;
+    color: #b8c9a8;
+    font-size: 11px;
+    line-height: 1.5;
+    box-shadow: 0 6px 24px rgba(0,0,0,.5);
+  }
+  .c-tuner__toggle {
+    display: block;
+    width: 100%;
+    padding: 8px 10px;
+    background: none;
+    border: 0;
+    color: #dcebc8;
+    font: 600 11px/1 system-ui, sans-serif;
+    letter-spacing: .08em;
+    text-align: left;
+    cursor: pointer;
+  }
+  .c-tuner__toggle::after { content: "▾"; float: right; }
+  .c-tuner--collapsed .c-tuner__toggle::after { content: "▸"; }
+  .c-tuner--collapsed .c-tuner__body { display: none; }
+  .c-tuner__body { padding: 4px 10px 10px; }
+  .c-tuner__row {
+    display: grid;
+    grid-template-columns: 62px 8px 1fr 34px;
+    gap: 4px;
+    align-items: center;
+    padding: 3px 0;
+    border-top: 1px solid rgba(255,255,255,.06);
+  }
+  .c-tuner__name { color: #dcebc8; font-weight: 600; }
+  .c-tuner__tag { color: #7d916b; }
+  .c-tuner__val { text-align: right; font-variant-numeric: tabular-nums; color: #fff; }
+  .c-tuner input[type="range"] {
+    width: 100%;
+    height: 14px;
+    accent-color: #7fae4c;
+    cursor: pointer;
+  }
+  .c-tuner__readout {
+    margin-top: 8px;
+    padding: 6px;
+    background: rgba(255,255,255,.05);
+    border-radius: 6px;
+  }
+  .c-tuner__readout textarea {
+    width: 100%;
+    height: 3.2em;
+    resize: none;
+    background: none;
+    border: 0;
+    color: #dcebc8;
+    font: 10.5px/1.45 ui-monospace, monospace;
+  }
+  .c-tuner__btns { display: flex; gap: 6px; margin-top: 6px; }
+  .c-tuner__btns button {
+    flex: 1;
+    padding: 4px 0;
+    background: #22331a;
+    border: 1px solid #3a542a;
+    border-radius: 5px;
+    color: #dcebc8;
+    font-size: 10.5px;
+    cursor: pointer;
+  }
+  .c-tuner__btns button:hover { background: #2c4020; }
+  .c-tuner__note { font-size: 10px; opacity: .55; margin-top: 6px; line-height: 1.4; }
+</style>
+
+<script>
+  // Parallax engine, ported from parallax/experiments/fal-ai/index.html.
+  // Zoom-robust model: layer translations are tuned against a 1170px
+  // REFERENCE hero (130svh at a 900px-tall window) and re-fitted to the
+  // MEASURED canvas height on resize; travel and the fade anchor are
+  // viewport fractions. Browser zoom changes the CSS viewport and fires
+  // resize, so Cmd +/- re-fits the composition instead of breaking it.
+  const root = document.documentElement;
+  const canvas = document.querySelector('.c-parallax__canvas') as HTMLElement;
+  const REF_HERO = 1170;
+  const FADE_SOLID_FRAC = 0.93;          // canvas fraction of the fade's solid stop (ramp template)
+  const FADE_PAD = 0.5 * 37.8;           // content edge sits this far BELOW the fade's solid point (0.5cm; CSS cm = 37.8px exactly)
+  let travel = 0;
+  let pxScale = 1;
+  let heroH = 0;
+  let progress: number | undefined;
+  function recompute() {
+    heroH = canvas.offsetHeight;
+    pxScale = heroH / REF_HERO;
+    root.style.setProperty('--pxScale', String(pxScale));
+    let lift;
+    if (window.innerWidth <= 767) {
+      // Small breakpoint (100svh canvas): the content starts at 77svh and
+      // covers the bottom of the scene from page load. travel as a CANVAS
+      // fraction ends the journey on the same slice desktop reaches
+      // (canvas rows ~56% to ~77%, the skyline strip); the fade anchor
+      // keeps the same FADE_PAD glue to the content's leading edge,
+      // measured from the 77svh start instead of the fold.
+      travel = 0.56 * heroH;
+      lift = FADE_SOLID_FRAC - (0.77 * window.innerHeight - FADE_PAD) / heroH;
+    } else {
+      // travel as a viewport fraction: the end-state scene strip
+      // (viewport height minus travel minus the pad) lands at exactly
+      // 25% of the viewport
+      travel = 0.75 * window.innerHeight - FADE_PAD;
+      // fade anchor: with the anti-sink slide, the fade's solid point is
+      // a CONSTANT in canvas space during the journey (viewport height
+      // minus the pad), so it only needs recomputing on resize
+      lift = FADE_SOLID_FRAC - (window.innerHeight - FADE_PAD) / heroH;
+    }
+    root.style.setProperty('--lift', (lift * 100) + '%');
+    progress = undefined;  // force the gradient translation to re-apply
+  }
+  window.addEventListener('resize', recompute);
+  recompute();
+  function animation() {
+    const p = travel > 0 ? Math.min(window.scrollY / travel, 1) : 0;
+    if (progress !== p) {
+      progress = p;
+      root.style.setProperty('--progress', String(p));
+      // gradient "sky" layer: translate the canvas's background-position
+      // (params are reference px; scale to the measured canvas like the layers)
+      root.style.setProperty('--gradPos', (gradPos(p) * pxScale) + 'px');
+      // anti-sink compensation: slide the canvas up by progress * travel,
+      // reproducing the old sticky window's motion so the shipped layer end
+      // values compose the same end state (mountain peak near the top)
+      root.style.setProperty('--sinkPx', (p * travel) + 'px');
+    }
+    window.requestAnimationFrame(animation);
+  }
+
+  // Tuning panel (dev tool). Each layer: start (px at progress 0) and
+  // end (px at progress 1, the freeze point). Defaults are Philip's tuned
+  // values = the shipped composition. "sky" drives the container gradient's
+  // background-position; clouds share the sky values so they stay
+  // registered on the gradient exactly as they were inside sky.png.
+  const LAYERS = [
+    { id: 'sky',        label: 'sky',        start: -100, end: 217 },
+    { id: 'mtn',        label: 'mtn',        start: -213, end: 247 },
+    { id: 'clouds',     label: 'clouds',     start: -124, end: 182 },
+    { id: 'hill-river', label: 'hill-river', start: -103, end: 202 },
+    { id: 'city',       label: 'city',       start: -82,  end: 79 },
+    { id: 'fg',         label: 'fg',         start: -91,  end: -67 },
+  ];
+  const START_MIN = -300, START_MAX = 800;
+  const END_MIN = -100, END_MAX = 800;
+
+  const params: Record<string, { start: number; end: number }> = {};
+  function defaults() {
+    LAYERS.forEach(l => {
+      params[l.id] = { start: l.start, end: l.end };
+    });
+  }
+  defaults();
+
+  const fmt = (v: number) => String(Math.round(v * 10) / 10);
+
+  // gradient translation for a given progress, from the sky row's params
+  function gradPos(p: number) {
+    const s = params.sky;
+    return s.start + (s.end - s.start) * p;
+  }
+
+  function applyLayer(id: string) {
+    if (id === 'sky') {
+      root.style.setProperty('--gradPos', (gradPos(progress || 0) * pxScale) + 'px');
+      return;
+    }
+    const el = document.querySelector(`[data-layer="${id}"]`);
+    if (!el) return;
+    (el as HTMLElement).style.setProperty('--start', String(params[id].start));
+    (el as HTMLElement).style.setProperty('--end', String(params[id].end));
+  }
+  function readoutText() {
+    return LAYERS.map(l => `${l.label} ${fmt(params[l.id].start)}/${fmt(params[l.id].end)}`).join(' · ');
+  }
+  function refreshReadout() {
+    (document.getElementById('tunerReadout') as HTMLTextAreaElement).value = readoutText();
+  }
+
+  const body = document.getElementById('tunerBody') as HTMLElement;
+  const readout = document.getElementById('tunerReadout') as HTMLTextAreaElement;
+  const rows: Record<string, { sInput: HTMLInputElement; eInput: HTMLInputElement; sVal: HTMLElement; eVal: HTMLElement }> = {};
+  LAYERS.forEach(l => {
+    const row = document.createElement('div');
+    row.className = 'c-tuner__row';
+    row.innerHTML =
+      `<span class="c-tuner__name">${l.label}</span>` +
+      `<span class="c-tuner__tag">S</span><input type="range" min="${START_MIN}" max="${START_MAX}" step="1" aria-label="${l.label} start"><span class="c-tuner__val" data-v="start"></span>` +
+      `<span></span>` +
+      `<span class="c-tuner__tag">E</span><input type="range" min="${END_MIN}" max="${END_MAX}" step="1" aria-label="${l.label} end"><span class="c-tuner__val" data-v="end"></span>`;
+    body.insertBefore(row, body.querySelector('.c-tuner__readout'));
+    const [sInput, eInput] = row.querySelectorAll('input');
+    const sVal = row.querySelector('[data-v="start"]') as HTMLElement;
+    const eVal = row.querySelector('[data-v="end"]') as HTMLElement;
+    rows[l.id] = { sInput, eInput, sVal, eVal };
+    sInput.addEventListener('input', () => {
+      params[l.id].start = Number(sInput.value);
+      sVal.textContent = sInput.value;
+      applyLayer(l.id);
+      refreshReadout();
+    });
+    eInput.addEventListener('input', () => {
+      params[l.id].end = Number(eInput.value);
+      eVal.textContent = eInput.value;
+      applyLayer(l.id);
+      refreshReadout();
+    });
+  });
+
+  function syncPanel() {
+    LAYERS.forEach(l => {
+      const r = rows[l.id];
+      r.sInput.value = String(Math.round(params[l.id].start));
+      r.eInput.value = String(Math.round(params[l.id].end));
+      r.sVal.textContent = fmt(params[l.id].start);
+      r.eVal.textContent = fmt(params[l.id].end);
+      applyLayer(l.id);
+    });
+    refreshReadout();
+  }
+  syncPanel();
+
+  document.getElementById('tunerReset')!.addEventListener('click', () => {
+    defaults();
+    syncPanel();
+  });
+
+  document.getElementById('tunerCopy')!.addEventListener('click', async (e) => {
+    const btn = e.currentTarget as HTMLElement;
+    const text = readoutText();
+    try {
+      await navigator.clipboard.writeText(text);
+    } catch {
+      readout.focus();
+      readout.select();
+      document.execCommand('copy');
+    }
+    btn.textContent = 'copied!';
+    setTimeout(() => { btn.textContent = 'copy'; }, 1200);
+  });
+
+  const tuner = document.getElementById('tuner')!;
+  const toggle = document.getElementById('tunerToggle')!;
+  toggle.addEventListener('click', () => {
+    const collapsed = tuner.classList.toggle('c-tuner--collapsed');
+    toggle.setAttribute('aria-expanded', String(!collapsed));
+  });
+  // collapsed by default on the live site (the playground auto-expanded on
+  // desktop; here the panel stays out of the way until toggled)
+
+  window.requestAnimationFrame(animation);
+</script>
