@@ -32,13 +32,20 @@ interface SocialLink {
   legacyIcon?: keyof typeof legacyIcons;
 }
 
+interface ResumeLink {
+  label: string;
+  href: string;
+}
+
 interface Props {
   profile: Profile;
   socialLinks: SocialLink[];
   chevronIcon: any;
+  resumeLink?: ResumeLink;
+  resumeIcon?: any;
 }
 
-const { profile, socialLinks, chevronIcon: ChevronDown } = Astro.props;
+const { profile, socialLinks, chevronIcon: ChevronDown, resumeLink, resumeIcon: ResumeIcon } = Astro.props;
 const heroStyle = `--hero-image-sm: url('${profile.heroImages.sm}'); --hero-image-md: url('${profile.heroImages.md}'); --hero-image-lg: url('${profile.heroImages.lg}');`;
 const primaryAction = profile.primaryAction ?? { label: "Let's get in touch", target: '#hire-me' };
 const portrait =
@@ -74,7 +81,13 @@ const portrait =
         {socialLinks.map((link) => <IconButton href={link.href} label={link.label} icon={link.icon} legacyIcon={link.legacyIcon} />)}
       </nav>
 
-      <ButtonLink href={primaryAction.target} variant="light" size="lg" class="c-hero__cta">{primaryAction.label}</ButtonLink>
+      <ButtonLink href={primaryAction.target} variant="primary" size="lg" class="c-hero__cta">{primaryAction.label}</ButtonLink>
+      {resumeLink && (
+        <a class="c-hero__resume" href={resumeLink.href}>
+          {ResumeIcon && <ResumeIcon aria-hidden="true" />}
+          <span>{resumeLink.label}</span>
+        </a>
+      )}
     </div>
 
     <p class="c-hero__scroll">

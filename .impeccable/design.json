@@ -1,0 +1,185 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-08-01T17:51:19Z",
+  "title": "Design System: phils.app — Philip Brocoum",
+  "extensions": {
+    "colorMeta": {
+      "link-blue": {
+        "role": "primary",
+        "displayName": "Link Blue",
+        "canonical": "#007bff",
+        "tonalRamp": ["#002752", "#004a99", "#0062cc", "#007bff", "#3395ff", "#66b0ff", "#99caff", "#cce5ff"]
+      },
+      "signal-rose": {
+        "role": "secondary",
+        "displayName": "Signal Rose",
+        "canonical": "#f43f5e",
+        "tonalRamp": ["#4c0519", "#881337", "#be123c", "#e11d48", "#f43f5e", "#fb7185", "#fda4af", "#fecdd3"]
+      },
+      "oxblood-dropcap": {
+        "role": "secondary",
+        "displayName": "Oxblood Dropcap",
+        "canonical": "#903",
+        "tonalRamp": ["#330011", "#4d001a", "#700726", "#990033", "#b8335c", "#cc6b8a", "#e0a2b8", "#f2d7e0"]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Ink",
+        "canonical": "#212529",
+        "tonalRamp": ["#0a0c0d", "#141618", "#212529", "#343a40", "#495057", "#6c757d", "#adb5bd", "#dee2e6"]
+      },
+      "dark-band": {
+        "role": "neutral",
+        "displayName": "Dark Band",
+        "canonical": "#343a40",
+        "tonalRamp": ["#121416", "#1e2124", "#2b3035", "#343a40", "#495057", "#6c757d", "#adb5bd", "#ced4da"]
+      },
+      "paper": {
+        "role": "neutral",
+        "displayName": "Paper",
+        "canonical": "#f8f9fa",
+        "tonalRamp": ["#6c757d", "#868e96", "#adb5bd", "#ced4da", "#dee2e6", "#e9ecef", "#f1f3f5", "#f8f9fa"]
+      },
+      "muted": {
+        "role": "neutral",
+        "displayName": "Muted",
+        "canonical": "#6c757d",
+        "tonalRamp": ["#2b2f32", "#3d4347", "#54595e", "#6c757d", "#868e96", "#a3acb3", "#c4cbd1", "#e2e6ea"]
+      },
+      "surface": {
+        "role": "neutral",
+        "displayName": "Surface",
+        "canonical": "#fff",
+        "tonalRamp": ["#343a40", "#54595e", "#6c757d", "#868e96", "#adb5bd", "#ced4da", "#e9ecef", "#ffffff"]
+      },
+      "card-title-red": {
+        "role": "secondary",
+        "displayName": "Card Title Red",
+        "canonical": "#dc3545",
+        "tonalRamp": ["#4a0b13", "#751421", "#a02030", "#c22c3e", "#dc3545", "#e6646f", "#ee97a0", "#f6c9ce"]
+      },
+      "night-link": {
+        "role": "primary",
+        "displayName": "Night Link",
+        "canonical": "#6ea8fe",
+        "tonalRamp": ["#102a52", "#1d4480", "#3361ab", "#5081d4", "#6ea8fe", "#8fbcfe", "#b3d1fe", "#d6e6ff"]
+      }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "Hero name only; Georgia at weight 300 keeps the biggest text quiet." },
+      "headline": { "displayName": "Headline", "purpose": "Section band titles; h3/h4 variants step down to 1.75rem and 1.5rem." },
+      "title": { "displayName": "Title", "purpose": "Media-item and skill-group titles; work-card names at 1.5rem in Card Title Red." },
+      "body": { "displayName": "Body", "purpose": "Everything informational; blog prose loosens to 1.6 line-height." },
+      "label": { "displayName": "Label", "purpose": "Small buttons, skill descriptions, annotations; never uppercase kickers." }
+    },
+    "shadows": [
+      { "name": "card-lift", "value": "0 0.125rem 0.25rem rgb(0 0 0 / 7.5%)", "purpose": "The single shadow in the system; work cards only." }
+    ],
+    "motion": [
+      { "name": "transition-standard", "value": "160ms ease", "purpose": "The only transition token; hover state changes on buttons, links, and icon buttons." }
+    ],
+    "breakpoints": [
+      { "name": "sm", "value": "576px" },
+      { "name": "md", "value": "768px" },
+      { "name": "lg", "value": "992px" },
+      { "name": "xl", "value": "1200px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Default action; Link Blue fill, deepens on hover. The hero CTA uses the large size.",
+      "html": "<button class=\"ds-btn-primary\">Let's get in touch</button>",
+      "css": ".ds-btn-primary { display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; padding: 0.5rem 1rem; font-family: var(--font-body); font-size: 1.25rem; line-height: 1.5; color: var(--color-white); background: var(--color-primary); border: 1px solid var(--color-primary); border-radius: var(--radius-md); cursor: pointer; transition: background-color var(--transition), border-color var(--transition), color var(--transition); } .ds-btn-primary:hover { background: var(--color-primary-hover); border-color: var(--color-primary-hover); } .ds-btn-primary:focus-visible { outline: 3px solid color-mix(in srgb, var(--color-info) 70%, white); outline-offset: 3px; }"
+    },
+    {
+      "name": "Rose Button",
+      "kind": "button",
+      "refersTo": "button-rose",
+      "description": "The hire-me CTA; Signal Rose is reserved for this one ask plus the focus ring.",
+      "html": "<button class=\"ds-btn-rose\">Hire me</button>",
+      "css": ".ds-btn-rose { display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; padding: 0.5rem 1rem; font-family: var(--font-body); font-size: 1.25rem; line-height: 1.5; color: var(--color-white); background: var(--color-info); border: 1px solid var(--color-info); border-radius: var(--radius-md); cursor: pointer; transition: background-color var(--transition), border-color var(--transition), color var(--transition); } .ds-btn-rose:hover { background: var(--color-info-hover); border-color: var(--color-info-hover); } .ds-btn-rose:focus-visible { outline: 3px solid color-mix(in srgb, var(--color-info) 70%, white); outline-offset: 3px; }"
+    },
+    {
+      "name": "Outline Button",
+      "kind": "button",
+      "refersTo": "button-outline",
+      "description": "Ghost action for dark or colored bands; hover flips to a Paper fill with Ink text.",
+      "html": "<button class=\"ds-btn-outline\" style=\"color: #f8f9fa; background: #343a40;\">View project</button>",
+      "css": ".ds-btn-outline { display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; padding: 0.375rem 0.75rem; font-family: var(--font-body); font-size: 1rem; line-height: 1.5; color: inherit; background: transparent; border: 1px solid currentColor; border-radius: var(--radius-md); cursor: pointer; transition: background-color var(--transition), border-color var(--transition), color var(--transition); } .ds-btn-outline:hover { background: var(--color-light); border-color: var(--color-light); color: var(--color-dark); } .ds-btn-outline:focus-visible { outline: 3px solid color-mix(in srgb, var(--color-info) 70%, white); outline-offset: 3px; }"
+    },
+    {
+      "name": "Icon Button",
+      "kind": "button",
+      "refersTo": "icon-button",
+      "description": "Social links in the hero; 3.125rem square with a 2rem stroke icon, same hover flip as outline.",
+      "html": "<button class=\"ds-icon-btn\" style=\"color: #f8f9fa; background: #343a40;\" aria-label=\"GitHub\"><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.65\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4\"/><path d=\"M9 18c-4.51 2-5-2-7-2\"/></svg></button>",
+      "css": ".ds-icon-btn { width: 3.125rem; height: 3.125rem; display: inline-flex; align-items: center; justify-content: center; color: inherit; background: transparent; border: 1px solid currentColor; border-radius: var(--radius-md); cursor: pointer; transition: background-color var(--transition), color var(--transition), border-color var(--transition); } .ds-icon-btn svg { width: 2rem; height: 2rem; } .ds-icon-btn:hover { background: var(--color-light); color: var(--color-dark); } .ds-icon-btn:focus-visible { outline: 3px solid color-mix(in srgb, var(--color-info) 70%, white); outline-offset: 3px; }"
+    },
+    {
+      "name": "Input Group",
+      "kind": "input",
+      "refersTo": "input",
+      "description": "Contact form field fused with an icon addon; shares one border, square on the fused side.",
+      "html": "<div class=\"ds-input-group\"><input type=\"email\" placeholder=\"you@example.com\" aria-label=\"Email\"><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.65\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect width=\"20\" height=\"16\" x=\"2\" y=\"4\" rx=\"2\"/><path d=\"m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7\"/></svg></div>",
+      "css": ".ds-input-group { display: grid; grid-template-columns: minmax(0, 1fr) 2.875rem; max-width: 22rem; } .ds-input-group input { width: 100%; min-width: 0; min-height: 2.375rem; padding: 0.375rem 0.75rem; font-family: var(--font-body); font-size: 1rem; color: var(--color-input-text); background: var(--color-surface); border: 1px solid var(--color-input-border); border-radius: var(--radius-md) 0 0 var(--radius-md); } .ds-input-group input:focus-visible { outline: 3px solid color-mix(in srgb, var(--color-info) 70%, white); outline-offset: 3px; } .ds-input-group svg { width: 2.875rem; height: 2.375rem; padding: 0.625rem; color: var(--color-input-text); background: var(--color-input-addon-bg); border: 1px solid var(--color-input-border); border-left: 0; border-radius: 0 var(--radius-md) var(--radius-md) 0; }"
+    },
+    {
+      "name": "Work Card",
+      "kind": "card",
+      "refersTo": "work-card",
+      "description": "Project card with subtle header, full-bleed screenshot, Georgia red title, and the system's one shadow.",
+      "html": "<article class=\"ds-work-card\"><header class=\"ds-work-card__header\"><a href=\"#\">project.example.com</a></header><div class=\"ds-work-card__body\"><div class=\"ds-work-card__image\"></div><h3>Project Name</h3><p>What it is, who it is for, and what shipped. Plain sentences, no inflation.</p><button class=\"ds-work-card__cta\">Visit site</button></div><footer class=\"ds-work-card__footer\">TypeScript, React, Next.js</footer></article>",
+      "css": ".ds-work-card { max-width: 22rem; display: flex; flex-direction: column; overflow: hidden; font-family: var(--font-body); color: var(--color-on-surface); background: var(--color-surface); border: 1px solid var(--color-surface-border); border-radius: var(--radius-md); box-shadow: var(--shadow-card); } .ds-work-card__header { min-height: 3.25rem; display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem 1.25rem; background: var(--color-surface-subtle); border-bottom: 1px solid var(--color-surface-border); } .ds-work-card__header a { color: var(--color-link); text-decoration: none; } .ds-work-card__header a:hover { color: var(--color-link-hover); text-decoration: underline; } .ds-work-card__body { flex: 1; display: flex; flex-direction: column; padding: 1.25rem; } .ds-work-card__image { margin: -1.25rem -1.25rem 1rem; aspect-ratio: 600 / 341; background: var(--color-surface-alt); } .ds-work-card h3 { margin: 0 0 0.75rem; font-family: var(--font-heading); font-weight: 500; font-size: 1.5rem; line-height: 1.2; color: var(--color-danger); } .ds-work-card p { margin: 0 0 1rem; font-size: 1rem; line-height: 1.5; } .ds-work-card__cta { align-self: flex-start; margin-top: auto; padding: 0.375rem 0.75rem; font: inherit; color: var(--color-white); background: var(--color-primary); border: 1px solid var(--color-primary); border-radius: var(--radius-md); cursor: pointer; transition: background-color var(--transition), border-color var(--transition); } .ds-work-card__cta:hover { background: var(--color-primary-hover); border-color: var(--color-primary-hover); } .ds-work-card__footer { display: grid; gap: 0.25rem; padding: 0.75rem 1.25rem; font-size: 0.875rem; color: var(--color-on-surface-muted); background: var(--color-surface-subtle); border-top: 1px solid var(--color-surface-border); }"
+    },
+    {
+      "name": "Skill Tile",
+      "kind": "chip",
+      "refersTo": "work-card",
+      "description": "Dense skill-grid cell: 2.25rem icon, Georgia title, faint outline tile at the large radius.",
+      "html": "<div class=\"ds-skill-tile\"><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.65\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><polyline points=\"16 18 22 12 16 6\"/><polyline points=\"8 6 2 12 8 18\"/></svg><div class=\"ds-skill-tile__body\"><h4>TypeScript</h4><p>Daily driver, web and tooling.</p></div></div>",
+      "css": ".ds-skill-tile { display: flex; align-items: center; gap: 0.5rem; max-width: 16rem; padding: 0.25rem; font-family: var(--font-body); color: var(--color-on-surface); border: 1px solid color-mix(in srgb, var(--color-rule) 60%, transparent); border-radius: var(--radius-lg); } .ds-skill-tile svg { flex: 0 0 2.25rem; width: 2.25rem; height: 2.25rem; } .ds-skill-tile h4 { margin: 0 0 0.25rem; font-family: var(--font-heading); font-weight: 500; font-size: 1rem; line-height: 1.2; } .ds-skill-tile p { margin: 0; font-size: 0.875rem; line-height: 1.5; }"
+    },
+    {
+      "name": "Section Band",
+      "kind": "custom",
+      "refersTo": "work-card",
+      "description": "The page's structural unit: full-bleed tonal band, centered Georgia title, hairline rule.",
+      "html": "<section class=\"ds-band\"><div class=\"ds-band__inner\"><header class=\"ds-band__header\"><h2>About</h2><hr></header><p>Band content lives in the centered container, on the token surface color, in both color schemes.</p></div></section>",
+      "css": ".ds-band { padding-block: 1.5rem; font-family: var(--font-body); color: var(--color-on-surface); background: var(--color-surface-alt); } .ds-band__inner { width: min(100%, 71.25rem); margin-inline: auto; padding-inline: 0.9375rem; } .ds-band__header { margin-bottom: 1.5rem; text-align: center; } .ds-band__header h2 { margin: 0 0 0.5rem; font-family: var(--font-heading); font-weight: 500; font-size: 2rem; line-height: 1.2; } .ds-band__header hr { width: 100%; margin: 1rem auto 0; border: 0; border-top: 1px solid var(--color-rule); } .ds-band p { margin: 0; font-size: 1rem; line-height: 1.5; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Honest Handshake",
+    "overview": "This system is a warm, direct introduction to one person, not a brand campaign. It descends visibly from classic Bootstrap (the blue, the grays, the 0.25rem radius, the 576/768/992/1200 breakpoints) and keeps that familiarity as a feature: a recruiter or client has read a thousand pages that behave exactly like this one, and none of their attention is spent learning the interface. Warmth comes from the content and the serif voice, not from decoration.\n\nThe site lives in two color schemes at once. Light and dark are not variants of each other; they are one system with semantic surface tokens, so any new component that uses the tokens gets dark mode for free. The hero, footer, and alternating section bands keep the dark slate (--color-dark) as a constant spine in both schemes, which gives the page its rhythm of light and dark stripes.\n\nDensity is comfortable and editorial: generous section padding, centered section headers with a hairline rule, cards and media items doing quiet structural work. Nothing glows, slides, or sparkles. The one moment of flourish is the typographic dropcap, a small nod to the blog's reading character.",
+    "keyCharacteristics": [
+      "Bootstrap-familiar controls and grid; zero learning curve on purpose",
+      "Warm and personal in voice, restrained in decoration",
+      "One semantic token layer drives automatic dark mode; no hardcoded hex outside the token block",
+      "Georgia serif headings over Open Sans body; dropcap as the single editorial flourish",
+      "Dark slate bands (hero, footer, alternating sections) as the page's constant spine"
+    ],
+    "rules": [
+      { "name": "The Two-Scheme Rule", "body": "Every themable color exists twice: a light value in the token layer and a dark value in the single @media (prefers-color-scheme: dark) block in the theme layer of src/styles/global.css. A color used in a component without a token and a dark variant is a bug, not a choice.", "section": "colors" },
+      { "name": "The Rare Rose Rule", "body": "Signal Rose appears in exactly three places: the hire-me band, its button, and the focus ring. Do not spend it on decoration; the page has one ask and the rose marks it.", "section": "colors" },
+      { "name": "The Two Voices Rule", "body": "Serif for identity, sans for information, nothing else. Do not add a third family, a display cut, or a webfont without a deliberate world decision.", "section": "typography" },
+      { "name": "The One Shadow Rule", "body": "There is one shadow and it belongs to work cards. New components join the flat layering (bands, hairlines, tonal steps) instead of inventing elevation; in dark mode, where the shadow all but disappears, the translucent-white border does the work.", "section": "elevation" }
+    ],
+    "dos": [
+      "Do read every surface, text, border, input, link, and rule color from the semantic tokens, and add a dark-mode variant in the single theme-layer media block when introducing a new one.",
+      "Do build sections as bands (Surface / Surface Alt / Dark Band) with the standard container, centered header, and hairline rule.",
+      "Do keep hover states visible and quick (160ms ease); every interactive element answers the pointer.",
+      "Do use Georgia for headings and identity moments, Open Sans for everything informational.",
+      "Do spot-check new work with emulated dark mode and at 320px width before calling it done."
+    ],
+    "donts": [
+      "Don't hardcode a hex color in a component or page; if a value has no token, the work is not finished.",
+      "Don't add shadows, gradients, glass effects, or a second accent color; the system has one shadow and one rose, both spoken for.",
+      "Don't introduce uppercase eyebrow labels, letter-spaced kickers, or a third typeface.",
+      "Don't add a manual dark-mode toggle or per-component scheme logic; the single media query owns it.",
+      "Don't give blog prose or new pages their own color rules outside the token layer; they inherit the system or they are wrong."
+    ]
+  }
+}

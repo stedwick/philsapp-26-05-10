@@ -1,9 +1,24 @@
 ---
+interface FooterLink {
+  label: string;
+  href: string;
+}
+
+interface Props {
+  links?: FooterLink[];
+}
+
+const { links = [] } = Astro.props;
 const year = new Date().getFullYear();
 ---
 
 <footer class="c-site-footer">
   <div class="l-container">
+    {links.length > 0 && (
+      <nav class="c-site-footer__links" aria-label="Footer">
+        {links.map((link) => <a href={link.href}>{link.label}</a>)}
+      </nav>
+    )}
     <p>Copyright &copy; {year} by Philip Brocoum. Icons by <a href="https://icons8.com/">Icons8</a>.</p>
   </div>
 </footer>

@@ -205,6 +205,12 @@ export function createResumeViewModel(collections, iconComponents) {
       image: resolveImage(assetLookup, item.iconAssetId, item.iconHighResAssetId, item.iconAlt),
     })),
     contactIntro: contact.intro,
+    contactEmail: contact.email,
+    contactEmailHref: contact.emailHref,
+    resumeLink: {
+      label: contact.resumeLabel,
+      href: assetLookup.get(contact.resumeAssetId)?.localPath ?? '/site-assets/resume.pdf',
+    },
     contactItems: [
       { label: contact.name, icon: iconComponents.CircleUserRound },
       { label: contact.location, icon: iconComponents.MapPin },

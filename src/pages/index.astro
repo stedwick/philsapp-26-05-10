@@ -1,4 +1,5 @@
 ---
+import ButtonLink from '../components/ButtonLink.astro';
 import ContactForm from '../components/ContactForm.astro';
 import ContactInfo from '../components/ContactInfo.astro';
 import Hero from '../components/Hero.astro';
@@ -52,21 +53,21 @@ const resume = createResumeViewModel(
 ---
 
 <Layout>
-	<Hero profile={resume.profile} socialLinks={resume.socialLinks} chevronIcon={icons.ChevronDown} />
+	<Hero profile={resume.profile} socialLinks={resume.socialLinks} chevronIcon={icons.ChevronDown} resumeLink={resume.resumeLink} resumeIcon={icons.FileText} />
 
 	<SectionBand id="about" title={resume.sections.about.title} mobileTitleLines={resume.sections.about.titleShort} tone="light">
 		<SplitIntro paragraphs={resume.sections.about.body} />
 	</SectionBand>
 
 	<SectionBand id="about-skills" title="Phil's Skillset" tone="white">
-		<h5 class="c-skill-group__title">Technical Chops</h5>
+		<h3 class="c-skill-group__title">Technical Chops</h3>
 		<MediaGrid class="c-skill-grid">
 			{/* Skill descriptions and links hidden for now; data stays in skills.json. Restore by passing body/href through again. */}
-			{resume.skills.technical.map(({ body: _description, href: _url, ...skill }) => <MediaItem {...skill} />)}
+			{resume.skills.technical.map(({ body: _description, href: _url, ...skill }) => <MediaItem {...skill} headingLevel={4} />)}
 		</MediaGrid>
-		<h5 class="c-skill-group__title">Leadership Qualities</h5>
+		<h3 class="c-skill-group__title">Leadership Qualities</h3>
 		<MediaGrid class="c-skill-grid">
-			{resume.skills.leadership.map(({ body: _description, href: _url, ...skill }) => <MediaItem {...skill} />)}
+			{resume.skills.leadership.map(({ body: _description, href: _url, ...skill }) => <MediaItem {...skill} headingLevel={4} />)}
 		</MediaGrid>
 	</SectionBand>
 
@@ -115,7 +116,9 @@ const resume = createResumeViewModel(
 		</MediaGrid>
 	</SectionBand>
 
-	<SectionBand id="hire-me" title={resume.sections.contact.title} tone="info" showRule={false} />
+	<SectionBand id="hire-me" title={resume.sections.contact.title} tone="info" showRule={false}>
+		<ButtonLink href="#contact" variant="outline" size="lg" class="c-hire-me__cta">Send me a message</ButtonLink>
+	</SectionBand>
 
 	<SectionBand id="contact" tone="white">
 		<p class="c-dropcap">{resume.contactIntro}</p>
@@ -127,10 +130,10 @@ const resume = createResumeViewModel(
 
 			<section aria-labelledby="contact-form-heading">
 				<h2 id="contact-form-heading" class="u-center">Send Phil a Message</h2>
-				<ContactForm action={resume.formAction} />
+				<ContactForm action={resume.formAction} email={resume.contactEmail} emailHref={resume.contactEmailHref} />
 			</section>
 		</div>
 	</SectionBand>
 
-	<SiteFooter />
+	<SiteFooter links={[{ label: 'Blog', href: '/blog/' }, ...resume.socialLinks]} />
 </Layout>

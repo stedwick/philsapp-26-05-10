@@ -346,6 +346,25 @@
     margin-top: 2.25rem;
   }
 
+  /* Tertiary recruiter path: quiet link under the one CTA, not a second button.
+     Spacing comes from the .c-hero__content grid gap. */
+  .c-hero__resume {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    color: var(--color-muted-light);
+    font-size: 0.875rem;
+  }
+
+  .c-hero__resume:hover {
+    color: var(--color-light);
+  }
+
+  .c-hero__resume svg {
+    width: 1rem;
+    height: 1rem;
+  }
+
   .c-hero__scroll {
     align-self: end;
     color: var(--color-muted-light);
@@ -393,11 +412,26 @@
 
   #hire-me .l-container {
     width: 100%;
+    text-align: center;
   }
 
   #hire-me .c-section-band__header,
   #hire-me .c-section-band__title {
     margin-bottom: 0;
+  }
+
+  /* White fill with rose text: the one ask, on the one rose band. */
+  #hire-me .c-hire-me__cta {
+    margin-top: var(--space-4);
+    background: var(--color-light);
+    border-color: var(--color-light);
+    color: var(--color-info);
+  }
+
+  #hire-me .c-hire-me__cta:hover {
+    background: color-mix(in srgb, var(--color-light) 85%, transparent);
+    border-color: color-mix(in srgb, var(--color-light) 85%, transparent);
+    color: var(--color-info-hover);
   }
 
   #education-projects .c-section-band__header > p {
@@ -867,6 +901,11 @@
     gap: var(--space-4);
   }
 
+  /* display:grid above would beat the UA [hidden] rule; keep hidden authoritative. */
+  .c-contact-form[hidden] {
+    display: none;
+  }
+
   .c-input-group {
     display: grid;
     grid-template-columns: minmax(0, 1fr) 2.875rem;
@@ -909,6 +948,36 @@
     width: 100%;
   }
 
+  .c-contact-form .c-button:disabled {
+    opacity: 0.65;
+    cursor: default;
+  }
+
+  .c-contact-form__status {
+    margin: 0;
+    padding: var(--space-3);
+    border: 1px solid var(--color-rule);
+    border-radius: var(--radius-md);
+    background: var(--color-surface-alt);
+  }
+
+  .c-contact-form__success {
+    padding: var(--space-5);
+    border: 1px solid var(--color-rule);
+    border-radius: var(--radius-md);
+    background: var(--color-surface-alt);
+    text-align: center;
+  }
+
+  .c-contact-form__success h3 {
+    margin-bottom: var(--space-2);
+    font-size: 1.25rem;
+  }
+
+  .c-contact-form__success p {
+    margin: 0;
+  }
+
   .c-dropcap::first-letter {
     float: left;
     padding: 0.25rem 0.5rem 0 0;
@@ -927,6 +996,18 @@
 
   .c-site-footer a {
     color: var(--color-light);
+  }
+
+  .c-site-footer__links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--space-2) var(--space-5);
+    margin-bottom: var(--space-3);
+  }
+
+  .c-site-footer__links a:hover {
+    color: var(--color-muted-light);
   }
 
   .c-styleguide-nav {

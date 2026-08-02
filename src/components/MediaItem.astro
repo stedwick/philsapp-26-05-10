@@ -23,10 +23,12 @@ interface Props {
   addendum?: string;
   actions?: Action[];
   compact?: boolean;
+  headingLevel?: 3 | 4;
 }
 
-const { title, href, body, icon: Icon, legacyIcon, image, addendum, actions = [], compact = false } = Astro.props;
+const { title, href, body, icon: Icon, legacyIcon, image, addendum, actions = [], compact = false, headingLevel = 3 } = Astro.props;
 const LegacyIcon = legacyIcon ? legacyIcons[legacyIcon] : undefined;
+const HeadingTag = `h${headingLevel}`;
 ---
 
 <article class:list={['c-media-item', { 'c-media-item--compact': compact }]}>
@@ -65,9 +67,9 @@ const LegacyIcon = legacyIcon ? legacyIcons[legacyIcon] : undefined;
     </span>
   )}
   <div class="c-media-item__body">
-    <h3 class="c-media-item__title">
+    <HeadingTag class="c-media-item__title">
       {href ? <a href={href}>{title}</a> : title}
-    </h3>
+    </HeadingTag>
     {addendum && <p class="c-media-item__addendum">{addendum}</p>}
     {body && <p>{body}</p>}
     {actions.length > 0 && (
