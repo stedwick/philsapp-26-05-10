@@ -54,18 +54,27 @@
       mask-repeat: no-repeat;
     }
   }
-  /* bottom vignette at all widths: fade the scene into the page background
-     (shortened: roughly half the old fade distance) */
+  /* bottom vignette at all widths: fade the scene into the page background.
+     The whole ramp is progress-linked: it slides UP the hero by --lift
+     (progress * --liftMax, both set/ recomputed by JS per layout) as you
+     scroll, so at the pinned end state the fade completes at ~24% of the
+     viewport height while scroll 0 keeps the ramp exactly as shipped
+     (lift = 0). This replaces shrinking the pinned band, which with the
+     shipped layer end values would crop the mountain peak out of the
+     freeze frame. %-of-hero throughout = zoom-robust. */
+  .landscape {
+    --lift: calc(var(--progress, 0) * var(--liftMax, 0%));
+  }
   .landscape::after {
     content: "";
     position: absolute;
     inset: 0;
     background: linear-gradient(to bottom,
-      transparent 80%,
-      rgba(15,23,10,.25) 87%,
-      rgba(15,23,10,.55) 92%,
-      rgba(15,23,10,.85) 96%,
-      #0f170a 99%);
+      transparent calc(80% - var(--lift)),
+      rgba(15,23,10,.25) calc(84% - var(--lift)),
+      rgba(15,23,10,.55) calc(88% - var(--lift)),
+      rgba(15,23,10,.85) calc(91% - var(--lift)),
+      #0f170a calc(93% - var(--lift)));
     pointer-events: none;
   }
   .landscape__layer {
@@ -73,8 +82,11 @@
     inset: 0;
     /* start/end model: translation = start + (end - start) * progress,
        progress = clamped scroll / freeze (0 on load, 1 at the freeze point).
-       --start/--end are unitless px, set per layer from the tuning panel. */
-    transform: translateY(calc((var(--start, 0) + (var(--end, 0) - var(--start, 0)) * var(--progress, 0)) * 1px));
+       --start/--end are unitless REFERENCE px (tuned against a 1170px-tall
+       hero, i.e. 130svh at 900px window height); --pxScale is set by JS to
+       measuredHeroHeight / 1170 so the whole composition re-fits to any
+       viewport or browser-zoom level instead of breaking. */
+    transform: translateY(calc((var(--start, 0) + (var(--end, 0) - var(--start, 0)) * var(--progress, 0)) * var(--pxScale, 1) * 1px));
   }
   .landscape__layer img {
     position: absolute;
@@ -88,6 +100,11 @@
   /* clouds anchor on phones: the centered crop cuts off the left-side
      clouds; anchor bottom-left on small screens (clouds have no
      registration with the other layers, so this is safe) */
+  /* phones AND tablets/small laptops: fit the scene to the screen instead of
+     extending 30% below the fold (wider viewports keep 130svh) */
+  @media (max-width: 1024px) {
+    .landscape { height: 100vh; height: 100svh; }
+  }
   @media (max-width: 767px) {
     .landscape__layer--clouds img { object-position: left bottom; }
   }
@@ -105,6 +122,14 @@
     padding-bottom: 80vh;
     color: #b8c9a8;
     line-height: 1.7;
+    /* content tracking: --trackPx (set by JS from scroll progress) keeps the
+       content's leading edge tucked just inside the fade ramp's start (where
+       the scene visually ends) at every scroll depth, so there is no dead
+       dark band between the scene and the content anywhere in the journey.
+       A transform (not margin) so browser scroll anchoring does not
+       compensate it away; at scroll 0 it parks the content just below the
+       fold, leaving the landing frame unchanged. */
+    transform: translateY(calc(-1 * var(--trackPx, 0px)));
   }
   /* subtle readability treatment behind the text column only; the scene
      shows through around it */
@@ -204,16 +229,21 @@
     cursor: pointer;
   }
   .tuner__btns button:hover { background: #2c4020; }
+  .tuner__note { font-size: 10px; opacity: .55; margin-top: 6px; line-height: 1.4; }
 </style>
 </head>
 <body>
 
 <div class="landscape" role="img" aria-label="Layered daytime illustration of a mountain, forested hills, a city skyline on the lake, and a foreground meadow">
-  <div class="landscape__layer" data-layer="mtn"><img src="w-t-mtn (2).png" alt=""></div>
-  <div class="landscape__layer landscape__layer--clouds" data-layer="clouds"><img src="clouds.png" alt=""></div>
-  <div class="landscape__layer" data-layer="hill-river"><img src="w-t-hill-river (3).png" alt=""></div>
-  <div class="landscape__layer" data-layer="city"><img src="city-lights-s85.png" alt=""></div>
-  <div class="landscape__layer" data-layer="fg"><img src="trans-foreground-s85.png" alt=""></div>
+  <!-- layer images: AVIF (q90, served first: cleanest), WebP (q90, fallback),
+       original PNG (final fallback). Derivatives generated with
+       cwebp -q 90 -alpha_q 100 -m 6 and avifenc -q 90 --qalpha 100 -s 4;
+       alpha is lossless in both. Originals are never referenced first. -->
+  <div class="landscape__layer" data-layer="mtn"><picture><source srcset="w-t-mtn%20(2).avif" type="image/avif"><source srcset="w-t-mtn%20(2).webp" type="image/webp"><img src="w-t-mtn (2).png" alt=""></picture></div>
+  <div class="landscape__layer landscape__layer--clouds" data-layer="clouds"><picture><source srcset="clouds.avif" type="image/avif"><source srcset="clouds.webp" type="image/webp"><img src="clouds.png" alt=""></picture></div>
+  <div class="landscape__layer" data-layer="hill-river"><picture><source srcset="w-t-hill-river%20(3).avif" type="image/avif"><source srcset="w-t-hill-river%20(3).webp" type="image/webp"><img src="w-t-hill-river (3).png" alt=""></picture></div>
+  <div class="landscape__layer" data-layer="city"><picture><source srcset="city-lights-s85.avif" type="image/avif"><source srcset="city-lights-s85.webp" type="image/webp"><img src="city-lights-s85.png" alt=""></picture></div>
+  <div class="landscape__layer" data-layer="fg"><picture><source srcset="trans-foreground-s85.avif" type="image/avif"><source srcset="trans-foreground-s85.webp" type="image/webp"><img src="trans-foreground-s85.png" alt=""></picture></div>
 </div>
 
 <div class="tuner tuner--collapsed" id="tuner">
@@ -226,6 +256,7 @@
         <button id="tunerCopy" type="button">copy</button>
         <button id="tunerReset" type="button">reset defaults</button>
       </div>
+      <div class="tuner__note">values are px against a 1170px reference hero; translations auto-scale to the measured hero height (zoom-robust)</div>
     </div>
   </div>
 </div>
@@ -233,10 +264,16 @@
 <div class="content">
   <div class="content__inner">
   <h1>fal.ai parallax playground — gradient sky + clouds layer</h1>
-  <p>Pinned end state (sticky band, freeze at 620px, tree-bark side edges at
+  <p>Pinned end state (sticky band, freeze after 620px of travel against a
+     1170px reference hero — all geometry is stored as fractions of that
+     reference and re-fitted to the measured hero height on resize, so
+     browser zoom re-fits the composition instead of breaking it; tree-bark
+     side edges at
      <code>min-width: 768px</code> as a silhouette-only feTurbulence-displaced
-     SVG mask against the plain background, shortened bottom
-     fade at all widths). Sky is a CSS
+     SVG mask against the plain background, and a bottom fade that rises with
+     scroll so the pinned end state fades to solid by ~24% of the viewport;
+     hero is 130svh on wide screens, 100svh at or below 1024px).
+     Sky is a CSS
      gradient sampled from sky.png; it parallaxes via the sky row
      (background-position on the container). Clouds are their own layer
      (<code>clouds.png</code>, in front of the mountain for occlusion,
@@ -248,8 +285,8 @@
      math: each layer translates <code>start + (end - start) * progress</code>,
      where <code>progress</code> is the clamped scroll divided by the freeze
      point. The tuning panel (bottom right) ships Philip's tuned defaults:
-     sky -100/264, mtn -162/293, clouds -100/285, hill-river -82/277,
-     city -61/191, fg -65/107. Drag sliders to retune; the readout line is the
+     sky -100/217, mtn -213/247, clouds -124/182, hill-river -103/202,
+     city -82/79, fg -91/-67. Drag sliders to retune; the readout line is the
      compact format to paste back.</p>
   <p>Keep scrolling: the scene separates, freezes, then this text scrolls up
      over the frozen scene, which stays visible behind it.</p>
@@ -259,16 +296,41 @@
 <script>
   const root = document.documentElement;
   const hero = document.querySelector('.landscape');
-  const FREEZE_TARGET = 620;  // scroll px of parallax travel before the freeze
-  const MIN_BAND = 250;       // smallest acceptable pinned band height
+  // Zoom-robust model: every geometry constant is a fraction of a 1170px
+  // REFERENCE hero (130svh at a 900px-tall window, where the composition was
+  // tuned) and is re-fitted to the MEASURED hero height on resize. Browser
+  // zoom changes the CSS viewport and fires resize, so Cmd +/- re-fits the
+  // composition instead of breaking it — the same robustness the effect
+  // already had across viewport widths.
+  const REF_HERO = 1170;
+  const FREEZE_FRAC = 620 / REF_HERO;    // parallax travel before the freeze
+  const MIN_BAND_FRAC = 250 / REF_HERO;  // smallest acceptable pinned band
+  const FADE_SOLID_FRAC = 0.93;          // hero fraction where the fade is solid at progress 0
+  const END_SOLID_VIEW = 0.24;           // viewport fraction where the fade should be solid at the freeze
+  const END_SOLID_NUDGE = 0.5 * 37.8;    // plus a fixed physical nudge down (0.5cm; CSS cm = 37.8px exactly)
+  const RAMP_START_FRAC = 0.80;          // hero fraction where the fade ramp starts (first gradient stop)
+  const CATCH_UP_OVERLAP = 0.05;         // content's leading edge tucks this far INTO the ramp (hero fraction), landing soft in the fade tail
+  const TRACK_BASE_GAP = 1 - RAMP_START_FRAC - CATCH_UP_OVERLAP;  // hero fraction from content flow position up to the tucked target
   let freeze;
+  let pxScale = 1;
+  let heroH = 0;
+  let liftMax = 0;
+  let progress;
   function recompute() {
-    freeze = Math.min(FREEZE_TARGET, Math.max(0, hero.offsetHeight - MIN_BAND));
+    heroH = hero.offsetHeight;
+    freeze = Math.min(FREEZE_FRAC * heroH, Math.max(0, heroH - MIN_BAND_FRAC * heroH));
+    pxScale = heroH / REF_HERO;
     root.style.setProperty('--freezePx', (-freeze) + 'px');
+    root.style.setProperty('--pxScale', pxScale);
+    // fade ramp lift at the freeze: how far the ramp slides up the hero so
+    // its solid point lands at END_SOLID_VIEW of the viewport height plus
+    // the fixed nudge
+    liftMax = FADE_SOLID_FRAC - (freeze + END_SOLID_VIEW * window.innerHeight + END_SOLID_NUDGE) / heroH;
+    root.style.setProperty('--liftMax', (liftMax * 100).toFixed(3) + '%');
+    progress = undefined;  // force the gradient translation + content tracking to re-apply
   }
   window.addEventListener('resize', recompute);
   recompute();
-  let progress;
   function animation() {
     const eff = Math.min(window.scrollY, freeze);
     const p = freeze > 0 ? eff / freeze : 0;
@@ -276,9 +338,21 @@
       progress = p;
       root.style.setProperty('--progress', p);
       // gradient "sky" layer: translate the container's background-position
+      // (params are reference px; scale to the measured hero like the layers)
       if (window.__gradPos) {
-        root.style.setProperty('--gradPos', window.__gradPos(p) + 'px');
+        root.style.setProperty('--gradPos', (window.__gradPos(p) * pxScale) + 'px');
       }
+      // content tracking: keep the content's leading edge tucked just inside
+      // the fade ramp's start (ramp start + a small overlap = where the scene
+      // VISUALLY ends) at every progress, so there is no dead dark band at
+      // any scroll depth. The transform is heroH * (TRACK_BASE_GAP +
+      // p * liftMax): at progress 0 it is 0.15 * heroH, which parks the
+      // content just below the fold (scroll-0 frame unchanged); it grows with
+      // the lift, reaching the full track distance at the freeze, then holds
+      // (p clamps at 1) while the content scrolls normally over the pinned
+      // scene. Mid-journey the content rises ~1.4px per scroll px (1px normal
+      // scroll + the growing track), so it does not race.
+      root.style.setProperty('--trackPx', (heroH * (TRACK_BASE_GAP + p * liftMax)) + 'px');
     }
     window.requestAnimationFrame(animation);
   }
@@ -292,12 +366,12 @@
   // background-position; clouds share the sky values so they stay
   // registered on the gradient exactly as they were inside sky.png.
   const LAYERS = [
-    { id: 'sky',        label: 'sky',        start: -100, end: 264 },
-    { id: 'mtn',        label: 'mtn',        start: -162, end: 293 },
-    { id: 'clouds',     label: 'clouds',     start: -100, end: 285 },
-    { id: 'hill-river', label: 'hill-river', start: -82,  end: 277 },
-    { id: 'city',       label: 'city',       start: -61,  end: 191 },
-    { id: 'fg',         label: 'fg',         start: -65,  end: 107 },
+    { id: 'sky',        label: 'sky',        start: -100, end: 217 },
+    { id: 'mtn',        label: 'mtn',        start: -213, end: 247 },
+    { id: 'clouds',     label: 'clouds',     start: -124, end: 182 },
+    { id: 'hill-river', label: 'hill-river', start: -103, end: 202 },
+    { id: 'city',       label: 'city',       start: -82,  end: 79 },
+    { id: 'fg',         label: 'fg',         start: -91,  end: -67 },
   ];
   const START_MIN = -300, START_MAX = 800;
   const END_MIN = -100, END_MAX = 800;
@@ -320,7 +394,7 @@
 
   function applyLayer(id) {
     if (id === 'sky') {
-      root.style.setProperty('--gradPos', window.__gradPos(progress || 0) + 'px');
+      root.style.setProperty('--gradPos', (window.__gradPos(progress || 0) * pxScale) + 'px');
       return;
     }
     const el = document.querySelector(`[data-layer="${id}"]`);
