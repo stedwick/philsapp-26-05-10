@@ -167,6 +167,14 @@
   .content h1 { color: #fff; margin-bottom: 1rem; }
   .content p { margin-bottom: 1rem; }
   .content p:last-child { margin-bottom: 0; }
+  /* small breakpoint: content starts at 77svh, covering the bottom ~23%
+     of the scene (the meadow) from page load, and plain-flows from
+     there; the journey ends on the same skyline slice as desktop (see
+     recompute()). Must come after the base .content rule to win on
+     source order. */
+  @media (max-width: 1024px) {
+    .content { margin-top: 77vh; margin-top: 77svh; }
+  }
   code { background: rgba(255,255,255,.1); padding: .1em .35em; border-radius: 4px; }
 
   /* ---- tuning panel (dev tool, playground only) ---- */
@@ -343,16 +351,32 @@
   let progress;
   function recompute() {
     heroH = canvas.offsetHeight;
-    // travel as a viewport fraction: the end-state scene strip (viewport
-    // height minus travel minus the pad) lands at exactly 25% of the
-    // viewport on every screen
-    travel = 0.75 * window.innerHeight - FADE_PAD;
     pxScale = heroH / REF_HERO;
     root.style.setProperty('--pxScale', pxScale);
-    // fade anchor: with the anti-sink slide, the fade's solid point is a
-    // CONSTANT in canvas space during the journey (viewport height minus
-    // the pad), so it only needs recomputing on resize
-    const lift = FADE_SOLID_FRAC - (window.innerHeight - FADE_PAD) / heroH;
+    let lift;
+    if (window.innerWidth <= 1024) {
+      // Small breakpoint (100svh canvas): the content starts at 77svh and
+      // covers the bottom of the scene from page load. travel as a CANVAS
+      // fraction ends the journey on the same slice desktop reaches
+      // (canvas rows ~56% to ~77%, the skyline strip); the fade anchor
+      // keeps the same FADE_PAD glue to the content's leading edge,
+      // measured from the 77svh start instead of the fold. With the
+      // anti-sink slide both are constant in canvas space during the
+      // journey and clamp post-freeze, exactly like desktop. The fade
+      // solid (~74% of canvas) sits far above the foreground layer's hard
+      // bottom edge (~92%), so that edge can never read as a line here.
+      travel = 0.56 * heroH;
+      lift = FADE_SOLID_FRAC - (0.77 * window.innerHeight - FADE_PAD) / heroH;
+    } else {
+      // travel as a viewport fraction: the end-state scene strip
+      // (viewport height minus travel minus the pad) lands at exactly
+      // 25% of the viewport
+      travel = 0.75 * window.innerHeight - FADE_PAD;
+      // fade anchor: with the anti-sink slide, the fade's solid point is
+      // a CONSTANT in canvas space during the journey (viewport height
+      // minus the pad), so it only needs recomputing on resize
+      lift = FADE_SOLID_FRAC - (window.innerHeight - FADE_PAD) / heroH;
+    }
     root.style.setProperty('--lift', (lift * 100) + '%');
     progress = undefined;  // force the gradient translation to re-apply
   }
