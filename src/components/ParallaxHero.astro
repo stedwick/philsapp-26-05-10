@@ -229,6 +229,13 @@ const { profile, socialLinks, chevronIcon: ChevronDown } = Astro.props;
     font-size: 1.25rem;
     font-weight: 300;
   }
+  /* even inter-line gaps: the global p + p rule (1rem margin-top) would
+     otherwise double the gap above the location line; the grid gap is the
+     only spacing between the three lines */
+  .c-parallax-hero__role,
+  .c-parallax-hero__location {
+    margin: 0;
+  }
   /* upper-right icon row (to become the header bar), shrunk to 2/3 of the
      stock c-icon-button size (3.125rem button, 2rem icon). White icon and
      border (border is currentColor in the stock styles); the stock hover
