@@ -1,14 +1,14 @@
 ---
 import ContactForm from '../components/ContactForm.astro';
 import ContactInfo from '../components/ContactInfo.astro';
-import Hero from '../components/Hero.astro';
 import MediaGrid from '../components/MediaGrid.astro';
 import MediaItem from '../components/MediaItem.astro';
+import ParallaxHero from '../components/ParallaxHero.astro';
 import SectionBand from '../components/SectionBand.astro';
 import SiteFooter from '../components/SiteFooter.astro';
 import SplitIntro from '../components/SplitIntro.astro';
 import WorkCard from '../components/WorkCard.astro';
-import Layout from '../layouts/Layout.astro';
+import ParallaxLayout from '../layouts/ParallaxLayout.astro';
 import { getCollection } from 'astro:content';
 import { icons } from '../data/site';
 import { createResumeViewModel } from '../data/resume-data.mjs';
@@ -51,8 +51,8 @@ const resume = createResumeViewModel(
 );
 ---
 
-<Layout>
-	<Hero profile={resume.profile} socialLinks={resume.socialLinks} chevronIcon={icons.ChevronDown} />
+<ParallaxLayout>
+	<ParallaxHero profile={resume.profile} socialLinks={resume.socialLinks} chevronIcon={icons.ChevronDown} />
 
 	<SectionBand id="about" title={resume.sections.about.title} mobileTitleLines={resume.sections.about.titleShort} tone="light">
 		<SplitIntro paragraphs={resume.sections.about.body} />
@@ -133,4 +133,4 @@ const resume = createResumeViewModel(
 	</SectionBand>
 
 	<SiteFooter links={[{ label: 'Blog', href: '/blog/' }, ...resume.socialLinks]} />
-</Layout>
+</ParallaxLayout>
