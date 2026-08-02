@@ -237,7 +237,12 @@ const { profile, socialLinks, chevronIcon: ChevronDown } = Astro.props;
   .c-parallax-hero__social {
     position: absolute;
     top: var(--space-5);
-    right: var(--space-5);
+    /* stay inside the scene's right bark edge on ultra-wide screens: the
+       canvas is capped at 2048px with page dark beyond, and the bark mask
+       wobbles up to ~160px in from the canvas edge, so 175px of inset keeps
+       the squares clear of the ragged boundary. Below the cap (and on
+       phones) the calc goes negative and this reduces to --space-5. */
+    right: max(var(--space-5), calc((100vw - 2048px) / 2 + 175px));
     display: flex;
     gap: 0.5rem;
   }
