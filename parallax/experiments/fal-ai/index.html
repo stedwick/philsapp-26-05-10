@@ -21,7 +21,7 @@
   .landscape__canvas {
     position: relative;
     /* the canvas keeps the tuned 130svh geometry (100svh at or below
-       1024px) so cover-fit zoom, pxScale and every tuned value are
+       767px) so cover-fit zoom, pxScale and every tuned value are
        untouched; on wide screens the bottom 30% overhangs below the
        viewport and is clipped by it. */
     height: 130vh;
@@ -124,10 +124,11 @@
   /* clouds anchor on phones: the centered crop cuts off the left-side
      clouds; anchor bottom-left on small screens (clouds have no
      registration with the other layers, so this is safe) */
-  /* phones AND tablets/small laptops: 100svh scene canvas (wider viewports
-     keep 130svh). With the hero fixed this is what preserves the tuned
-     geometry on small screens, so the breakpoint is still load-bearing. */
-  @media (max-width: 1024px) {
+  /* phones: 100svh scene canvas (wider viewports keep 130svh). With the
+     hero fixed this is what preserves the tuned geometry on small
+     screens, so the breakpoint is still load-bearing. Same breakpoint as
+     the clouds left-anchor below, so the layout flips at exactly 768px. */
+  @media (max-width: 767px) {
     .landscape__canvas { height: 100vh; height: 100svh; }
   }
   @media (max-width: 767px) {
@@ -172,7 +173,7 @@
      there; the journey ends on the same skyline slice as desktop (see
      recompute()). Must come after the base .content rule to win on
      source order. */
-  @media (max-width: 1024px) {
+  @media (max-width: 767px) {
     .content { margin-top: 77vh; margin-top: 77svh; }
   }
   code { background: rgba(255,255,255,.1); padding: .1em .35em; border-radius: 4px; }
@@ -314,7 +315,7 @@
      every scroll depth, so the panel always emerges from solid dark, and it
      stays put once progress hits 1 while the text scrolls over the dark
      zone. The canvas keeps the tuned 130svh geometry on wide screens
-     (100svh at or below 1024px).
+     (100svh below 768px).
      Sky is a CSS
      gradient sampled from sky.png; it parallaxes via the sky row
      (background-position on the container). Clouds are their own layer
@@ -354,7 +355,7 @@
     pxScale = heroH / REF_HERO;
     root.style.setProperty('--pxScale', pxScale);
     let lift;
-    if (window.innerWidth <= 1024) {
+    if (window.innerWidth <= 767) {
       // Small breakpoint (100svh canvas): the content starts at 77svh and
       // covers the bottom of the scene from page load. travel as a CANVAS
       // fraction ends the journey on the same slice desktop reaches
