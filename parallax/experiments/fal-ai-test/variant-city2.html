@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>fal.ai 5-layer parallax test — variant (round 4: sky anchor, city-lights)</title>
+<title>fal.ai 5-layer parallax test — variant (round 4: city-lights-2 candidate)</title>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body { background: #0f170a; font-family: system-ui, sans-serif; }
@@ -109,25 +109,21 @@
   <div class="landscape__layer landscape__layer--sky" style="--offset:0.95"><img src="sky.png" alt=""></div>
   <div class="landscape__layer" style="--offset:0.62"><img src="w-t-mtn (2).png" alt=""></div>
   <div class="landscape__layer" style="--offset:0.5"><img src="w-t-hill-river (3).png" alt=""></div>
-  <div class="landscape__layer" style="--offset:0.3"><img src="city-lights-s85.png" alt=""></div>
+  <div class="landscape__layer" style="--offset:0.3"><img src="city-lights2-s85.png" alt=""></div>
   <div class="landscape__layer" style="--offset:0.0"><img src="trans-foreground-s85.png" alt=""></div>
 </div>
 
 <div class="content">
   <div class="content__inner">
-  <h1>fal.ai 5-layer parallax test — variant, round 4 experiments</h1>
+  <h1>fal.ai 5-layer parallax test — variant, round 4 experiments (city-lights-2)</h1>
   <p>Round 3 pinned end state (sticky band, freeze at 620px, offsets
      0.95 / 0.62 / 0.5 / 0.3 / 0, side vignette at
      <code>min-width: 768px</code>, bottom fade at all widths) with round 4
      experiments: the sky layer anchors <code>left bottom</code> below 768px
-     so the left-side clouds stay in frame on phones. An opaque foreground
-     (<code>foreground-opaque</code>, flattened onto <code>#0f170a</code>)
-     was tried and reverted: its full-width dark forest mass covers the lake
-     and skyline at depth even with a top fade mask
-     (see <code>shot-r4-fgopaque-*.png</code>). City layer:
-     <code>city-lights</code> (the A/B candidate
-     <code>city-lights-2</code> lives in <code>variant-city2.html</code> /
-     compare pane 4).</p>
+     so the left-side clouds stay in frame on phones. City layer:
+     <code>city-lights-2</code> (the A/B candidate; the current winner
+     <code>city-lights</code> stays in <code>variant.html</code> /
+     compare pane 3).</p>
   <p>Keep scrolling: the scene separates, freezes, then this text slides over it.</p>
   </div>
 </div>
@@ -159,7 +155,7 @@
 <script>
   // compare.html scroll-sync shim (postMessage; file:// iframes are cross-origin)
   (function () {
-    var SIDE = 'new';
+    var SIDE = 'city2';
     var applying = false;
     window.addEventListener('scroll', function () {
       if (applying) return;
