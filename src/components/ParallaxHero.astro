@@ -225,9 +225,27 @@ const { profile, socialLinks, chevronIcon: ChevronDown } = Astro.props;
     font-size: clamp(2rem, 9vw, 3rem);
     margin-bottom: 0;
   }
+  /* soft white halo behind the black copy: layered glow rings at
+     descending opacity keep the text legible where it crosses the
+     snowfield and darker ridge lines. Tuned to read as a gentle glow,
+     not a white outline. (The Scroll cue is excluded: it sits over the
+     dark vignette, where a white halo would be wrong.) */
+  .c-parallax-hero h1,
+  .c-parallax-hero__role,
+  .c-parallax-hero__location {
+    text-shadow:
+      0 0 4px rgb(255 255 255 / 85%),
+      0 0 10px rgb(255 255 255 / 60%),
+      0 0 18px rgb(255 255 255 / 40%);
+  }
   .c-parallax-hero__role {
-    font-size: 1.25rem;
-    font-weight: 300;
+    font-size: 1.375rem;
+    /* a step up from 300 (Open Sans loads 400/600 only) */
+    font-weight: 400;
+  }
+  .c-parallax-hero__location {
+    /* next loaded weight up from the inherited 400 */
+    font-weight: 600;
   }
   /* even inter-line gaps: the global p + p rule (1rem margin-top) would
      otherwise double the gap above the location line; the grid gap is the
