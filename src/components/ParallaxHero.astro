@@ -224,11 +224,16 @@ const primaryAction = profile.primaryAction ?? { label: "Let's get in touch", ta
     display: grid;
     justify-items: center;
     gap: var(--space-3);
+    /* soft scrim: keeps the copy legible where it crosses the bright
+       snowfield without reading as a panel over the artwork */
+    padding: var(--space-5) var(--space-6);
+    background: radial-gradient(closest-side, rgb(0 0 0 / 45%), transparent);
   }
   .c-parallax-hero h1 {
     font-size: clamp(2rem, 9vw, 3rem);
     color: var(--color-white);
     margin-bottom: var(--space-2);
+    text-shadow: 0 1px 4px rgb(0 0 0 / 70%), 0 0 2rem rgb(0 0 0 / 55%);
   }
   .c-parallax-hero__role {
     font-size: 1.25rem;
@@ -265,6 +270,13 @@ const primaryAction = profile.primaryAction ?? { label: "Let's get in touch", ta
 <!-- tuner styles are global: the rows are injected by the script, so scoped
      styles (which key off a build-time attribute) would not match them -->
 <style is:global>
+  /* the fixed scene paints at z-index: -1, which is below body's own
+     background layer. Make the body transparent on pages that mount the
+     parallax so the scene shows through; html's identical background still
+     covers the canvas, so nothing else changes visually. */
+  body:has(.c-parallax) {
+    background: transparent;
+  }
   .c-tuner {
     position: fixed;
     right: 12px;
