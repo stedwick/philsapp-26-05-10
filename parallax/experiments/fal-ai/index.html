@@ -9,27 +9,50 @@
   body { background: #0f170a; font-family: system-ui, sans-serif; }
 
   .landscape {
-    position: sticky;
-    /* negative top: once scrolled past, only the bottom band of the hero
-       stays visible at the top of the viewport. JS keeps --freezePx in
-       sync with the parallax clamp. */
-    top: var(--freezePx, -620px);
+    /* fixed full-viewport frame (textbook scrollytelling): it never moves;
+       the canvas inside it slides and the layers parallax inside the
+       canvas. Plain page dark wherever the canvas does not cover (below its
+       trailing edge once it slides up, and beside the width cap). */
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    background: #0f170a;
+  }
+  .landscape__canvas {
+    position: relative;
+    /* the canvas keeps the tuned 130svh geometry (100svh at or below
+       1024px) so cover-fit zoom, pxScale and every tuned value are
+       untouched; on wide screens the bottom 30% overhangs below the
+       viewport and is clipped by it. */
     height: 130vh;
     height: 130svh;
+    /* scene width capped in CSS px so it composes with browser zoom;
+       centered, plain page dark beyond, bark silhouette edge at the
+       boundary (the existing mask, below). Below the cap this is a no-op. */
+    max-width: 2048px;
+    margin: 0 auto;
     overflow: hidden;
-    z-index: 0;
-    /* sky is now a pure-CSS gradient on the scene container (the sky.png
+    /* anti-sink compensation: JS sets --sinkPx = progress * travel in the
+       same rAF block as progress, sliding the canvas window exactly like
+       the old sticky hero did. The shipped layer end values stay correct
+       and the mountain peak returns to the top at end state. */
+    transform: translateY(calc(-1 * var(--sinkPx, 0px)));
+    /* sky is a pure-CSS gradient on the scene canvas (the sky.png
        layer was removed). Stops sampled from sky.png's vertical falloff
        (median of cloud-free pixels per row), compressed upward x0.55 so the
        falloff plays out over the visible sky band: the light near-white
        bottom color lands at 55% and holds flat to the bottom (hidden behind
        the mountains anyway). The gradient parallaxes like
        a layer: JS shifts background-position-y via --gradPos using the
-       sky row's start/end (no-repeat; analysis shows the exposed strip
-       never reaches the viewport for the shipped values). */
+       sky row's start/end. */
+    /* the parallaxing sky gradient can expose strips of container background
+       when translated (below its bottom edge early in the journey, above its
+       top edge once gradPos goes positive). A static underlay gradient
+       (second background layer) fills those exposures: sky cyan held flat
+       at the top, page dark at the bottom. */
     background-color: #0f170a;
-    background-repeat: no-repeat;
-    background-position: 0 var(--gradPos, 0px);
+    background-repeat: no-repeat, no-repeat;
+    background-position: 0 var(--gradPos, 0px), 0 0;
     background-image: linear-gradient(to bottom,
       rgb(3, 182, 227) 0%,
       rgb(10, 194, 234) 14%,
@@ -39,42 +62,43 @@
       rgb(109, 243, 250) 43%,
       rgb(126, 250, 251) 49%,
       rgb(135, 252, 254) 55%,
-      rgb(135, 252, 254) 100%);
+      rgb(135, 252, 254) 100%),
+      linear-gradient(to bottom,
+      rgb(3, 182, 227) 30%,
+      #0f170a 90%);
   }
   /* tree-bark side edges on wide screens (pillarboxed framing), silhouette
      only: the scene's side boundary is an SVG mask whose edge is displaced
      by feTurbulence (organic vertical jitter) against the plain #0f170a
      background. No texture, striation, or color fills: the rough edge shape
      alone evokes bark. On phones the scene spans the full width so there is
-     no edge treatment. */
+     no edge treatment. On ultra-wide screens the canvas caps at 2048px and
+     this same mask puts the bark edge at the cap boundary. */
   @media (min-width: 768px) {
-    .landscape {
+    .landscape__canvas {
       mask-image: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='100'%20height='400'%20viewBox='0%200%20100%20400'%20preserveAspectRatio='none'%3E%3Cfilter%20id='r'%20x='-10%25'%20y='-10%25'%20width='120%25'%20height='120%25'%3E%3CfeTurbulence%20type='fractalNoise'%20baseFrequency='0.012%200.045'%20numOctaves='4'%20seed='7'%20result='n'/%3E%3CfeDisplacementMap%20in='SourceGraphic'%20in2='n'%20scale='2.4'%20xChannelSelector='R'%20yChannelSelector='G'/%3E%3C/filter%3E%3Crect%20x='5.5'%20y='-30'%20width='89'%20height='460'%20fill='%23fff'%20filter='url(%23r)'/%3E%3C/svg%3E");
       mask-size: 100% 100%;
       mask-repeat: no-repeat;
     }
   }
   /* bottom vignette at all widths: fade the scene into the page background.
-     The whole ramp is progress-linked: it slides UP the hero by --lift
-     (progress * --liftMax, both set/ recomputed by JS per layout) as you
-     scroll, so at the pinned end state the fade completes at ~24% of the
-     viewport height while scroll 0 keeps the ramp exactly as shipped
-     (lift = 0). This replaces shrinking the pinned band, which with the
-     shipped layer end values would crop the mountain peak out of the
-     freeze frame. %-of-hero throughout = zoom-robust. */
-  .landscape {
-    --lift: calc(var(--progress, 0) * var(--liftMax, 0%));
-  }
-  .landscape::after {
+     The ramp is anchored to the content's leading edge: with the anti-sink
+     slide, its solid point is a CONSTANT in canvas space during the journey
+     (viewport height minus the 0.5cm pad, set by JS as --lift on resize),
+     which lands it just above the content's top edge at every scroll depth
+     (the panel emerges from solid dark, never from the visible ramp).
+     Post-freeze the slide clamps, so the fade stays put and the content
+     scrolls over the dark zone. %-of-canvas throughout = zoom-robust. */
+  .landscape__canvas::after {
     content: "";
     position: absolute;
     inset: 0;
     background: linear-gradient(to bottom,
-      transparent calc(80% - var(--lift)),
-      rgba(15,23,10,.25) calc(84% - var(--lift)),
-      rgba(15,23,10,.55) calc(88% - var(--lift)),
-      rgba(15,23,10,.85) calc(91% - var(--lift)),
-      #0f170a calc(93% - var(--lift)));
+      transparent calc(80% - var(--lift, 0%)),
+      rgba(15,23,10,.25) calc(84% - var(--lift, 0%)),
+      rgba(15,23,10,.55) calc(88% - var(--lift, 0%)),
+      rgba(15,23,10,.85) calc(91% - var(--lift, 0%)),
+      #0f170a calc(93% - var(--lift, 0%)));
     pointer-events: none;
   }
   .landscape__layer {
@@ -100,10 +124,11 @@
   /* clouds anchor on phones: the centered crop cuts off the left-side
      clouds; anchor bottom-left on small screens (clouds have no
      registration with the other layers, so this is safe) */
-  /* phones AND tablets/small laptops: fit the scene to the screen instead of
-     extending 30% below the fold (wider viewports keep 130svh) */
+  /* phones AND tablets/small laptops: 100svh scene canvas (wider viewports
+     keep 130svh). With the hero fixed this is what preserves the tuned
+     geometry on small screens, so the breakpoint is still load-bearing. */
   @media (max-width: 1024px) {
-    .landscape { height: 100vh; height: 100svh; }
+    .landscape__canvas { height: 100vh; height: 100svh; }
   }
   @media (max-width: 767px) {
     .landscape__layer--clouds img { object-position: left bottom; }
@@ -114,22 +139,18 @@
 
   .content {
     position: relative;
-    z-index: 1; /* scrolls up over the pinned scene */
+    z-index: 1; /* scrolls up over the fixed scene */
+    /* normal document flow: starts exactly one viewport down (leading edge
+       at the fold on load) and scrolls normally the whole way. The bottom
+       vignette tracks this edge from JS. */
+    margin-top: 100vh;
+    margin-top: 100svh;
     /* transparent: the frozen scene stays visible as the backdrop and only
-       the text scrolls over it (reverses the earlier full-width background).
-       The bottom padding is outside the text panel so it never becomes a
-       background slab over the images. */
+       the text scrolls over it. The bottom padding is outside the text
+       panel so it never becomes a background slab over the images. */
     padding-bottom: 80vh;
     color: #b8c9a8;
     line-height: 1.7;
-    /* content tracking: --trackPx (set by JS from scroll progress) keeps the
-       content's leading edge tucked just inside the fade ramp's start (where
-       the scene visually ends) at every scroll depth, so there is no dead
-       dark band between the scene and the content anywhere in the journey.
-       A transform (not margin) so browser scroll anchoring does not
-       compensate it away; at scroll 0 it parks the content just below the
-       fold, leaving the landing frame unchanged. */
-    transform: translateY(calc(-1 * var(--trackPx, 0px)));
   }
   /* subtle readability treatment behind the text column only; the scene
      shows through around it */
@@ -235,6 +256,7 @@
 <body>
 
 <div class="landscape" role="img" aria-label="Layered daytime illustration of a mountain, forested hills, a city skyline on the lake, and a foreground meadow">
+  <div class="landscape__canvas">
   <!-- layer images: AVIF (q90, served first: cleanest), WebP (q90, fallback),
        original PNG (final fallback). Derivatives generated with
        cwebp -q 90 -alpha_q 100 -m 6 and avifenc -q 90 --qalpha 100 -s 4;
@@ -244,6 +266,7 @@
   <div class="landscape__layer" data-layer="hill-river"><picture><source srcset="w-t-hill-river%20(3).avif" type="image/avif"><source srcset="w-t-hill-river%20(3).webp" type="image/webp"><img src="w-t-hill-river (3).png" alt=""></picture></div>
   <div class="landscape__layer" data-layer="city"><picture><source srcset="city-lights-s85.avif" type="image/avif"><source srcset="city-lights-s85.webp" type="image/webp"><img src="city-lights-s85.png" alt=""></picture></div>
   <div class="landscape__layer" data-layer="fg"><picture><source srcset="trans-foreground-s85.avif" type="image/avif"><source srcset="trans-foreground-s85.webp" type="image/webp"><img src="trans-foreground-s85.png" alt=""></picture></div>
+  </div>
 </div>
 
 <div class="tuner tuner--collapsed" id="tuner">
@@ -264,15 +287,26 @@
 <div class="content">
   <div class="content__inner">
   <h1>fal.ai parallax playground — gradient sky + clouds layer</h1>
-  <p>Pinned end state (sticky band, freeze after 620px of travel against a
-     1170px reference hero — all geometry is stored as fractions of that
-     reference and re-fitted to the measured hero height on resize, so
-     browser zoom re-fits the composition instead of breaking it; tree-bark
-     side edges at
+  <p>Fixed-frame scrollytelling: the hero is <code>position: fixed</code>
+     and never moves; the scene canvas inside it slides up with scroll
+     (<code>sinkPx = progress * travel</code>, reproducing the old sticky
+     window) while the layers parallax inside it driven by
+     <code>progress = clamp(scrollY / travel, 0, 1)</code> with the same
+     tuned start/end values as before. travel is 75% of the viewport height
+     minus a 0.5cm pad, so the end state leaves a scene strip of exactly 25%
+     of the viewport on every screen. Layer geometry is stored as fractions
+     of a 1170px reference hero and re-fitted to the measured canvas height
+     on resize, so browser zoom re-fits the composition instead of breaking
+     it. The scene width is capped at 2048px (CSS px, centered) with plain
+     dark beyond. Tree-bark side edges at
      <code>min-width: 768px</code> as a silhouette-only feTurbulence-displaced
-     SVG mask against the plain background, and a bottom fade that rises with
-     scroll so the pinned end state fades to solid by ~24% of the viewport;
-     hero is 130svh on wide screens, 100svh at or below 1024px).
+     SVG mask against the plain background, sitting at the cap boundary on
+     ultra-wide screens. The bottom fade is anchored to this content's
+     leading edge: it turns solid just above the panel at
+     every scroll depth, so the panel always emerges from solid dark, and it
+     stays put once progress hits 1 while the text scrolls over the dark
+     zone. The canvas keeps the tuned 130svh geometry on wide screens
+     (100svh at or below 1024px).
      Sky is a CSS
      gradient sampled from sky.png; it parallaxes via the sky row
      (background-position on the container). Clouds are their own layer
@@ -282,77 +316,62 @@
      <code>trans-foreground-s85.png</code> (the original translucent
      foreground; the solid/leveled experiments were cancelled and their
      files kept in this dir for later). Parallax
-     math: each layer translates <code>start + (end - start) * progress</code>,
-     where <code>progress</code> is the clamped scroll divided by the freeze
-     point. The tuning panel (bottom right) ships Philip's tuned defaults:
+     math: each layer translates <code>start + (end - start) * progress</code>.
+     The tuning panel (bottom right) ships Philip's tuned defaults:
      sky -100/217, mtn -213/247, clouds -124/182, hill-river -103/202,
      city -82/79, fg -91/-67. Drag sliders to retune; the readout line is the
      compact format to paste back.</p>
-  <p>Keep scrolling: the scene separates, freezes, then this text scrolls up
-     over the frozen scene, which stays visible behind it.</p>
+  <p>Keep scrolling: the scene separates in place, then freezes; this text
+     scrolls up over the frozen backdrop, which stays visible behind it.</p>
   </div>
 </div>
 
 <script>
   const root = document.documentElement;
-  const hero = document.querySelector('.landscape');
-  // Zoom-robust model: every geometry constant is a fraction of a 1170px
-  // REFERENCE hero (130svh at a 900px-tall window, where the composition was
-  // tuned) and is re-fitted to the MEASURED hero height on resize. Browser
-  // zoom changes the CSS viewport and fires resize, so Cmd +/- re-fits the
-  // composition instead of breaking it — the same robustness the effect
-  // already had across viewport widths.
+  const canvas = document.querySelector('.landscape__canvas');
+  // Zoom-robust model: layer translations are tuned against a 1170px
+  // REFERENCE hero (130svh at a 900px-tall window) and re-fitted to the
+  // MEASURED canvas height on resize; travel and the fade anchor are
+  // viewport fractions. Browser zoom changes the CSS viewport and fires
+  // resize, so Cmd +/- re-fits the composition instead of breaking it.
   const REF_HERO = 1170;
-  const FREEZE_FRAC = 620 / REF_HERO;    // parallax travel before the freeze
-  const MIN_BAND_FRAC = 250 / REF_HERO;  // smallest acceptable pinned band
-  const FADE_SOLID_FRAC = 0.93;          // hero fraction where the fade is solid at progress 0
-  const END_SOLID_VIEW = 0.24;           // viewport fraction where the fade should be solid at the freeze
-  const END_SOLID_NUDGE = 0.5 * 37.8;    // plus a fixed physical nudge down (0.5cm; CSS cm = 37.8px exactly)
-  const RAMP_START_FRAC = 0.80;          // hero fraction where the fade ramp starts (first gradient stop)
-  const CATCH_UP_OVERLAP = 0.05;         // content's leading edge tucks this far INTO the ramp (hero fraction), landing soft in the fade tail
-  const TRACK_BASE_GAP = 1 - RAMP_START_FRAC - CATCH_UP_OVERLAP;  // hero fraction from content flow position up to the tucked target
-  let freeze;
+  const FADE_SOLID_FRAC = 0.93;          // canvas fraction of the fade's solid stop (ramp template)
+  const FADE_PAD = 0.5 * 37.8;           // content edge sits this far BELOW the fade's solid point (0.5cm; CSS cm = 37.8px exactly)
+  let travel;
   let pxScale = 1;
   let heroH = 0;
-  let liftMax = 0;
   let progress;
   function recompute() {
-    heroH = hero.offsetHeight;
-    freeze = Math.min(FREEZE_FRAC * heroH, Math.max(0, heroH - MIN_BAND_FRAC * heroH));
+    heroH = canvas.offsetHeight;
+    // travel as a viewport fraction: the end-state scene strip (viewport
+    // height minus travel minus the pad) lands at exactly 25% of the
+    // viewport on every screen
+    travel = 0.75 * window.innerHeight - FADE_PAD;
     pxScale = heroH / REF_HERO;
-    root.style.setProperty('--freezePx', (-freeze) + 'px');
     root.style.setProperty('--pxScale', pxScale);
-    // fade ramp lift at the freeze: how far the ramp slides up the hero so
-    // its solid point lands at END_SOLID_VIEW of the viewport height plus
-    // the fixed nudge
-    liftMax = FADE_SOLID_FRAC - (freeze + END_SOLID_VIEW * window.innerHeight + END_SOLID_NUDGE) / heroH;
-    root.style.setProperty('--liftMax', (liftMax * 100).toFixed(3) + '%');
-    progress = undefined;  // force the gradient translation + content tracking to re-apply
+    // fade anchor: with the anti-sink slide, the fade's solid point is a
+    // CONSTANT in canvas space during the journey (viewport height minus
+    // the pad), so it only needs recomputing on resize
+    const lift = FADE_SOLID_FRAC - (window.innerHeight - FADE_PAD) / heroH;
+    root.style.setProperty('--lift', (lift * 100) + '%');
+    progress = undefined;  // force the gradient translation to re-apply
   }
   window.addEventListener('resize', recompute);
   recompute();
   function animation() {
-    const eff = Math.min(window.scrollY, freeze);
-    const p = freeze > 0 ? eff / freeze : 0;
+    const p = travel > 0 ? Math.min(window.scrollY / travel, 1) : 0;
     if (progress !== p) {
       progress = p;
       root.style.setProperty('--progress', p);
-      // gradient "sky" layer: translate the container's background-position
-      // (params are reference px; scale to the measured hero like the layers)
+      // gradient "sky" layer: translate the canvas's background-position
+      // (params are reference px; scale to the measured canvas like the layers)
       if (window.__gradPos) {
         root.style.setProperty('--gradPos', (window.__gradPos(p) * pxScale) + 'px');
       }
-      // content tracking: keep the content's leading edge tucked just inside
-      // the fade ramp's start (ramp start + a small overlap = where the scene
-      // VISUALLY ends) at every progress, so there is no dead dark band at
-      // any scroll depth. The transform is heroH * (TRACK_BASE_GAP +
-      // p * liftMax): at progress 0 it is 0.15 * heroH, which parks the
-      // content just below the fold (scroll-0 frame unchanged); it grows with
-      // the lift, reaching the full track distance at the freeze, then holds
-      // (p clamps at 1) while the content scrolls normally over the pinned
-      // scene. Mid-journey the content rises ~1.4px per scroll px (1px normal
-      // scroll + the growing track), so it does not race.
-      root.style.setProperty('--trackPx', (heroH * (TRACK_BASE_GAP + p * liftMax)) + 'px');
+      // anti-sink compensation: slide the canvas up by progress * travel,
+      // reproducing the old sticky window's motion so the shipped layer end
+      // values compose the same end state (mountain peak near the top)
+      root.style.setProperty('--sinkPx', (p * travel) + 'px');
     }
     window.requestAnimationFrame(animation);
   }
