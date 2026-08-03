@@ -37,10 +37,15 @@ const { title, description } = Astro.props;
 	   bar strip with viewport-fit=auto, the bottom toolbar underlay, and
 	   overscroll). global.css sets html/body to --color-dark (#343a40
 	   gray), which showed as gray bars on the iPhone; match the scene dark
-	   on parallax pages instead. */
-	html:has(.c-parallax),
-	body:has(.c-parallax) {
+	   on parallax pages instead. Only html may carry the color: body is an
+	   in-flow block whose background paints OVER the fixed z-index:-1
+	   scene (root stacking context paints block backgrounds after
+	   negative-z descendants), so body must stay transparent. */
+	html:has(.c-parallax) {
 		background: #0f170a;
+	}
+	body:has(.c-parallax) {
+		background: transparent;
 	}
 
 	/* TEMPORARY (Philip, 2026-08-02): lock parallax pages to the dark theme
