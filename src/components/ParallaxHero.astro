@@ -1,17 +1,11 @@
 ---
-import ButtonLink from './ButtonLink.astro';
 import IconButton from './IconButton.astro';
 import { legacyIcons } from '../data/legacy-icons.mjs';
 
 interface Profile {
   name: string;
   role: string;
-  tagline: string;
   credential?: string;
-  primaryAction?: {
-    label: string;
-    target: string;
-  };
 }
 
 interface SocialLink {
@@ -28,7 +22,6 @@ interface Props {
 }
 
 const { profile, socialLinks, chevronIcon: ChevronDown } = Astro.props;
-const primaryAction = profile.primaryAction ?? { label: "Let's get in touch", target: '#hire-me' };
 ---
 
 <!-- Fixed-frame scrollytelling scene, ported from parallax/experiments/fal-ai
@@ -54,20 +47,18 @@ const primaryAction = profile.primaryAction ?? { label: "Let's get in touch", ta
      after it start where the playground's content leading edge sits and the
      bottom vignette stays glued to that edge. -->
 <section class="c-parallax-hero" aria-labelledby="site-title">
+  <nav class="c-parallax-hero__social" aria-label="Social links">
+    {socialLinks.map((link) => <IconButton href={link.href} label={link.label} icon={link.icon} legacyIcon={link.legacyIcon} />)}
+  </nav>
+
   <div class="c-parallax-hero__content">
     <h1 id="site-title">{profile.name}</h1>
     <p class="c-parallax-hero__role">{profile.role}</p>
-    <p class="c-parallax-hero__tagline">{profile.tagline}</p>
-
-    <nav class="c-parallax-hero__social" aria-label="Social links">
-      {socialLinks.map((link) => <IconButton href={link.href} label={link.label} icon={link.icon} legacyIcon={link.legacyIcon} />)}
-    </nav>
-
-    <ButtonLink href={primaryAction.target} variant="light" size="lg" class="c-parallax-hero__cta">{primaryAction.label}</ButtonLink>
+    <p class="c-parallax-hero__location">Portland, Oregon</p>
   </div>
 
   <p class="c-parallax-hero__scroll">
-    <span>Scroll to see more...</span>
+    <span>Scroll</span>
     <ChevronDown aria-hidden="true" />
   </p>
 </section>
@@ -209,48 +200,94 @@ const primaryAction = profile.primaryAction ?? { label: "Let's get in touch", ta
     height: 100vh;
     height: 100svh;
     display: grid;
-    grid-template-rows: 1fr auto 1fr;
+    /* copy near the top (under the icon row), scroll cue at the bottom */
+    grid-template-rows: auto 1fr auto;
     justify-items: center;
     padding: var(--space-5) var(--container-padding);
     text-align: center;
-    color: var(--color-light);
-    text-shadow: 0 1px 3px rgb(0 0 0 / 55%), 0 0 1.5rem rgb(0 0 0 / 40%);
+    color: #000;
+    position: relative;
   }
   @media (max-width: 767px) {
     .c-parallax-hero { height: 77vh; height: 77svh; }
   }
   .c-parallax-hero__content {
-    grid-row: 2;
+    grid-row: 1;
     display: grid;
     justify-items: center;
-    gap: var(--space-3);
-    /* soft scrim: keeps the copy legible where it crosses the bright
-       snowfield without reading as a panel over the artwork */
-    padding: var(--space-5) var(--space-6);
-    background: radial-gradient(closest-side, rgb(0 0 0 / 45%), transparent);
+    /* the three lines read as one tight block */
+    gap: var(--space-1);
+    /* top padding clears the absolutely-positioned social icon row
+       (2.08rem tall, --space-5 from the top) */
+    padding: calc(2.08rem + var(--space-5) + var(--space-4)) var(--space-6) var(--space-5);
   }
   .c-parallax-hero h1 {
-    font-size: clamp(2rem, 9vw, 3rem);
-    color: var(--color-white);
-    margin-bottom: var(--space-2);
-    text-shadow: 0 1px 4px rgb(0 0 0 / 70%), 0 0 2rem rgb(0 0 0 / 55%);
+    font-size: clamp(2.25rem, 10vw, 3.5rem);
+    margin-bottom: 0;
   }
-  .c-parallax-hero__role {
-    font-size: 1.25rem;
-    font-weight: 300;
+  /* soft white halo behind the black copy: layered glow rings at
+     descending opacity keep the text legible where it crosses the
+     snowfield and darker ridge lines. Tuned to read as a gentle glow,
+     not a white outline. (The Scroll cue is excluded: it sits over the
+     dark vignette, where a white halo would be wrong.) */
+  .c-parallax-hero h1,
+  .c-parallax-hero__role,
+  .c-parallax-hero__location {
+    text-shadow:
+      0 0 4px rgb(255 255 255 / 85%),
+      0 0 10px rgb(255 255 255 / 60%),
+      0 0 18px rgb(255 255 255 / 40%);
   }
-  .c-parallax-hero__tagline {
-    margin-bottom: var(--space-3);
+  /* role and location are a matched pair: one tier below the h1 name */
+  .c-parallax-hero__role,
+  .c-parallax-hero__location {
+    font-size: 1.5rem;
+    /* a step up from 300 (Open Sans loads 400/600 only) */
+    font-weight: 400;
   }
+  /* even inter-line gaps: the global p + p rule (1rem margin-top) would
+     otherwise double the gap above the location line; the grid gap is the
+     only spacing between the three lines */
+  .c-parallax-hero__role,
+  .c-parallax-hero__location {
+    margin: 0;
+  }
+  /* upper-right icon row (to become the header bar), shrunk to 2/3 of the
+     stock c-icon-button size (3.125rem button, 2rem icon). White icon and
+     border (border is currentColor in the stock styles); the stock hover
+     (light background, dark icon) is overridden so the white icon does not
+     vanish on a white square. */
   .c-parallax-hero__social {
+    position: absolute;
+    top: var(--space-5);
+    right: var(--space-5);
     display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 0.625rem;
-    filter: drop-shadow(0 1px 2px rgb(0 0 0 / 55%));
+    gap: 0.5rem;
   }
-  .c-parallax-hero__content > :global(.c-parallax-hero__cta) {
-    margin-top: 2.25rem;
+  /* at bark-mask widths (768px+), keep every square fully over the scene
+     interior: the mask's ragged edge protrudes up to ~7.9% of the canvas
+     width (5.5% rect + 2.4% turbulence wobble). Below the 2048px cap the
+     canvas is viewport-wide, so 8.5vw covers the worst protrusion with
+     margin; beyond the cap the canvas is fixed, so the dark exterior width
+     plus a 175px inset keeps the squares inside the bark edge (the two
+     formulas agree at exactly 2048px). */
+  @media (min-width: 768px) {
+    .c-parallax-hero__social {
+      right: max(8.5vw, calc((100vw - 2048px) / 2 + 175px));
+    }
+  }
+  .c-parallax-hero__social :global(.c-icon-button) {
+    width: 2.08rem;
+    height: 2.08rem;
+    color: var(--color-white);
+  }
+  .c-parallax-hero__social :global(.c-icon-button:hover) {
+    background: rgb(255 255 255 / 25%);
+    color: var(--color-white);
+  }
+  .c-parallax-hero__social :global(.c-icon-button svg) {
+    width: 1.33rem;
+    height: 1.33rem;
   }
   .c-parallax-hero__scroll {
     grid-row: 3;
@@ -260,6 +297,9 @@ const primaryAction = profile.primaryAction ?? { label: "Let's get in touch", ta
     gap: var(--space-1);
     font-size: 1rem;
     transform: translateY(-1.25rem);
+    /* sits over the dark bottom vignette, so it stays light while the
+       rest of the hero copy is black */
+    color: var(--color-light);
   }
   .c-parallax-hero__scroll svg {
     width: 1.25rem;
@@ -278,6 +318,10 @@ const primaryAction = profile.primaryAction ?? { label: "Let's get in touch", ta
     background: transparent;
   }
   .c-tuner {
+    /* intentionally hidden for now: Philip wants the tuning panel out of
+       the way, but the markup, styles, and script stay so it can come back
+       on request (flip this to display: block) */
+    display: none;
     position: fixed;
     right: 12px;
     bottom: 12px;
