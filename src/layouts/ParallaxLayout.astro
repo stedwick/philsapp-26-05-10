@@ -55,4 +55,37 @@ const { title, description } = Astro.props;
 		--color-link-hover: #9ec5fe;
 		color-scheme: dark;
 	}
+
+	/* EXPERIMENT (Philip, 2026-08-02): sticky glass section headers, using
+	   the fal-ai playground's content-panel treatment (translucent dark +
+	   backdrop blur). Each section's header pins to the viewport top while
+	   its section scrolls; content flows behind the frosted glass and the
+	   next section's header pushes it off (natural sticky stacking). The
+	   small top offset keeps the rounded bar from kissing the viewport
+	   edge. Scoped to parallax pages like the rest of the experiment. */
+	body:has(.c-parallax) .c-section-band__header {
+		position: sticky;
+		top: var(--space-2);
+		z-index: 5;
+		/* glass hugs the title text instead of spanning the container */
+		width: fit-content;
+		margin-inline: auto;
+		padding: var(--space-3) var(--space-4);
+		background: rgba(10, 16, 6, .55);
+		-webkit-backdrop-filter: blur(8px);
+		backdrop-filter: blur(8px);
+		border-radius: 14px;
+	}
+
+	/* no underlines under the glass titles (Philip, 2026-08-02) */
+	body:has(.c-parallax) .c-section-band__rule {
+		display: none;
+	}
+
+	/* the education/projects divider becomes a stray horizontal line at the
+	   single-column breakpoint; with both sub-titles now sticky glass it is
+	   redundant, so hide it on parallax pages */
+	body:has(.c-parallax) .c-education-separator {
+		display: none;
+	}
 </style>
