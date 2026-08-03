@@ -203,8 +203,7 @@ const { profile, socialLinks, chevronIcon: ChevronDown } = Astro.props;
     /* copy near the top (under the icon row), scroll cue at the bottom */
     grid-template-rows: auto 1fr auto;
     justify-items: center;
-    /* viewport-fit=cover: clear the iOS status bar and home indicator */
-    padding: calc(var(--space-5) + env(safe-area-inset-top, 0px)) var(--container-padding) calc(var(--space-5) + env(safe-area-inset-bottom, 0px));
+    padding: var(--space-5) var(--container-padding);
     text-align: center;
     color: #000;
     position: relative;

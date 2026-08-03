@@ -80,8 +80,7 @@ const { title, description } = Astro.props;
 	   edge. Scoped to parallax pages like the rest of the experiment. */
 	body:has(.c-parallax) .c-section-band__header {
 		position: sticky;
-		/* viewport-fit=cover puts layout y=0 under the iOS status bar */
-		top: calc(var(--space-2) + env(safe-area-inset-top, 0px));
+		top: var(--space-2);
 		z-index: 5;
 		/* glass hugs the title text instead of spanning the container */
 		width: fit-content;
