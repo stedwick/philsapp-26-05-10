@@ -96,14 +96,6 @@ const { title, description } = Astro.props;
 		margin-bottom: var(--space-5);
 	}
 
-	/* at the single-column breakpoint the last work card's bottom border
-	   (and its drop shadow) floats over the dark scene and reads as a stray
-	   full-width hairline between the career cards and the next band */
-	body:has(.c-parallax) .c-work-card {
-		border-bottom-color: transparent;
-		box-shadow: none;
-	}
-
 	/* content dissolve: a soft blur/tint ramp above the pinned glass so
 	   scrolling content fades INTO the header instead of hard-overlapping
 	   it. Same blur and tint as the glass itself, masked from transparent
