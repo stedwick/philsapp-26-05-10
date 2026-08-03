@@ -147,35 +147,6 @@ const { profile, socialLinks, chevronIcon: ChevronDown } = Astro.props;
      which lands it just above the content's top edge at every scroll depth.
      Post-freeze the slide clamps, so the fade stays put and the content
      scrolls over the dark zone. */
-  /* bottom-edge seam cover: at full travel the canvas's bottom edge
-     (canvas height minus the --sinkPx slide) lands mid-viewport, and
-     the vignette ::after rasterizes about a device pixel short of the
-     canvas's clipped content edge there, so a thin sliver of the lake
-     and tree layers shows through as a fixed green line. This opaque
-     page-dark strip tracks the canvas's bottom edge exactly (same
-     --sinkPx slide, transform-only so it costs no layout per frame)
-     and covers the sliver. Everywhere else it is invisible: the canvas
-     bottom region is solid page dark at every scroll depth, and below
-     the canvas it matches the .c-parallax background. */
-  .c-parallax::before {
-    content: "";
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: calc(130vh - 2px);
-    top: calc(130svh - 2px);
-    height: 4px;
-    background: #0f170a;
-    z-index: 1;
-    transform: translateY(calc(-1 * var(--sinkPx, 0px)));
-    pointer-events: none;
-  }
-  @media (max-width: 767px) {
-    .c-parallax::before {
-      top: calc(100vh - 2px);
-      top: calc(100svh - 2px);
-    }
-  }
   .c-parallax__canvas::after {
     content: "";
     position: absolute;
