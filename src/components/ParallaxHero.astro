@@ -222,7 +222,7 @@ const { profile, socialLinks, chevronIcon: ChevronDown } = Astro.props;
     padding: calc(2.08rem + var(--space-5) + var(--space-4)) var(--space-6) var(--space-5);
   }
   .c-parallax-hero h1 {
-    font-size: clamp(2rem, 9vw, 3rem);
+    font-size: clamp(2.25rem, 10vw, 3.5rem);
     margin-bottom: 0;
   }
   /* soft white halo behind the black copy: layered glow rings at
@@ -239,11 +239,12 @@ const { profile, socialLinks, chevronIcon: ChevronDown } = Astro.props;
       0 0 18px rgb(255 255 255 / 40%);
   }
   .c-parallax-hero__role {
-    font-size: 1.375rem;
+    font-size: 1.5rem;
     /* a step up from 300 (Open Sans loads 400/600 only) */
     font-weight: 400;
   }
   .c-parallax-hero__location {
+    font-size: 1.125rem;
     /* next loaded weight up from the inherited 400 */
     font-weight: 600;
   }
