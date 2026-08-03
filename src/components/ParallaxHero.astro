@@ -406,6 +406,15 @@ const { profile, socialLinks, chevronIcon: ChevronDown } = Astro.props;
   // MEASURED canvas height on resize; travel and the fade anchor are
   // viewport fractions. Browser zoom changes the CSS viewport and fires
   // resize, so Cmd +/- re-fits the composition instead of breaking it.
+  //
+  // Mobile-Safari-robust model: viewport fractions are computed from the
+  // canvas's own height (svh-locked, static), never window.innerHeight.
+  // innerHeight jumps when the mobile URL bar hides/shows, which fired
+  // resize and visibly moved travel and the fade anchor mid-scroll.
+  // svhPx derives the small-viewport height from the measured canvas
+  // (130svh on desktop, 100svh on phones), so the composition is identical
+  // whether the bar is shown or hidden; with the bar hidden you just see a
+  // little more of the scene below the vignette.
   const root = document.documentElement;
   const canvas = document.querySelector('.c-parallax__canvas') as HTMLElement;
   const REF_HERO = 1170;
@@ -419,8 +428,10 @@ const { profile, socialLinks, chevronIcon: ChevronDown } = Astro.props;
     heroH = canvas.offsetHeight;
     pxScale = heroH / REF_HERO;
     root.style.setProperty('--pxScale', String(pxScale));
+    const small = window.innerWidth <= 767;
+    const svhPx = small ? heroH : heroH / 1.3;
     let lift;
-    if (window.innerWidth <= 767) {
+    if (small) {
       // Small breakpoint (100svh canvas): the content starts at 77svh and
       // covers the bottom of the scene from page load. travel as a CANVAS
       // fraction ends the journey on the same slice desktop reaches
@@ -428,16 +439,16 @@ const { profile, socialLinks, chevronIcon: ChevronDown } = Astro.props;
       // keeps the same FADE_PAD glue to the content's leading edge,
       // measured from the 77svh start instead of the fold.
       travel = 0.56 * heroH;
-      lift = FADE_SOLID_FRAC - (0.77 * window.innerHeight - FADE_PAD) / heroH;
+      lift = FADE_SOLID_FRAC - (0.77 * svhPx - FADE_PAD) / heroH;
     } else {
       // travel as a viewport fraction: the end-state scene strip
       // (viewport height minus travel minus the pad) lands at exactly
       // 25% of the viewport
-      travel = 0.75 * window.innerHeight - FADE_PAD;
+      travel = 0.75 * svhPx - FADE_PAD;
       // fade anchor: with the anti-sink slide, the fade's solid point is
       // a CONSTANT in canvas space during the journey (viewport height
       // minus the pad), so it only needs recomputing on resize
-      lift = FADE_SOLID_FRAC - (window.innerHeight - FADE_PAD) / heroH;
+      lift = FADE_SOLID_FRAC - (svhPx - FADE_PAD) / heroH;
     }
     root.style.setProperty('--lift', (lift * 100) + '%');
     progress = undefined;  // force the gradient translation to re-apply
