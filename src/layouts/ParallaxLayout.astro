@@ -102,4 +102,12 @@ const { title, description } = Astro.props;
 	body:has(.c-parallax) #hire-me .c-section-band__header {
 		margin-bottom: var(--space-5);
 	}
+
+	/* at the single-column breakpoint the last work card's bottom border
+	   (and its drop shadow) floats over the dark scene and reads as a stray
+	   full-width hairline between the career cards and the next band */
+	body:has(.c-parallax) .c-work-card {
+		border-bottom-color: transparent;
+		box-shadow: none;
+	}
 </style>
