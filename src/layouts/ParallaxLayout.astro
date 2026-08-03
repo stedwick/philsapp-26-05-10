@@ -110,4 +110,24 @@ const { title, description } = Astro.props;
 		border-bottom-color: transparent;
 		box-shadow: none;
 	}
+
+	/* content dissolve: a soft blur/tint ramp above the pinned glass so
+	   scrolling content fades INTO the header instead of hard-overlapping
+	   it. Same blur and tint as the glass itself, masked from transparent
+	   at the top to opaque where it meets the glass, so the frozen scene
+	   above is dimmed no more than the glass already dims it. */
+	body:has(.c-parallax) .c-section-band__header::before {
+		content: "";
+		position: absolute;
+		left: 0;
+		right: 0;
+		bottom: 100%;
+		height: 3rem;
+		pointer-events: none;
+		background: linear-gradient(to bottom, rgba(10, 16, 6, 0), rgba(10, 16, 6, .55));
+		-webkit-backdrop-filter: blur(8px);
+		backdrop-filter: blur(8px);
+		-webkit-mask-image: linear-gradient(to bottom, transparent, black);
+		mask-image: linear-gradient(to bottom, transparent, black);
+	}
 </style>
