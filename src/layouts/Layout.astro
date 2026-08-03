@@ -4,11 +4,18 @@ import '../styles/global.css';
 interface Props {
 	title?: string;
 	description?: string;
+	/* parallax pages: extend the layout viewport under the iOS status bar
+	   and bottom toolbar (safe areas handled in the components) */
+	viewportFitCover?: boolean;
+	/* chrome tint for mobile browsers (iOS Safari overscroll/toolbar) */
+	themeColor?: string;
 }
 
 const {
 	title = 'Philip Brocoum - Lead Software Engineer',
 	description = 'Personal website for Philip Brocoum, Lead Software Engineer in Portland, OR.',
+	viewportFitCover = false,
+	themeColor,
 } = Astro.props;
 ---
 
@@ -16,7 +23,8 @@ const {
 <html lang="en" data-theme="classic">
 	<head>
 		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="viewport" content={viewportFitCover ? 'width=device-width, initial-scale=1, viewport-fit=cover' : 'width=device-width, initial-scale=1'} />
+		{themeColor && <meta name="theme-color" content={themeColor} />}
 		<meta name="description" content={description} />
 		<meta name="generator" content={Astro.generator} />
 		<title>{title}</title>

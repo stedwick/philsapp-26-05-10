@@ -16,7 +16,7 @@ const { title, description } = Astro.props;
 	negative z-index, so normal-flow page content paints above it and scrolls
 	up over the frozen end frame.
 -->
-<Layout title={title} description={description}>
+<Layout title={title} description={description} viewportFitCover themeColor="#0f170a">
 	<slot />
 </Layout>
 
@@ -31,6 +31,16 @@ const { title, description } = Astro.props;
 	   known legibility risk under review. */
 	body:has(.c-parallax) .c-section-band {
 		background: transparent;
+	}
+
+	/* iOS Safari paints the ROOT background in its chrome areas (the status
+	   bar strip with viewport-fit=auto, the bottom toolbar underlay, and
+	   overscroll). global.css sets html/body to --color-dark (#343a40
+	   gray), which showed as gray bars on the iPhone; match the scene dark
+	   on parallax pages instead. */
+	html:has(.c-parallax),
+	body:has(.c-parallax) {
+		background: #0f170a;
 	}
 
 	/* TEMPORARY (Philip, 2026-08-02): lock parallax pages to the dark theme
@@ -65,7 +75,8 @@ const { title, description } = Astro.props;
 	   edge. Scoped to parallax pages like the rest of the experiment. */
 	body:has(.c-parallax) .c-section-band__header {
 		position: sticky;
-		top: var(--space-2);
+		/* viewport-fit=cover puts layout y=0 under the iOS status bar */
+		top: calc(var(--space-2) + env(safe-area-inset-top, 0px));
 		z-index: 5;
 		/* glass hugs the title text instead of spanning the container */
 		width: fit-content;
