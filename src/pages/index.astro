@@ -54,7 +54,12 @@ const resume = createResumeViewModel(
 <ParallaxLayout>
 	<ParallaxHero profile={resume.profile} socialLinks={resume.socialLinks} chevronIcon={icons.ChevronDown} />
 
-	<SectionBand id="about" title={resume.sections.about.title} mobileTitleLines={resume.sections.about.titleShort} tone="light">
+	<SectionBand id="about" tone="light">
+		{/* Single-line welcome in the sticky glass header at all widths
+		    (the flow second line was removed at Philip's request). */}
+		<header class="c-section-band__header">
+			<h2 class="c-section-band__title">{resume.sections.about.titleShort[0]}</h2>
+		</header>
 		<SplitIntro paragraphs={resume.sections.about.body} />
 	</SectionBand>
 
@@ -70,12 +75,12 @@ const resume = createResumeViewModel(
 		</MediaGrid>
 	</SectionBand>
 
+	{/* Cards merged into the career band (was a separate headerless
+	    career-sites band) so the sticky "Phil's Career" header stays pinned
+	    while the work cards scroll behind it. */}
 	<SectionBand id="career" title={resume.sections.career.title} tone="light">
 		<SplitIntro paragraphs={resume.sections.career.body} />
-	</SectionBand>
-
-	<SectionBand id="career-sites" tone="white">
-		<div class="l-card-grid">
+		<div class="l-card-grid u-section-stack">
 			{resume.career.map((entry) => <WorkCard {...entry} />)}
 		</div>
 	</SectionBand>
@@ -83,10 +88,12 @@ const resume = createResumeViewModel(
 	<SectionBand id="education-projects" tone="dark">
 		<div class="c-resume-panels">
 			<section aria-labelledby="education-heading">
+				{/* description moved OUT of the sticky glass header so only the
+				    title pins; the paragraph scrolls with the content */}
 				<header class="c-section-band__header">
 					<h2 id="education-heading" class="c-section-band__title">{resume.sections.education.title}</h2>
-					<p>{resume.sections.education.body[0]}</p>
 				</header>
+				<p>{resume.sections.education.body[0]}</p>
 				<div class="l-stacked-media-list">
 					{resume.education.map((item) => <MediaItem {...item} compact />)}
 				</div>
@@ -99,8 +106,8 @@ const resume = createResumeViewModel(
 			<section aria-labelledby="projects-heading">
 				<header class="c-section-band__header">
 					<h2 id="projects-heading" class="c-section-band__title">{resume.sections.projects.title}</h2>
-					<p>{resume.sections.projects.body[0]}</p>
 				</header>
+				<p>{resume.sections.projects.body[0]}</p>
 				<div class="l-stacked-media-list">
 					{resume.projects.map((item) => <MediaItem {...item} compact />)}
 				</div>
@@ -115,9 +122,11 @@ const resume = createResumeViewModel(
 		</MediaGrid>
 	</SectionBand>
 
-	<SectionBand id="hire-me" title={resume.sections.contact.title} tone="info" showRule={false} />
-
-	<SectionBand id="contact" tone="white">
+	{/* hire-me merged into the contact band (it was a title-only band, too
+	    short for its sticky header to travel, so "Let's get in touch" never
+	    pinned). Now the header sticks while the contact content scrolls
+	    behind it. id kept for the old #hire-me anchor target. */}
+	<SectionBand id="hire-me" title={resume.sections.contact.title} tone="info">
 		<p class="c-dropcap">{resume.contactIntro}</p>
 		<div class="l-two-panel c-contact-layout u-section-stack">
 			<section aria-labelledby="contact-info-heading">
