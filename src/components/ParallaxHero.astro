@@ -238,15 +238,12 @@ const { profile, socialLinks, chevronIcon: ChevronDown } = Astro.props;
       0 0 10px rgb(255 255 255 / 60%),
       0 0 18px rgb(255 255 255 / 40%);
   }
-  .c-parallax-hero__role {
+  /* role and location are a matched pair: one tier below the h1 name */
+  .c-parallax-hero__role,
+  .c-parallax-hero__location {
     font-size: 1.5rem;
     /* a step up from 300 (Open Sans loads 400/600 only) */
     font-weight: 400;
-  }
-  .c-parallax-hero__location {
-    font-size: 1.125rem;
-    /* next loaded weight up from the inherited 400 */
-    font-weight: 600;
   }
   /* even inter-line gaps: the global p + p rule (1rem margin-top) would
      otherwise double the gap above the location line; the grid gap is the
