@@ -262,14 +262,21 @@ const { profile, socialLinks, chevronIcon: ChevronDown } = Astro.props;
   .c-parallax-hero__social {
     position: absolute;
     top: var(--space-5);
-    /* stay inside the scene's right bark edge on ultra-wide screens: the
-       canvas is capped at 2048px with page dark beyond, and the bark mask
-       wobbles up to ~160px in from the canvas edge, so 175px of inset keeps
-       the squares clear of the ragged boundary. Below the cap (and on
-       phones) the calc goes negative and this reduces to --space-5. */
-    right: max(var(--space-5), calc((100vw - 2048px) / 2 + 175px));
+    right: var(--space-5);
     display: flex;
     gap: 0.5rem;
+  }
+  /* at bark-mask widths (768px+), keep every square fully over the scene
+     interior: the mask's ragged edge protrudes up to ~7.9% of the canvas
+     width (5.5% rect + 2.4% turbulence wobble). Below the 2048px cap the
+     canvas is viewport-wide, so 8.5vw covers the worst protrusion with
+     margin; beyond the cap the canvas is fixed, so the dark exterior width
+     plus a 175px inset keeps the squares inside the bark edge (the two
+     formulas agree at exactly 2048px). */
+  @media (min-width: 768px) {
+    .c-parallax-hero__social {
+      right: max(8.5vw, calc((100vw - 2048px) / 2 + 175px));
+    }
   }
   .c-parallax-hero__social :global(.c-icon-button) {
     width: 2.08rem;
