@@ -254,10 +254,10 @@ const { profile, socialLinks, chevronIcon: ChevronDown } = Astro.props;
     margin: 0;
   }
   /* upper-right icon row (to become the header bar), shrunk to 2/3 of the
-     stock c-icon-button size (3.125rem button, 2rem icon). White icon and
-     border (border is currentColor in the stock styles); the stock hover
-     (light background, dark icon) is overridden so the white icon does not
-     vanish on a white square. */
+     stock c-icon-button size (3.125rem button, 2rem icon). Black icon and
+     border (border is currentColor in the stock styles) to match the hero
+     copy; the stock hover (light background, dark icon) is overridden so
+     the black icon does not vanish on a dark square. */
   .c-parallax-hero__social {
     position: absolute;
     top: var(--space-5);
@@ -280,11 +280,11 @@ const { profile, socialLinks, chevronIcon: ChevronDown } = Astro.props;
   .c-parallax-hero__social :global(.c-icon-button) {
     width: 2.08rem;
     height: 2.08rem;
-    color: var(--color-white);
+    color: #000;
   }
   .c-parallax-hero__social :global(.c-icon-button:hover) {
-    background: rgb(255 255 255 / 25%);
-    color: var(--color-white);
+    background: rgb(0 0 0 / 12%);
+    color: #000;
   }
   .c-parallax-hero__social :global(.c-icon-button svg) {
     width: 1.33rem;
