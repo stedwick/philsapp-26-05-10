@@ -40,6 +40,14 @@ const { profile, socialLinks, chevronIcon: ChevronDown } = Astro.props;
     <div class="c-parallax__layer" data-layer="city"><picture><source srcset="/parallax/city.avif" type="image/avif"><source srcset="/parallax/city.webp" type="image/webp"><img src="/parallax/city.png" alt=""></picture></div>
     <div class="c-parallax__layer" data-layer="fg"><picture><source srcset="/parallax/foreground.avif" type="image/avif"><source srcset="/parallax/foreground.webp" type="image/webp"><img src="/parallax/foreground.png" alt=""></picture></div>
   </div>
+  <!-- bottom vignette: a sibling of the canvas, NOT inside it. Everything
+       inside the canvas is clipped at the same fractional device-pixel
+       edge, and an in-canvas vignette rasterizes ~1px short of the clipped
+       layer content at full travel, exposing a green sliver at the
+       canvas's bottom edge. Out here the gradient's own paint reaches its
+       box edge unclipped, and the box extends 3px past the canvas's
+       clipped edge, so no sliver of layer content can show. -->
+  <div class="c-parallax__vignette" aria-hidden="true"></div>
 </div>
 
 <!-- Hero copy: normal-flow, transparent, exactly one viewport tall (77svh
@@ -141,23 +149,60 @@ const { profile, socialLinks, chevronIcon: ChevronDown } = Astro.props;
     }
   }
   /* bottom vignette at all widths: fade the scene into the page background.
-     The ramp is anchored to the content's leading edge: with the anti-sink
-     slide, its solid point is a CONSTANT in canvas space during the journey
+     Same gradient stops, --lift anchoring, canvas-matched height, and
+     --sinkPx slide as the old in-canvas ::after, so the visual design is
+     unchanged at every scroll depth: background-size pins the gradient
+     raster to exactly the canvas height in the same place, it just paints
+     OUTSIDE the canvas's clipper (see the markup comment above). The ramp
+     is anchored to the content's leading edge: with the anti-sink slide,
+     its solid point is a CONSTANT in canvas space during the journey
      (viewport height minus the 0.5cm pad, set by JS as --lift on resize),
-     which lands it just above the content's top edge at every scroll depth.
-     Post-freeze the slide clamps, so the fade stays put and the content
-     scrolls over the dark zone. */
-  .c-parallax__canvas::after {
-    content: "";
+     which lands it just above the content's top edge at every scroll
+     depth. Post-freeze the slide clamps, so the fade stays put and the
+     content scrolls over the dark zone. The box extends 3px past the
+     canvas's clipped bottom edge, and a second solid #0f170a background
+     layer overlaps the ramp's solid bottom by 2px across the extension,
+     so the seam rows are covered by two paints that cannot leave a
+     subpixel gap (a border or a background-color under the transparent
+     ramp both failed in testing: the border rasterized with a gap at
+     fractional device positions, and a background-color shows through
+     the transparent part of the ramp). Full-width paint is invisible
+     over the bark side edges and below the canvas: both are the same
+     page dark. z-index 1 is above the canvas and its layers but still
+     inside .c-parallax's z-index: -1 stacking context, so hero copy and
+     page content stay on top. */
+  .c-parallax__vignette {
     position: absolute;
-    inset: 0;
-    background: linear-gradient(to bottom,
+    left: 0;
+    right: 0;
+    top: 0;
+    height: calc(130vh + 3px);
+    height: calc(130svh + 3px);
+    transform: translateY(calc(-1 * var(--sinkPx, 0px)));
+    background-image: linear-gradient(to bottom,
       transparent calc(80% - var(--lift, 0%)),
       rgba(15,23,10,.25) calc(84% - var(--lift, 0%)),
       rgba(15,23,10,.55) calc(88% - var(--lift, 0%)),
       rgba(15,23,10,.85) calc(91% - var(--lift, 0%)),
-      #0f170a calc(93% - var(--lift, 0%)));
+      #0f170a calc(93% - var(--lift, 0%))),
+      linear-gradient(#0f170a, #0f170a);
+    background-size: 100% 130vh, 100% 5px;
+    background-size: 100% 130svh, 100% 5px;
+    background-repeat: no-repeat, no-repeat;
+    background-position: 0 0, 0 calc(130vh - 2px);
+    background-position: 0 0, 0 calc(130svh - 2px);
     pointer-events: none;
+    z-index: 1;
+  }
+  @media (max-width: 767px) {
+    .c-parallax__vignette {
+      height: calc(100vh + 3px);
+      height: calc(100svh + 3px);
+      background-size: 100% 100vh, 100% 5px;
+      background-size: 100% 100svh, 100% 5px;
+      background-position: 0 0, 0 calc(100vh - 2px);
+      background-position: 0 0, 0 calc(100svh - 2px);
+    }
   }
   .c-parallax__layer {
     position: absolute;
