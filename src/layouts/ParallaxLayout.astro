@@ -20,6 +20,45 @@ const { title, description } = Astro.props;
 	<slot />
 </Layout>
 
+<script>
+	/* Content dissolve under the sticky glass headers (header-fade
+	   experiment). The CSS mask below is a fixed gradient in VIEWPORT
+	   space, but mask coordinates are element-relative, so this handler
+	   feeds each fading element its own viewport top via --fade-vt on
+	   every scroll frame. Masked targets are the siblings that follow a
+	   sticky header, i.e. exactly the content that scrolls behind it;
+	   headers passed through SectionBand's slot stay unmasked. Honors
+	   reduced motion by leaving the status quo (content slides behind
+	   the glass) untouched. */
+	const fadeTargets = document.querySelectorAll<HTMLElement>(
+		'.c-section-band .c-section-band__header ~ *',
+	);
+	if (
+		fadeTargets.length > 0 &&
+		!window.matchMedia('(prefers-reduced-motion: reduce)').matches
+	) {
+		let fadeQueued = false;
+		const updateFades = () => {
+			fadeQueued = false;
+			/* read all rects first, then write, to avoid layout thrash */
+			const tops = Array.from(fadeTargets, (el) => el.getBoundingClientRect().top);
+			fadeTargets.forEach((el, i) =>
+				el.style.setProperty('--fade-vt', `${tops[i]}px`),
+			);
+		};
+		const queueFades = () => {
+			if (!fadeQueued) {
+				fadeQueued = true;
+				requestAnimationFrame(updateFades);
+			}
+		};
+		updateFades();
+		window.addEventListener('scroll', queueFades, { passive: true });
+		window.addEventListener('resize', queueFades);
+		window.addEventListener('load', queueFades);
+	}
+</script>
+
 <style is:global>
 	/* EXPERIMENT (Philip, 2026-08-02): transparent page content on parallax
 	   pages. The fixed scene freezes at its end state behind everything;
@@ -75,6 +114,24 @@ const { title, description } = Astro.props;
 		-webkit-backdrop-filter: blur(8px);
 		backdrop-filter: blur(8px);
 		border-radius: 14px;
+	}
+
+	/* content dissolve (header-fade experiment): the content that scrolls
+	   behind a pinned glass header fades out over a fixed viewport band
+	   ending at the glass's bottom edge (~70px), so it dissolves under
+	   the frosted pill instead of visibly sliding behind it and off the
+	   top of the page. The gradient is positioned in viewport space via
+	   --fade-vt (the element's own viewport top), set per scroll frame by
+	   the script in this layout; the huge fallback keeps content opaque
+	   if the script never runs. Targets the header's following siblings
+	   so slot-passed headers (#about, #education-projects) stay solid. */
+	body:has(.c-parallax) .c-section-band__header ~ * {
+		-webkit-mask-image: linear-gradient(to bottom,
+			transparent calc(64px - var(--fade-vt, 100000px)),
+			#000 calc(136px - var(--fade-vt, 100000px)));
+		mask-image: linear-gradient(to bottom,
+			transparent calc(64px - var(--fade-vt, 100000px)),
+			#000 calc(136px - var(--fade-vt, 100000px)));
 	}
 
 	/* no underlines under the glass titles (Philip, 2026-08-02) */
