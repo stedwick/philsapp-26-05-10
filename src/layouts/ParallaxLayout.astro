@@ -88,4 +88,18 @@ const { title, description } = Astro.props;
 	body:has(.c-parallax) .c-education-separator {
 		display: none;
 	}
+
+	/* glass padding stays visually even: the title's default bottom margin
+	   (meant to space the now-hidden rule) would add height below the text
+	   inside the pill */
+	body:has(.c-parallax) .c-section-band__header .c-section-band__title {
+		margin-bottom: 0;
+	}
+
+	/* global.css zeroes #hire-me's header margin (from when the band was
+	   title-only); with the contact content merged into the band, restore
+	   the standard band header spacing */
+	body:has(.c-parallax) #hire-me .c-section-band__header {
+		margin-bottom: var(--space-5);
+	}
 </style>
