@@ -41,10 +41,24 @@ const { title, description } = Astro.props;
 		const updateFades = () => {
 			fadeQueued = false;
 			/* read all rects first, then write, to avoid layout thrash */
-			const tops = Array.from(fadeTargets, (el) => el.getBoundingClientRect().top);
-			fadeTargets.forEach((el, i) =>
-				el.style.setProperty('--fade-vt', `${tops[i]}px`),
-			);
+			const rects = Array.from(fadeTargets, (el) => el.getBoundingClientRect());
+			rects.forEach((rect, i) => {
+				const el = fadeTargets[i];
+				/* Skip elements below the dissolve band (viewport y 136,
+				   matching the CSS gradient stop): their mask is fully
+				   opaque either way, and writing --fade-vt forces the
+				   masked element to re-rasterize, so churning it for the
+				   whole below-fold page on every scroll frame wastes paint
+				   work on mobile. The CSS fallback (opaque) covers them.
+				   Elements in or above the band are few, so always write
+				   them; that also covers anchor jumps that land an element
+				   above the band without it ever crossing it. */
+				if (rect.top >= 136) {
+					el.style.removeProperty('--fade-vt');
+				} else {
+					el.style.setProperty('--fade-vt', `${rect.top}px`);
+				}
+			});
 		};
 		const queueFades = () => {
 			if (!fadeQueued) {
