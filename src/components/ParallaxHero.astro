@@ -473,32 +473,32 @@ const { profile, socialLinks, chevronIcon: ChevronDown } = Astro.props;
     heroH = canvas.offsetHeight;
     pxScale = heroH / REF_HERO;
     root.style.setProperty('--pxScale', String(pxScale));
-    let lift;
-    if (window.innerWidth <= 767) {
-      // Small breakpoint (100svh canvas): the content starts at 77svh and
-      // covers the bottom of the scene from page load. travel as a CANVAS
-      // fraction ends the journey on the same slice desktop reaches
-      // (canvas rows ~56% to ~77%, the skyline strip); the fade anchor
-      // keeps the same FADE_PAD glue to the content's leading edge,
-      // measured from the 77svh start instead of the fold.
-      travel = 0.56 * heroH;
-      lift = FADE_SOLID_FRAC - (0.77 * window.innerHeight - FADE_PAD) / heroH;
-    } else {
-      // travel as a viewport fraction: the end-state scene strip
-      // (viewport height minus travel minus the pad) lands at exactly
-      // 25% of the viewport
-      travel = 0.75 * window.innerHeight - FADE_PAD;
-      // fade anchor: with the anti-sink slide, the fade's solid point is
-      // a CONSTANT in canvas space during the journey (viewport height
-      // minus the pad), so it only needs recomputing on resize
-      lift = FADE_SOLID_FRAC - (window.innerHeight - FADE_PAD) / heroH;
-    }
+    // content start, as a viewport fraction: on the small breakpoint the
+    // hero is 77svh and content covers the bottom of the scene from page
+    // load; elsewhere content starts at the fold
+    const small = window.innerWidth <= 767;
+    const contentStart = small ? 0.77 : 1;
+    // travel sets the freeze point, identically at every breakpoint: with
+    // the anti-sink slide the content's leading edge always lands on
+    // canvas row ~77% at the freeze, so sinking the canvas ~47% of its
+    // height ends the journey on the same slice everywhere (canvas rows
+    // ~47% to ~77%, mountain peak through the skyline). The flat extra
+    // (37.8px = 1cm exactly, same unit as FADE_PAD) runs the journey a
+    // touch further: 4/3cm + 10px on small, 1.5cm more (17/6cm + 10px
+    // total) at medium and up, so larger screens freeze on a slightly
+    // shorter scene strip. The fade anchor keeps the same FADE_PAD glue
+    // to the content's leading edge: with the anti-sink slide, the fade's
+    // solid point is a CONSTANT in canvas space during the journey, so it
+    // only needs recomputing on resize.
+    const extraCm = small ? 4 / 3 : 17 / 6;
+    travel = 0.40 * heroH + extraCm * 37.8 + 10;
+    const lift = FADE_SOLID_FRAC - (contentStart * window.innerHeight - FADE_PAD) / heroH;
     root.style.setProperty('--lift', (lift * 100) + '%');
     progress = undefined;  // force the gradient translation to re-apply
   }
   window.addEventListener('resize', recompute);
   recompute();
-  // scroll cue (XL only): fade it out the moment the user starts scrolling
+  // scroll cue (medium and up): fade it out the moment the user starts scrolling
   const scrollCue = document.querySelector('.c-parallax-hero__scroll') as HTMLElement | null;
   function animation() {
     scrollCue?.classList.toggle('is-faded', window.scrollY > 40);
