@@ -280,6 +280,12 @@ const { profile, socialLinks, chevronIcon: ChevronDown } = Astro.props;
     width: 2.08rem;
     height: 2.08rem;
     color: var(--color-white);
+    /* blue halo sampled from the top of the sky gradient (rgb(3,182,227)),
+       mirroring the layered white glow rings on the hero copy */
+    box-shadow:
+      0 0 4px rgb(3 182 227 / 85%),
+      0 0 10px rgb(3 182 227 / 60%),
+      0 0 18px rgb(3 182 227 / 40%);
   }
   .c-parallax-hero__social :global(.c-icon-button:hover) {
     background: rgb(255 255 255 / 25%);
@@ -288,18 +294,66 @@ const { profile, socialLinks, chevronIcon: ChevronDown } = Astro.props;
   .c-parallax-hero__social :global(.c-icon-button svg) {
     width: 1.33rem;
     height: 1.33rem;
+    /* same sky-blue halo as the button square, but shaped to the icon
+       glyph (drop-shadow follows the silhouette; box-shadow cannot) so
+       the icon stays legible where it crosses a cloud */
+    filter:
+      drop-shadow(0 0 2px rgb(3 182 227 / 90%))
+      drop-shadow(0 0 6px rgb(3 182 227 / 60%))
+      drop-shadow(0 0 12px rgb(3 182 227 / 40%));
   }
+  /* scroll cue: medium screens and up only (hidden by default below).
+     Sits over the dark bottom vignette, so it stays light while the rest
+     of the hero copy is black. JS adds .is-faded as soon as the user
+     scrolls. */
   .c-parallax-hero__scroll {
     grid-row: 3;
     align-self: end;
-    display: grid;
+    display: none;
     justify-items: center;
     gap: var(--space-1);
     font-size: 1rem;
     transform: translateY(-1.25rem);
-    /* sits over the dark bottom vignette, so it stays light while the
-       rest of the hero copy is black */
     color: var(--color-light);
+    transition: opacity 0.6s ease;
+  }
+  @media (min-width: 768px) {
+    .c-parallax-hero__scroll { display: grid; }
+  }
+  .c-parallax-hero__scroll.is-faded {
+    opacity: 0;
+  }
+  /* glint: a soft white flare pulses over the cue every ~3s with a small
+     bounce, drop-shadow shaped to the glyphs. (A gradient-sweep glint read
+     as static here: the base color #f8f9fa is visually identical to a #fff
+     band.) */
+  .c-parallax-hero__scroll span,
+  .c-parallax-hero__scroll svg {
+    animation: c-parallax-glint 3.2s ease-in-out infinite;
+  }
+  /* inline-block so the bounce translateY applies (transforms are no-ops
+     on non-replaced inline boxes) */
+  .c-parallax-hero__scroll span { display: inline-block; }
+  @keyframes c-parallax-glint {
+    0%, 60%, 100% {
+      opacity: 0.75;
+      filter: drop-shadow(0 0 0 rgb(255 255 255 / 0%));
+      transform: translateY(0);
+    }
+    /* flare peak: lift, then a small overshoot on the way back down */
+    25% {
+      opacity: 1;
+      filter:
+        drop-shadow(0 0 6px rgb(255 255 255 / 90%))
+        drop-shadow(0 0 16px rgb(255 255 255 / 45%));
+      transform: translateY(-3px);
+    }
+    35% { transform: translateY(1px); }
+    45% { transform: translateY(0); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .c-parallax-hero__scroll span,
+    .c-parallax-hero__scroll svg { animation: none; }
   }
   .c-parallax-hero__scroll svg {
     width: 1.25rem;
@@ -444,7 +498,10 @@ const { profile, socialLinks, chevronIcon: ChevronDown } = Astro.props;
   }
   window.addEventListener('resize', recompute);
   recompute();
+  // scroll cue (XL only): fade it out the moment the user starts scrolling
+  const scrollCue = document.querySelector('.c-parallax-hero__scroll') as HTMLElement | null;
   function animation() {
+    scrollCue?.classList.toggle('is-faded', window.scrollY > 40);
     const p = travel > 0 ? Math.min(window.scrollY / travel, 1) : 0;
     if (progress !== p) {
       progress = p;
