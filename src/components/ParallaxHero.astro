@@ -378,6 +378,15 @@ const { profile, socialLinks, chevronIcon: ChevronDown } = Astro.props;
   body:has(.c-parallax) {
     background: transparent;
   }
+  /* iOS 26 Safari (Liquid Glass) tints/paints its status-bar strip and
+     toolbar underlay from CSS: fixed-element backgrounds near the edges,
+     falling back to the ROOT background-color. viewport-fit=cover alone
+     does not stop that: the root must not stay the site gray (#343a40).
+     Paint it the scene dark on parallax pages so the chrome underlay
+     matches the vignette. (theme-color is ignored by Safari 26.) */
+  html:has(.c-parallax) {
+    background: #0f170a;
+  }
   .c-tuner {
     /* intentionally hidden for now: Philip wants the tuning panel out of
        the way, but the markup, styles, and script stay so it can come back

@@ -4,11 +4,16 @@ import '../styles/global.css';
 interface Props {
 	title?: string;
 	description?: string;
+	/* parallax pages: extend the layout viewport under the iOS status bar
+	   and bottom toolbar (edge to edge). Opt-in per page: regular pages
+	   assume the viewport starts below the system chrome. */
+	viewportFitCover?: boolean;
 }
 
 const {
 	title = 'Philip Brocoum - Lead Software Engineer',
 	description = 'Personal website for Philip Brocoum, Lead Software Engineer in Portland, OR.',
+	viewportFitCover = false,
 } = Astro.props;
 ---
 
@@ -16,7 +21,7 @@ const {
 <html lang="en" data-theme="classic">
 	<head>
 		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="viewport" content={viewportFitCover ? 'width=device-width, initial-scale=1, viewport-fit=cover' : 'width=device-width, initial-scale=1'} />
 		<meta name="description" content={description} />
 		<meta name="generator" content={Astro.generator} />
 		<title>{title}</title>
