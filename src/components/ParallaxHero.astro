@@ -224,8 +224,8 @@ const { profile, socialLinks, chevronIcon: ChevronDown } = Astro.props;
     /* the three lines read as one tight block */
     gap: var(--space-1);
     /* top padding clears the absolutely-positioned social icon row
-       (2.08rem tall, --space-5 from the top) */
-    padding: calc(2.08rem + var(--space-5) + var(--space-4)) var(--space-6) var(--space-5);
+       (2.08rem tall, --space-5 + the iOS safe-area inset from the top) */
+    padding: calc(2.08rem + var(--space-5) + env(safe-area-inset-top, 0px) + var(--space-4)) var(--space-6) var(--space-5);
   }
   .c-parallax-hero h1 {
     font-size: clamp(2.25rem, 10vw, 3.5rem);
@@ -265,7 +265,9 @@ const { profile, socialLinks, chevronIcon: ChevronDown } = Astro.props;
      vanish on a white square. */
   .c-parallax-hero__social {
     position: absolute;
-    top: var(--space-5);
+    /* viewport-fit=cover puts layout y=0 under the iOS status bar/notch:
+       drop the icon row below it (env() is 0 everywhere else) */
+    top: calc(var(--space-5) + env(safe-area-inset-top, 0px));
     right: var(--space-5);
     display: flex;
     gap: 0.5rem;
