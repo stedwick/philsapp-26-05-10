@@ -213,7 +213,7 @@ export function createResumeViewModel(collections, iconComponents) {
       { label: contact.linkedInLabel, href: contact.linkedInUrl, icon: iconComponents.BriefcaseBusiness },
       {
         label: contact.resumeLabel,
-        href: assetLookup.get(contact.resumeAssetId)?.localPath ?? '/site-assets/resume.pdf',
+        href: assetLookup.get(contact.resumeAssetId)?.localPath ?? '/site-assets/Philip_Brocoum_resume.pdf',
         icon: iconComponents.FileText,
       },
     ],

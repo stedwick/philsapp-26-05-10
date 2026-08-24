@@ -357,5 +357,5 @@ export const contactItems = [
   { label: profile.phone, href: profile.phoneHref, icon: icons.Phone },
   { label: profile.email, href: profile.emailHref, icon: icons.Mail },
   { label: 'Visit my LinkedIn profile', href: 'https://www.linkedin.com/in/philipbrocoum', icon: icons.BriefcaseBusiness },
-  { label: 'Download my resume', href: '/site-assets/resume.pdf', icon: icons.FileText },
+  { label: 'Download my resume', href: '/site-assets/Philip_Brocoum_resume.pdf', icon: icons.FileText },
 ];
