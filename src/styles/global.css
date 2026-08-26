@@ -660,7 +660,7 @@
     color: var(--color-muted-light);
   }
 
-  .c-section-band--dark .c-media-item a {
+  .c-section-band--dark .c-media-item a:not(.c-button) {
     color: var(--color-light);
   }
 
