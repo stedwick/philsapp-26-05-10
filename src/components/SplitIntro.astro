@@ -1,11 +1,12 @@
 ---
 interface Props {
   paragraphs: string[];
+  dropcap?: boolean;
 }
 
-const { paragraphs } = Astro.props;
+const { paragraphs, dropcap = false } = Astro.props;
 ---
 
 <div class="l-split-intro">
-  {paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+  {paragraphs.map((paragraph, index) => <p class:list={{ 'c-dropcap': dropcap && index === 0 }}>{paragraph}</p>)}
 </div>

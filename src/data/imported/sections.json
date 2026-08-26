@@ -3,9 +3,8 @@
     "id": "about",
     "title": "🏔️ Welcome to Phil's home page! 👋",
     "body": [
-      "Hello! I'm Philip, and I began developing with Ruby on Rails at a startup in NYC in 2007. I have 18+ years of Software Engineering experience, and 8 years as a Manager and Lead Engineer. I've climbed from Developer to Senior Developer, to Lead Developer, to Senior Engineering Manager leading a world-wide remote team of twelve.",
-      "Today with Claude Code, I build AI-powered software at Olio Apps as a Lead Software Engineer in Portland, OR. I ship BlackLine's new AI Account Recs 3.0 product, and the Daily Reading app for the Grace and Mercy Foundation.",
-      "When not at work I enjoy walking my dog, playing live poker at Portland Meadows, and vlogging on my YouTube channel. I believe in making computers accessible and helping the disabled. I'm optimistic about the future :-)"
+      "Hi, I'm Philip. I began developing with Ruby on Rails at a New York City startup in 2007. Since then, I've grown from Developer to Senior Engineering Manager, with more than 18 years in software engineering and 8 years as a Manager and Lead Engineer.",
+      "Today with Claude Code, I build AI-powered software at Olio Apps in Portland, Oregon. I work on BlackLine's AI Account Recs 3.0 and the Daily Reading app. Outside work, I walk my dog, play live poker, and make YouTube videos. I believe in accessible computers, and I'm optimistic about the future :-)"
     ],
     "links": [
       {
@@ -23,8 +22,8 @@
     "id": "career",
     "title": "Phil's Career",
     "body": [
-      "I started in tech as an analyst at Brightidea back in 2007 when I was 25. At that time, I was transitioning away from mathematics and education. I taught myself Ruby on Rails and was hired a year later at readMedia as their first full-time developer. We grew the company and turned it into what Merit is today.",
-      "Today with Claude Code, I build AI-powered software at Olio Apps as a Lead Software Engineer in Portland, OR. I ship BlackLine's new AI Account Recs 3.0 product, and the Daily Reading app for the Grace and Mercy Foundation. My passion has always been to hire great teams to build great products with great technologies."
+      "I started in tech as an analyst at Brightidea in 2007 while transitioning from mathematics and education. I taught myself Ruby on Rails, then joined readMedia as its first full-time developer. We grew the company into what Merit is today.",
+      "Today with Claude Code, I build AI-powered software at Olio Apps as a Lead Software Engineer. I work on BlackLine's AI Account Recs 3.0 and the Daily Reading app. My passion is hiring great teams to build great products with great technologies."
     ],
     "links": [
       {
@@ -38,7 +37,8 @@
     "id": "education",
     "title": "Phil's Education",
     "body": [
-      "I majored in mathematics in college and grad school, and my first career was as a teacher in New York City. However, I always loved computers and quickly transitioned to my new career as a developer."
+      "I majored in mathematics in college and grad school, and my first career was as a teacher in New York City.",
+      "However, I always loved computers and quickly transitioned to my new career as a developer."
     ],
     "links": [],
     "order": 2
@@ -47,7 +47,8 @@
     "id": "fun-stuff",
     "title": "Phil's App Store",
     "body": [
-      "I often program for fun, and you can browse my side projects on GitHub. I once wrote a Ruby script to nab myself tickets to The Daily Show, which was first-come-first-serve on its website at the time, and you never knew when tickets would become available."
+      "I often program for fun, and you can browse my side projects on GitHub.",
+      "I once wrote a Ruby script to nab myself tickets to The Daily Show, which was first-come-first-serve on its website at the time, and you never knew when tickets would become available."
     ],
     "links": [
       {
@@ -61,7 +62,8 @@
     "id": "personal-life",
     "title": "Phil's Personal Life",
     "body": [
-      "I maintain a healthy work/life balance. If you'd like to learn more about me beyond my professional life, check out the links below!"
+      "I maintain a healthy work/life balance. Outside work, I spend time with my dog and make videos for YouTube.",
+      "I also enjoy playing chess and live poker. Check out the links below to learn more about my life outside work!"
     ],
     "links": [],
     "order": 4
@@ -70,7 +72,8 @@
     "id": "contact",
     "title": "Let's get in touch",
     "body": [
-      "Hi there! Today with Claude Code, I build AI-powered software at Olio Apps as a Lead Software Engineer in Portland, OR. If you've made it this far, drop me a line. Send an email and I'll speak with you soon 👍."
+      "Hi there! Today with Claude Code, I build AI-powered software at Olio Apps as a Lead Software Engineer in Portland, OR.",
+      "If you've made it this far, drop me a line. Send an email and I'll speak with you soon 👍."
     ],
     "links": [
       {

@@ -93,8 +93,8 @@ const resume = createResumeViewModel(
 				<header class="c-section-band__header">
 					<h2 id="education-heading" class="c-section-band__title">{resume.sections.education.title}</h2>
 				</header>
-				<p>{resume.sections.education.body[0]}</p>
-				<div class="l-stacked-media-list">
+				<SplitIntro paragraphs={resume.sections.education.body} />
+				<div class="l-stacked-media-list u-section-stack">
 					{resume.education.map((item) => <MediaItem {...item} compact />)}
 				</div>
 			</section>
@@ -107,8 +107,8 @@ const resume = createResumeViewModel(
 				<header class="c-section-band__header">
 					<h2 id="projects-heading" class="c-section-band__title">{resume.sections.projects.title}</h2>
 				</header>
-				<p>{resume.sections.projects.body[0]}</p>
-				<div class="l-stacked-media-list">
+				<SplitIntro paragraphs={resume.sections.projects.body} />
+				<div class="l-stacked-media-list u-section-stack">
 					{resume.projects.map((item) => <MediaItem {...item} compact />)}
 				</div>
 			</section>
@@ -116,7 +116,7 @@ const resume = createResumeViewModel(
 	</SectionBand>
 
 	<SectionBand id="interests" title={resume.sections.personalLife.title} tone="light">
-		<p>{resume.sections.personalLife.body[0]}</p>
+		<SplitIntro paragraphs={resume.sections.personalLife.body} />
 		<MediaGrid class="c-interest-grid u-section-stack">
 			{resume.interests.map((interest) => <MediaItem {...interest} />)}
 		</MediaGrid>
@@ -127,7 +127,7 @@ const resume = createResumeViewModel(
 	    pinned). Now the header sticks while the contact content scrolls
 	    behind it. id kept for the old #hire-me anchor target. */}
 	<SectionBand id="hire-me" title={resume.sections.contact.title} tone="info">
-		<p class="c-dropcap">{resume.contactIntro}</p>
+		<SplitIntro paragraphs={resume.contactIntro} dropcap />
 		<div class="l-two-panel c-contact-layout u-section-stack">
 			<section aria-labelledby="contact-info-heading">
 				<h2 id="contact-info-heading" class="u-center">Phil's Contact Info</h2>

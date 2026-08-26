@@ -137,7 +137,7 @@ const contact = defineCollection({
   loader: file('src/data/imported/contact.json'),
   schema: z.object({
     ...orderedSchema,
-    intro: z.string(),
+    intro: z.array(z.string()),
     name: z.string(),
     location: z.string(),
     phoneDisplay: z.string(),
