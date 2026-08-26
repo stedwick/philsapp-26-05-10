@@ -136,7 +136,11 @@ const resume = createResumeViewModel(
 
 			<section aria-labelledby="contact-form-heading">
 				<h2 id="contact-form-heading" class="u-center">Send Phil a Message</h2>
-				<ContactForm action={resume.formAction} />
+				<div class="c-contact-card">
+					<div class="c-contact-card__body">
+						<ContactForm action={resume.formAction} />
+					</div>
+				</div>
 			</section>
 		</div>
 	</SectionBand>
