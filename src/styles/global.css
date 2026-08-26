@@ -865,6 +865,7 @@
   .c-contact-form {
     display: grid;
     gap: var(--space-4);
+    color: var(--color-on-surface);
   }
 
   .c-contact-card {
@@ -883,46 +884,77 @@
     margin-bottom: var(--space-2);
   }
 
-  .c-input-group {
+  .c-form-field {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) 2.875rem;
+    gap: var(--space-2);
   }
 
-  .c-input-group input,
+  .c-form-field label {
+    font-size: 0.875rem;
+    font-weight: 600;
+  }
+
+  .c-input-control {
+    position: relative;
+  }
+
+  .c-input-control input,
   .c-contact-form textarea {
     width: 100%;
     min-width: 0;
     border: 1px solid var(--color-input-border);
+    border-radius: var(--radius-lg);
     color: var(--color-input-text);
     background: var(--color-surface);
+    transition: border-color var(--transition), box-shadow var(--transition);
   }
 
-  .c-input-group input {
-    min-height: 2.375rem;
-    padding: 0.375rem 0.75rem;
-    border-radius: var(--radius-md) 0 0 var(--radius-md);
+  .c-input-control input {
+    min-height: 3.25rem;
+    padding: 0.75rem 1rem 0.75rem 3rem;
   }
 
-  .c-input-group svg {
-    width: 2.875rem;
-    height: 2.375rem;
-    padding: 0.625rem;
-    border: 1px solid var(--color-input-border);
-    border-left: 0;
-    border-radius: 0 var(--radius-md) var(--radius-md) 0;
-    background: var(--color-input-addon-bg);
-    color: var(--color-input-text);
+  .c-input-control svg {
+    position: absolute;
+    z-index: 1;
+    top: 50%;
+    left: 1rem;
+    width: 1.25rem;
+    height: 1.25rem;
+    color: var(--color-on-surface-muted);
+    pointer-events: none;
+    transform: translateY(-50%);
   }
 
   .c-contact-form textarea {
     min-height: 9rem;
-    padding: 0.375rem 0.75rem;
-    border-radius: var(--radius-md);
+    padding: 0.875rem 1rem;
     resize: vertical;
+  }
+
+  .c-input-control input::placeholder,
+  .c-contact-form textarea::placeholder {
+    color: var(--color-on-surface-muted);
+  }
+
+  .c-input-control input:focus,
+  .c-contact-form textarea:focus {
+    border-color: var(--color-info);
+    box-shadow: 0 0 0 0.2rem color-mix(in srgb, var(--color-info) 18%, transparent);
   }
 
   .c-contact-form .c-button {
     width: 100%;
+    min-height: 3.25rem;
+    border-radius: 999px;
+    background: var(--color-info);
+    border-color: var(--color-info);
+    font-weight: 600;
+  }
+
+  .c-contact-form .c-button:hover {
+    background: var(--color-info-hover);
+    border-color: var(--color-info-hover);
   }
 
   .c-dropcap::first-letter {

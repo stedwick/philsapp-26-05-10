@@ -10,23 +10,29 @@ const { action = 'https://formspree.io/f/mjgnzjzd' } = Astro.props;
 ---
 
 <form class="c-contact-form" action={action} method="post">
-  <label class="u-visually-hidden" for="name">Your name</label>
-  <div class="c-input-group">
-    <input id="name" name="name" type="text" placeholder="Your name" autocomplete="name" />
-    <CircleUserRound aria-hidden="true" />
+  <div class="c-form-field">
+    <label for="name">Name</label>
+    <div class="c-input-control">
+      <CircleUserRound aria-hidden="true" />
+      <input id="name" name="name" type="text" placeholder="Your name" autocomplete="name" required />
+    </div>
   </div>
 
-  <label class="u-visually-hidden" for="email">Your email address</label>
-  <div class="c-input-group">
-    <input id="email" name="email" type="email" placeholder="Your email address" autocomplete="email" />
-    <Mail aria-hidden="true" />
+  <div class="c-form-field">
+    <label for="email">Email</label>
+    <div class="c-input-control">
+      <Mail aria-hidden="true" />
+      <input id="email" name="email" type="email" placeholder="you@example.com" autocomplete="email" required />
+    </div>
   </div>
 
-  <label class="u-visually-hidden" for="message">Your message to me</label>
-  <textarea id="message" name="message" placeholder="Your message to me" rows="6"></textarea>
+  <div class="c-form-field">
+    <label for="message">Message</label>
+    <textarea id="message" name="message" placeholder="What would you like to talk about?" rows="6" required></textarea>
+  </div>
 
   <button class="c-button c-button--primary c-button--md" type="submit">
+    <span>Send message</span>
     <Send aria-hidden="true" class="c-button__icon" />
-    <span>Send Email</span>
   </button>
 </form>
