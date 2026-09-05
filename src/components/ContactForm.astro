@@ -9,6 +9,8 @@ const { CircleUserRound, Mail, Send } = icons;
 const { action = 'https://formspree.io/f/mjgnzjzd' } = Astro.props;
 ---
 
+<script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+
 <form class="c-contact-form" action={action} method="post">
   <div class="c-form-field">
     <label for="name">Name</label>
@@ -31,8 +33,34 @@ const { action = 'https://formspree.io/f/mjgnzjzd' } = Astro.props;
     <textarea id="message" name="message" placeholder="What would you like to talk about?" rows="6" required></textarea>
   </div>
 
+  <div
+    class="cf-turnstile"
+    data-sitekey="0x4AAAAAAEpTsDJ50yyL_qeZ"
+    data-action="contact"
+    data-size="compact"
+    data-theme="auto"
+  ></div>
+  <p data-turnstile-status role="status" hidden></p>
+  <noscript>Enable JavaScript to complete the security check and send a message.</noscript>
+
   <button class="c-button c-button--primary c-button--md" type="submit">
     <span>Send message</span>
     <Send aria-hidden="true" class="c-button__icon" />
   </button>
 </form>
+
+<script>
+  document.querySelectorAll<HTMLFormElement>('.c-contact-form').forEach((form) => {
+    const status = form.querySelector<HTMLElement>('[data-turnstile-status]')!;
+
+    form.addEventListener('submit', (event) => {
+      const token = new FormData(form).get('cf-turnstile-response');
+      status.hidden = typeof token === 'string' && token.length > 0;
+
+      if (!status.hidden) {
+        event.preventDefault();
+        status.textContent = 'Please complete the security check, then try again. If it does not load, allow challenges.cloudflare.com in your browser and reload the page.';
+      }
+    });
+  });
+</script>
