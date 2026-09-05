@@ -106,7 +106,9 @@ const { profile, socialLinks, chevronIcon: ChevronDown } = Astro.props;
     /* anti-sink compensation: JS sets --sinkPx = progress * travel in the
        same rAF block as progress, sliding the canvas window exactly like
        the old sticky hero did */
-    transform: translateY(calc(-1 * var(--sinkPx, 0px)));
+    /* Composite the scene and vignette together so fractional bottom edges
+       cannot leak a bright pixel row through the opaque fade. */
+    transform: translate3d(0, calc(-1 * var(--sinkPx, 0px)), 0);
     /* sky is a pure-CSS gradient on the scene canvas (stops sampled from
        the removed sky.png, falloff compressed upward x0.55). It parallaxes
        like a layer: JS shifts background-position-y via --gradPos using the
