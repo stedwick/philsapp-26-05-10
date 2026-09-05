@@ -37,6 +37,7 @@ const { action = 'https://formspree.io/f/mjgnzjzd' } = Astro.props;
     class="cf-turnstile"
     data-sitekey="0x4AAAAAAEpTsDJ50yyL_qeZ"
     data-action="contact"
+    data-appearance="interaction-only"
     data-size="compact"
     data-theme="auto"
   ></div>
@@ -59,7 +60,7 @@ const { action = 'https://formspree.io/f/mjgnzjzd' } = Astro.props;
 
       if (!status.hidden) {
         event.preventDefault();
-        status.textContent = 'Please complete the security check, then try again. If it does not load, allow challenges.cloudflare.com in your browser and reload the page.';
+        status.textContent = 'Please wait for the security check and complete any challenge shown, then try again. If it does not load, allow challenges.cloudflare.com in your browser and reload the page.';
       }
     });
   });

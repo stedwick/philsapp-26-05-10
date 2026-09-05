@@ -77,6 +77,11 @@ const { title, description } = Astro.props;
 		border-radius: 14px;
 	}
 
+	/* Match the heading's bottom padding plus its margin below each intro. */
+	body:has(.c-parallax) .l-split-intro + .u-section-stack {
+		margin-top: calc(var(--space-3) + var(--space-5));
+	}
+
 	/* no underlines under the glass titles (Philip, 2026-08-02) */
 	body:has(.c-parallax) .c-section-band__rule {
 		display: none;
