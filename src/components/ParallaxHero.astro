@@ -89,6 +89,18 @@ const { profile, socialLinks, chevronIcon: ChevronDown } = Astro.props;
     z-index: -1;
     background: #0f170a;
   }
+  /* Extend the vignette's opaque tail across the canvas edge by 3px.
+     Keep this on the fixed frame, outside the canvas's clip and transform,
+     so a fractional-pixel compositing seam cannot show through on phones. */
+  .c-parallax::after {
+    content: "";
+    position: absolute;
+    inset: auto 0 0;
+    top: calc(130vh - var(--sinkPx, 0px) - 3px);
+    top: calc(130svh - var(--sinkPx, 0px) - 3px);
+    background: inherit;
+    pointer-events: none;
+  }
   .c-parallax__canvas {
     position: relative;
     /* the canvas keeps the tuned 130svh geometry (100svh — the "zoomed
@@ -187,6 +199,10 @@ const { profile, socialLinks, chevronIcon: ChevronDown } = Astro.props;
      case whose narrow crop benefits, landscape is not. */
   @media (orientation: portrait) {
     .c-parallax__canvas { height: 100vh; height: 100svh; }
+    .c-parallax::after {
+      top: calc(100vh - var(--sinkPx, 0px) - 3px);
+      top: calc(100svh - var(--sinkPx, 0px) - 3px);
+    }
   }
   /* clouds anchor on narrow screens: the centered crop cuts off the
      left-side clouds; anchor bottom-left below the 768px medium
