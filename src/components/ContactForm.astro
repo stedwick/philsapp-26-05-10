@@ -9,8 +9,6 @@ const { CircleUserRound, Mail, Send } = icons;
 const { action = 'https://formspree.io/f/mjgnzjzd' } = Astro.props;
 ---
 
-<script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
-
 <form class="c-contact-form" action={action} method="post">
   <div class="c-form-field">
     <label for="name">Name</label>
@@ -38,7 +36,7 @@ const { action = 'https://formspree.io/f/mjgnzjzd' } = Astro.props;
     data-sitekey="0x4AAAAAAEpTsDJ50yyL_qeZ"
     data-action="contact"
     data-appearance="interaction-only"
-    data-size="compact"
+    data-size="flexible"
     data-theme="auto"
   ></div>
   <p data-turnstile-status role="status" hidden></p>
@@ -64,4 +62,38 @@ const { action = 'https://formspree.io/f/mjgnzjzd' } = Astro.props;
       }
     });
   });
+
+  const script = document.createElement('script');
+  script.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
+  script.async = true;
+  script.addEventListener('load', () => {
+    const { turnstile } = window as Window & {
+      turnstile: {
+        render(container: HTMLElement, options: Record<string, string>): string;
+        remove(widgetId: string): void;
+      };
+    };
+
+    document.querySelectorAll<HTMLElement>('.c-contact-form .cf-turnstile').forEach((container) => {
+      let widgetId: string | undefined;
+      let currentSize: string;
+
+      new ResizeObserver(([entry]) => {
+        const size = entry.contentRect.width < 300 ? 'compact' : 'flexible';
+        // Preserve the token on resizes that do not cross Turnstile's 300px minimum.
+        if (size === currentSize) return;
+        currentSize = size;
+        if (widgetId) turnstile.remove(widgetId);
+        container.dataset.size = size;
+        widgetId = turnstile.render(container, {
+          sitekey: container.dataset.sitekey!,
+          action: container.dataset.action!,
+          appearance: container.dataset.appearance!,
+          theme: container.dataset.theme!,
+          size,
+        });
+      }).observe(container);
+    });
+  });
+  document.head.append(script);
 </script>

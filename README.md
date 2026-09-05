@@ -51,6 +51,7 @@ All commands are run from the root of the project, from a terminal:
 
 - The public Turnstile site key belongs in the component's `data-sitekey` attribute.
 - The widget uses `interaction-only` appearance: verification runs in the background, and the widget is shown only when a visitor needs to interact with a challenge.
+- Visible challenges use Turnstile's slim, flexible layout. Forms narrower than its 300px minimum use the compact layout; crossing that threshold recreates the widget and requires a fresh token.
 - Store the matching **Secret Key only in Formspree**: open this form's Settings, enable CAPTCHA protection, then choose Adjust settings > Cloudflare Turnstile and save the secret. No Turnstile secret belongs in this repository, Astro environment variables, or the static site's Cloudflare Worker settings.
 - In Cloudflare's Turnstile widget settings, allow `phils.app`. For local testing with the real widget, also allow `philsapp.dev` (or the specific feature worktree hostname being used).
 - Keep CAPTCHA protection enabled. Deploy the site after changing the component, then send a clearly labeled test message from `https://phils.app` to verify the complete flow. Tokens expire after five minutes and are single-use.
