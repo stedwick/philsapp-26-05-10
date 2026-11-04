@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+cd "$(dirname "$0")/.."
+
+package_manager="$(node -p "require('./package.json').packageManager")"
+[[ "$package_manager" == bun@* ]]
+bun_version="${package_manager#bun@}"
+portless_version="0.16.0"
+local_bin="$HOME/.local/bin"
+
+echo "Checking Bun $bun_version and Portless $portless_version"
+if [[ ! -x "$local_bin/bun" ]] || [[ "$("$local_bin/bun" --version)" != "$bun_version" ]] || \
+   [[ ! -x "$local_bin/portless" ]] || [[ "$("$local_bin/portless" --version)" != "$portless_version" ]]; then
+  time npm install --global --prefix "$HOME/.local" "bun@$bun_version" "portless@$portless_version"
+fi
+
+export PATH="$local_bin:$PATH"
+echo "Installing locked project dependencies"
+time bun install --frozen-lockfile
