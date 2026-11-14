@@ -2,12 +2,12 @@
   {
     "id": "pdx-punk",
     "title": "PDX Punk",
-    "url": "https://pdxpunkgame.com/",
+    "url": "https://pdxpunkgame.com/play/#setup",
     "description": "My noir detective murder mystery set in Cyberpunk Portland, a pixel-art game you play in your browser. Choose your character, follow the leads, and discover a city full of secrets.",
     "links": [
       {
         "label": "PDX Punk",
-        "url": "https://pdxpunkgame.com/"
+        "url": "https://pdxpunkgame.com/play/#setup"
       },
       {
         "label": "Play PDX Punk",
