@@ -115,6 +115,7 @@ const projects = defineCollection({
     description: z.string(),
     links: z.array(linkSchema),
     iconName: z.string(),
+    iconAssetId: nullableAsset.optional(),
     hidden: z.boolean().optional(),
   }),
 });

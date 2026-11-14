@@ -195,6 +195,7 @@ export function createResumeViewModel(collections, iconComponents) {
       href: item.url,
       icon: iconForEntry(item, iconComponents),
       legacyIcon: legacyIconForEntryId(item.id),
+      image: resolveImage(assetLookup, item.iconAssetId),
       body: item.description,
       actions: actionsFromLinks(item),
     })),

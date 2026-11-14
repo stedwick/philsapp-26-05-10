@@ -1,5 +1,43 @@
 [
   {
+    "id": "pdx-punk",
+    "title": "PDX Punk",
+    "url": "https://pdxpunkgame.com/",
+    "description": "My noir detective murder mystery set in Cyberpunk Portland, a pixel-art game you play in your browser. Choose your character, follow the leads, and discover a city full of secrets.",
+    "links": [
+      {
+        "label": "PDX Punk",
+        "url": "https://pdxpunkgame.com/"
+      },
+      {
+        "label": "Play PDX Punk",
+        "url": "https://pdxpunkgame.com/play/#setup"
+      }
+    ],
+    "iconName": "",
+    "iconAssetId": "pdx-punk",
+    "order": 0
+  },
+  {
+    "id": "quill-game-maker",
+    "title": "Quill Game Maker",
+    "url": "https://quillgamemaker.com/",
+    "description": "My pixel game engine for the AI age, with source code and tools for your coding agent. Bring your own agent and make your first pixel art game.",
+    "links": [
+      {
+        "label": "Quill Game Maker",
+        "url": "https://quillgamemaker.com/"
+      },
+      {
+        "label": "Make your first game",
+        "url": "https://quillgamemaker.com/"
+      }
+    ],
+    "iconName": "",
+    "iconAssetId": "quill-game-maker",
+    "order": 1
+  },
+  {
     "id": "phils-app-store",
     "title": "World Vibe Web",
     "url": "https://wvw.dev/stores/stedwick/wvw.dev.apps",
@@ -15,7 +53,7 @@
       }
     ],
     "iconName": "",
-    "order": 0
+    "order": 2
   },
   {
     "id": "opentrackir",
@@ -33,7 +71,7 @@
       }
     ],
     "iconName": "",
-    "order": 6
+    "order": 8
   },
   {
     "id": "philnav",
@@ -51,7 +89,7 @@
       }
     ],
     "iconName": "",
-    "order": 3
+    "order": 5
   },
   {
     "id": "phils-dictation-app",
@@ -69,7 +107,7 @@
       }
     ],
     "iconName": "",
-    "order": 4
+    "order": 6
   },
   {
     "id": "tater-talk",
@@ -87,7 +125,7 @@
       }
     ],
     "iconName": "",
-    "order": 2
+    "order": 4
   },
   {
     "id": "poker-tracker",
@@ -113,7 +151,7 @@
       }
     ],
     "iconName": "",
-    "order": 8
+    "order": 10
   },
   {
     "id": "munch",
@@ -131,7 +169,7 @@
       }
     ],
     "iconName": "",
-    "order": 1
+    "order": 3
   },
   {
     "id": "sci-fi-voter",
@@ -149,7 +187,7 @@
       }
     ],
     "iconName": "",
-    "order": 9,
+    "order": 11,
     "hidden": true
   },
   {
@@ -168,7 +206,7 @@
       }
     ],
     "iconName": "",
-    "order": 10,
+    "order": 12,
     "hidden": true
   },
   {
@@ -187,7 +225,7 @@
       }
     ],
     "iconName": "",
-    "order": 11,
+    "order": 13,
     "hidden": true
   },
   {
@@ -206,7 +244,7 @@
       }
     ],
     "iconName": "",
-    "order": 12,
+    "order": 14,
     "hidden": true
   },
   {
@@ -225,7 +263,7 @@
       }
     ],
     "iconName": "",
-    "order": 5
+    "order": 7
   },
   {
     "id": "my-net-worth",
@@ -243,6 +281,6 @@
       }
     ],
     "iconName": "",
-    "order": 7
+    "order": 9
   }
 ]

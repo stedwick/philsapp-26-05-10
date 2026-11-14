@@ -1033,5 +1033,35 @@
       }
     ],
     "order": 73
+  },
+  {
+    "id": "pdx-punk",
+    "sourceUrl": "composite: https://pdxpunkgame.com/landing/art/logo-bc9b967eb1e2.png (PDX stacked over PUNK)",
+    "localPath": "/legacy/pdx-punk.png",
+    "kind": "image",
+    "alt": "PDX Punk",
+    "owners": [
+      {
+        "collection": "projects",
+        "id": "pdx-punk",
+        "field": "icon"
+      }
+    ],
+    "order": 74
+  },
+  {
+    "id": "quill-game-maker",
+    "sourceUrl": "composite: https://quillgamemaker.com/quill/assets/quill-logo-a35e7b7bf17f.svg (feather and inkwell)",
+    "localPath": "/legacy/quill-game-maker.png",
+    "kind": "image",
+    "alt": "Quill Game Maker",
+    "owners": [
+      {
+        "collection": "projects",
+        "id": "quill-game-maker",
+        "field": "icon"
+      }
+    ],
+    "order": 75
   }
 ]
