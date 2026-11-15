@@ -280,7 +280,7 @@ const { profile, socialLinks, chevronIcon: ChevronDown } = Astro.props;
      their left */
   .c-island__controls {
     position: fixed;
-    top: calc(var(--space-2) + env(safe-area-inset-top, 0px));
+    top: var(--nav-top);
     right: var(--space-5);
     z-index: 22;
     display: flex;
@@ -367,8 +367,28 @@ const { profile, socialLinks, chevronIcon: ChevronDown } = Astro.props;
      top center, between the pinned name and island. On phones the name
      scrolls away, so each header pins at the upper left, level with the
      island; from 600px to 799px they pin just under the name and island */
+  /* one nav row: the play/mute stack sets its height (--nav-h). The name
+     pill and the section title pill are both 80% of it and centered on the
+     same line; JS centers the island on it too */
+  body:has(.c-island) {
+    --nav-top: calc(var(--space-2) + env(safe-area-inset-top, 0px));
+    --nav-h: calc(2.08rem * 2 + 0.4rem);
+  }
+  @media (max-width: 767px) {
+    body:has(.c-island) { --nav-h: calc(1.75rem * 2 + 0.3rem); }
+  }
   html body:has(.c-island) .c-section-band__header {
+    top: calc(var(--nav-top) + var(--nav-h) * 0.1);
+    height: calc(var(--nav-h) * 0.8);
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    padding-block: 0;
     background: color-mix(in srgb, var(--color-night) 60%, transparent);
+  }
+  html body:has(.c-island) .c-section-band__header .c-section-band__title {
+    font-size: calc(var(--nav-h) * 0.42);
+    line-height: 1;
   }
   @media (min-width: 600px) and (max-width: 799px) {
     html body:has(.c-island) .c-section-band__header {
@@ -377,13 +397,11 @@ const { profile, socialLinks, chevronIcon: ChevronDown } = Astro.props;
   }
   @media (max-width: 599px) {
     html body:has(.c-island) .c-section-band__header {
-      top: calc(var(--space-2) + env(safe-area-inset-top, 0px));
       margin-inline: calc(-1 * var(--space-3)) auto;
       max-width: calc(100% - 7.5rem);
-      padding: var(--space-2) var(--space-3);
+      padding-inline: var(--space-3);
     }
     html body:has(.c-island) .c-section-band__header .c-section-band__title {
-      font-size: 1.5rem;
       text-align: left;
     }
   }
@@ -424,31 +442,33 @@ const { profile, socialLinks, chevronIcon: ChevronDown } = Astro.props;
     // edge, centered on the row
     const t = title.getBoundingClientRect();
     const h = (title.querySelector('h1') as HTMLElement).getBoundingClientRect();
-    const ts = Math.min(1, (c.height * 0.62) / h.height);
+    const ts = Math.min(1, (c.height * 0.8) / h.height);
     pinName = window.innerWidth >= 600;
     titleGeo = !pinName ? { dx: 0, dy: 0, s: 1 } : {
       dx: margin - t.left - (h.left - t.left) * ts,
       dy: rowMid - (h.height * ts) / 2 - t.top - (h.top - t.top) * ts,
       s: ts,
     };
-    // island: its visual center sits about 55% down the stage; shrink it to
-    // about the height of the button stack and park it left of the buttons
+    // The live camera scales with the stage height (widening its view below
+    // a 1.1 aspect) and centers 48px below the stage middle. k is the scene
+    // scale relative to the 528px stage the still frame was captured on.
     const st = stage.getBoundingClientRect();
-    const islandH = st.height * 0.82;
-    const is = (c.height * 1.15) / islandH;
-    const ox = st.width / 2, oy = st.height * 0.55;
-    const targetX = c.left - margin * 0.5 - (islandH * 1.3 * is) / 2;
-    stageGeo = { ox, oy, dx: targetX - (st.left + ox), dy: rowMid - (st.top + oy), s: is };
-    // still frame: captured from a 1265 x 648 canvas on a 528px stage. The
-    // live camera scales with the stage height (widening its view below a
-    // 1.1 aspect) and centers 48px below the stage middle, so match that
     const cv = stage.querySelector('canvas') as HTMLCanvasElement;
     const W = cv.clientWidth, S = st.height;
     const k = S / Math.max(1, 1.1 / (W / S)) / 528;
+    // still frame: captured from a 1265 x 648 canvas
     host.style.setProperty('--poster-w', 1265 * k + 'px');
     host.style.setProperty('--poster-h', 648 * k + 'px');
     host.style.setProperty('--poster-x', W / 2 - (1265 * k) / 2 + 'px');
     host.style.setProperty('--poster-y', S / 2 + 48 - (264 + 48) * k + 'px');
+    // island: measured on the still frame it is 507 x 433px at k = 1, with
+    // its center 9px left of the canvas middle and 24px below the camera
+    // center. Shrink it to the nav row height, center it on the row, and
+    // park it left of the buttons.
+    const is = (c.height * 1.1) / (433 * k);
+    const ox = W / 2 - 9 * k, oy = S / 2 + 48 + 24 * k;
+    const targetX = c.left - margin * 0.75 - (507 * k * is) / 2;
+    stageGeo = { ox, oy, dx: targetX - (st.left + ox), dy: rowMid - (st.top + oy), s: is };
     host.style.setProperty('--island-ox', ox + 'px');
     host.style.setProperty('--island-oy', oy + 'px');
     travel = hero.offsetHeight * 0.6;
