@@ -23,7 +23,9 @@ const lanternLight=new THREE.PointLight(0xffc77b,1.8,2.2,2);island.add(lanternLi
 const bytes=Uint8Array.from(atob(window.ISLAND_GLB),c=>c.charCodeAt(0));window.ISLAND_GLB=null;
 const draco=new DRACOLoader().setDecoderPath({js:window.DRACO_WRAPPER,wasm:window.DRACO_WASM}).setWorkerLimit(1);
 const loader=new GLTFLoader().setDRACOLoader(draco);
-let modelRoot,characterMotion,handMotion,faceMotion;
+let modelRoot,characterMotion,handMotion,faceMotion,legMotion;
+// The chair, body, hands and face roll and swivel together as one seat.
+const seat=new THREE.Group(),seatPivot=new THREE.Vector3(-.10,0,0),seatPoint=new THREE.Vector3();
 // Each cloud wraps independently. The second sprite is intentionally omitted.
 const cloudLayer=document.querySelector('.backdrop');
 const cloudSprites=[{x:25,width:270},{x:630,width:300},{x:950,width:370},{x:1350,width:220}];
@@ -84,7 +86,7 @@ loader.parse(bytes.buffer,'',model=>{
  const faceEncoded=window.FACE_GLB;window.FACE_GLB=null;
  if(faceEncoded){
   const faceBytes=Uint8Array.from(atob(faceEncoded),c=>c.charCodeAt(0));
-  loader.parse(faceBytes.buffer,'',face=>{model.scene.add(face.scene);faceMotion=face.scene;draco.dispose();render()},()=>{draco.dispose();console.warn('Face details unavailable')});
+  loader.parse(faceBytes.buffer,'',face=>{seat.add(face.scene);faceMotion=face.scene;draco.dispose();render()},()=>{draco.dispose();console.warn('Face details unavailable')});
  }else draco.dispose();
  // Place the light at the hanging lantern in the model's original coordinates.
  lanternLight.position.set(-.30,-.035,.52).sub(center).multiplyScalar(scale);
@@ -118,26 +120,34 @@ loader.parse(bytes.buffer,'',model=>{
    `);
   };
  }
- handMotion=['left','right'].map(side=>[model.scene.getObjectByName(`Anastasiia_trial_hand_${side}_export`),model.scene.getObjectByName(`Anastasiia_trial_sleeve_${side}_export`)]);
+ handMotion=['left','right'].map(side=>model.scene.getObjectByName(`Anastasiia_trial_hand_${side}_export`)).filter(Boolean);
+ model.scene.add(seat);
+ for(const name of ['chair','character','hand_left','hand_right']){const o=model.scene.getObjectByName(`Anastasiia_trial_${name}_export`);if(o)seat.add(o)}
+ // The legs and shoes are part of the ground mesh, so those vertices follow the seat at runtime.
+ const ground=model.scene.getObjectByName('Anastasiia_trial_ground_export');
+ if(ground?.geometry?.attributes.position){
+  const position=ground.geometry.attributes.position,legs=[];position.setUsage(THREE.DynamicDrawUsage);
+  for(let i=0;i<position.count;i++){const x=position.getX(i),y=position.getY(i),z=position.getZ(i);if(x>-.215&&x<.015&&y>-.455&&y<-.30&&z>-.015&&z<.195)legs.push(i,x,y,z)}
+  legMotion={position,legs};
+ }
  const character=model.scene.getObjectByName('Anastasiia_trial_character_export');
  if(character?.geometry?.attributes.position){
   const position=character.geometry.attributes.position;position.setUsage(THREE.DynamicDrawUsage);
-  // Keep the lower body planted while the upper body and head follow a small lean.
+  // The legs belong to the ground mesh, so only the upper body breathes and only the head turns.
   const moving=[];
   for(let i=0;i<position.count;i++){
    const x=position.getX(i),y=position.getY(i),z=position.getZ(i);
-   const side=THREE.MathUtils.smoothstep(Math.abs(x+.094),.048,.105);
-   const vertical=THREE.MathUtils.smoothstep(y,-.32,-.27)*(1-THREE.MathUtils.smoothstep(y,-.17,-.12));
-   const armWeight=side*vertical;
-   const leanWeight=THREE.MathUtils.smoothstep(y,-.38,-.32);
-   if(armWeight>.01||leanWeight>.01)moving.push({i,y,z,armWeight,leanWeight,right:x>-.094});
+   const breath=THREE.MathUtils.smoothstep(y,-.36,-.30),head=THREE.MathUtils.smoothstep(y,-.235,-.205);
+   if(breath>.01)moving.push({i,x,y,z,breath,head});
   }
-  characterMotion={position,moving};
+  // Glance toward the side of the fire, in model coordinates.
+  const neck=new THREE.Vector3(-.094,-.215,.02),fire=flames.position.clone().divideScalar(scale).add(center);
+  characterMotion={position,moving,neck,look:Math.sign(fire.x-neck.x)*.55};
  }
  status.hidden=true;render();
 },()=>{status.textContent='Could not load the island.'});
 // Water is one inexpensive shader surface. Its transparent edge blends into the page.
-const waterMat=new THREE.ShaderMaterial({transparent:true,depthWrite:false,side:THREE.DoubleSide,uniforms:{uTime:{value:0},uHeight:{value:1}},vertexShader:`varying vec2 vUv; void main(){vUv=uv;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.0);}`,fragmentShader:`uniform float uTime;uniform float uHeight;varying vec2 vUv;void main(){vec2 p=(vUv-.5)*vec2(80.,14.);float d=length(p)/7.;float fadeDistance=length(vec2(p.x,p.y*mix(1.,.72,smoothstep(0.,2.,p.y))))/7.;float fade=1.-smoothstep(.45,1.,fadeDistance);float wave=sin(d*39.-uTime*1.15)*.5+.5;float thin=smoothstep(.91,.99,wave);vec3 c=mix(vec3(.045,.13,.23),vec3(.13,.29,.40),thin*.23);float edge=smoothstep(0.,.08,gl_FragCoord.y/uHeight);gl_FragColor=vec4(c,fade*edge*.9);}`});
+const waterMat=new THREE.ShaderMaterial({transparent:true,depthWrite:false,side:THREE.DoubleSide,uniforms:{uTime:{value:0},uHeight:{value:1}},vertexShader:`varying vec2 vUv; void main(){vUv=uv;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.0);}`,fragmentShader:`uniform float uTime;uniform float uHeight;varying vec2 vUv;void main(){vec2 p=(vUv-.5)*vec2(80.,14.);float a=atan(p.y,p.x);float d=length(p)/7.+.015*sin(a*4.+p.x*.35+uTime*.25)+.007*sin(a*9.-uTime*.5)+.005*sin(p.x*1.1-p.y*1.7+uTime*.4);float fadeDistance=length(vec2(p.x,p.y*mix(1.,.72,smoothstep(0.,2.,p.y))))/7.;float fade=1.-smoothstep(.45,1.,fadeDistance);float wave=sin(d*39.-uTime*1.15)*.5+.5;float lo=mix(.82,.94,.5+.5*sin(a*3.+d*5.-uTime*.3));float thin=smoothstep(lo,lo+.07,wave);vec3 c=mix(vec3(.045,.13,.23),vec3(.13,.29,.40),thin*.32);float edge=smoothstep(0.,.08,gl_FragCoord.y/uHeight);gl_FragColor=vec4(c,fade*edge*.9);}`});
 const water=new THREE.Mesh(new THREE.PlaneGeometry(80,14),waterMat);water.rotation.x=-Math.PI/2;scene.add(water);
 const flames=new THREE.Group();island.add(flames);
 function flameGeometry(width,height){
@@ -162,6 +172,7 @@ emberGeometry.setAttribute('position',new THREE.BufferAttribute(emberPositions,3
 emberGeometry.setAttribute('aOpacity',new THREE.BufferAttribute(emberOpacities,1).setUsage(THREE.DynamicDrawUsage));
 const embers=new THREE.Points(emberGeometry,new THREE.ShaderMaterial({transparent:true,depthWrite:false,uniforms:{uPixelRatio:{value:Math.min(devicePixelRatio,1.25)}},vertexShader:`attribute float aOpacity; varying float vOpacity; uniform float uPixelRatio; void main(){vOpacity=aOpacity; vec4 mv=modelViewMatrix*vec4(position,1.); gl_PointSize=7.*uPixelRatio*(5./-mv.z); gl_Position=projectionMatrix*mv;}`,fragmentShader:`varying float vOpacity; void main(){float d=length(gl_PointCoord-vec2(.5)); float soft=1.-smoothstep(.2,.5,d); gl_FragColor=vec4(1.,.48,.12,vOpacity*soft);}`}));island.add(embers);
 let time=0,last=0,frame=0,paused=false,visible=true,drag=null,autoResumeAt=0;
+const headTurn=new THREE.Quaternion(),headEuler=new THREE.Euler(),headPoint=new THREE.Vector3();
 function render(){renderer.render(scene,camera)}
 function resize(){layoutClouds();const w=canvas.clientWidth,h=canvas.clientHeight,stageHeight=canvas.parentElement.clientHeight;if(!w||!h||!stageHeight)return;renderer.setSize(w,h,false);waterMat.uniforms.uHeight.value=canvas.height;camera.aspect=w/stageHeight;camera.fov=THREE.MathUtils.radToDeg(2*Math.atan(Math.tan(THREE.MathUtils.degToRad(37)/2)*Math.max(1,1.1/camera.aspect)));camera.setViewOffset(w,stageHeight,0,-48,w,h);camera.updateProjectionMatrix();render()}
 function tick(now){if(paused||!visible||document.hidden||reduced.matches)return;frame=requestAnimationFrame(tick);if(now-last<1000/30)return;const dt=last?Math.min((now-last)/1000,.1):0;last=now;time+=dt;moveClouds(dt);if(!drag?.turning && now>=autoResumeAt)island.rotation.y+=dt*.075;waterMat.uniforms.uTime.value=time;
@@ -179,33 +190,28 @@ function tick(now){if(paused||!visible||document.hidden||reduced.matches)return;
   emberPositions[i*3+2]=flames.position.z+Math.cos(i*1.9+time*.6)*(.03+age*.09);
  }
  emberGeometry.attributes.position.needsUpdate=true;emberGeometry.attributes.aOpacity.needsUpdate=true;
- // Lean back, settle forward, then make a brief, gentle typing gesture.
- const phase=time%14;
- const lean=THREE.MathUtils.smoothstep(phase,1.2,3.1)*(1-THREE.MathUtils.smoothstep(phase,4.4,6.5));
- const gesture=THREE.MathUtils.smoothstep(phase,6.4,7.2)*(1-THREE.MathUtils.smoothstep(phase,9.5,10.5));
- const angle=-.075*lean,co=Math.cos(angle),si=Math.sin(angle),pivotY=-.37,pivotZ=.10;
- if(faceMotion){
-  faceMotion.rotation.x=angle;
-  faceMotion.position.y=pivotY-(co*pivotY-si*pivotZ);
-  faceMotion.position.z=pivotZ-(si*pivotY+co*pivotZ);
- }
- if(handMotion)handMotion.forEach((parts,i)=>parts.forEach(o=>{
-  if(!o)return;
-  const right=i===1,arm=gesture*Math.sin(time*(right?2.1:4.2));
-  // Rotate about the same seated pivot as the character. The geometry is in model coordinates.
-  o.rotation.x=angle;
-  o.position.y=pivotY-(co*pivotY-si*pivotZ)+arm*(right?.0012:.0008);
-  o.position.z=pivotZ-(si*pivotY+co*pivotZ)+arm*(right?.0015:.0008);
- }));
+ // Idle: breathe, nod to the music in his headphones, and now and then glance at the fire.
  if(characterMotion){
-  const {position,moving}=characterMotion;
+  const {position,moving,neck}=characterMotion,phase=time%16;
+  const glance=THREE.MathUtils.smoothstep(phase,9.5,10.6)*(1-THREE.MathUtils.smoothstep(phase,13,14.2));
+  const nod=.065*Math.sin(time*Math.PI*1.6)**2*(1-glance);
+  const rise=.002*Math.sin(time*Math.PI*2/4.2);
+  headTurn.setFromEuler(headEuler.set(nod,characterMotion.look*glance,0,'YXZ'));
   for(const v of moving){
-   const dy=v.y-pivotY,dz=v.z-pivotZ;
-   const leanY=pivotY+dy*co-dz*si-v.y,leanZ=pivotZ+dy*si+dz*co-v.z;
-   const arm=gesture*(v.right?Math.sin(time*2.1)*.65:Math.sin(time*4.2));
-   position.setY(v.i,v.y+v.leanWeight*leanY+v.armWeight*arm*.002);
-   position.setZ(v.i,v.z+v.leanWeight*leanZ+v.armWeight*arm*.0015);
+   headPoint.set(v.x,v.y,v.z).sub(neck).applyQuaternion(headTurn).add(neck);
+   position.setXYZ(v.i,v.x+(headPoint.x-v.x)*v.head,v.y+(headPoint.y-v.y)*v.head+rise*v.breath,v.z+(headPoint.z-v.z)*v.head);
   }
+  position.needsUpdate=true;
+  if(faceMotion){faceMotion.quaternion.copy(headTurn);faceMotion.position.copy(neck).sub(headPoint.copy(neck).applyQuaternion(headTurn));faceMotion.position.y+=rise}
+  if(handMotion)handMotion.forEach(o=>{o.position.y=rise});
+ }
+ // Roll a little toward the desk and back, and swivel gently left and right.
+ seat.quaternion.setFromAxisAngle(THREE.Object3D.DEFAULT_UP,.12*Math.sin(time*Math.PI*2/7));
+ seat.position.copy(seatPivot).sub(seatPoint.copy(seatPivot).applyQuaternion(seat.quaternion));
+ seat.position.z+=.03*(.5-.5*Math.cos(time*Math.PI*2/11));seat.updateMatrix();
+ if(legMotion){
+  const {position,legs}=legMotion;
+  for(let k=0;k<legs.length;k+=4){seatPoint.set(legs[k+1],legs[k+2],legs[k+3]).applyMatrix4(seat.matrix);position.setXYZ(legs[k],seatPoint.x,seatPoint.y,seatPoint.z)}
   position.needsUpdate=true;
  }
  flames.children.forEach((f,i)=>{f.scale.y=.9+.13*Math.sin(time*7+i*1.2);f.rotation.z=.08*Math.sin(time*4+i)});render()}
