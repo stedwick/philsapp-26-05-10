@@ -23,7 +23,60 @@ const lanternLight=new THREE.PointLight(0xffc77b,1.8,2.2,2);island.add(lanternLi
 const bytes=Uint8Array.from(atob(window.ISLAND_GLB),c=>c.charCodeAt(0));window.ISLAND_GLB=null;
 const draco=new DRACOLoader().setDecoderPath({js:window.DRACO_WRAPPER,wasm:window.DRACO_WASM}).setWorkerLimit(1);
 const loader=new GLTFLoader().setDRACOLoader(draco);
-let modelRoot,characterMotion;
+let modelRoot,characterMotion,handMotion,faceMotion;
+// Each cloud wraps independently. The second sprite is intentionally omitted.
+const cloudLayer=document.querySelector('.backdrop');
+const cloudSprites=[{x:25,width:270},{x:630,width:300},{x:950,width:370},{x:1350,width:220}];
+const clouds=[];let cloudBands=[];
+function chooseCloud(cloud,initialIndex){
+ const previous=cloud.sprite;
+ let index=Math.floor(Math.random()*cloudSprites.length);
+ if(index===previous)index=(index+1+Math.floor(Math.random()*(cloudSprites.length-1)))%cloudSprites.length;
+ cloud.sprite=index;
+ const sprite=cloudSprites[index];
+ cloud.width=sprite.width;
+ cloud.element.style.width=`${sprite.width}px`;
+ cloud.element.style.backgroundPosition=`-${sprite.x}px -185px`;
+ // Keep the base above the water and distribute clouds from the horizon to the sky.
+ const maxTop=Math.max(0,Math.min(cloudLayer.clientHeight*.58-150,cloudLayer.clientHeight*.35));
+ // Initial heights use a shuffled band order, so they do not follow the horizontal order.
+ const fraction=initialIndex===undefined?Math.random():(cloudBands[initialIndex]+Math.random()*.7)/clouds.length;
+ cloud.y=Math.round(maxTop*fraction);
+ cloud.speed=8+Math.random()*5;
+}
+function layoutClouds(){
+ const count=Math.max(3,Math.min(7,Math.ceil(cloudLayer.clientWidth/340)+1));
+ if(clouds.length!==count){
+  cloudLayer.replaceChildren();clouds.length=0;
+  for(let i=0;i<count;i++){
+   const element=document.createElement('span');element.className='cloud';cloudLayer.append(element);
+   clouds.push({element,sprite:-1,x:0,y:0,width:0,speed:0});
+  }
+  // Shuffle again if neighbours form a straight rising or falling line.
+  const diagonal=()=>cloudBands.slice(1).every((b,i)=>Math.abs(b-cloudBands[i])===1);
+  do{
+   cloudBands=clouds.map((_,i)=>i);
+   for(let i=cloudBands.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[cloudBands[i],cloudBands[j]]=[cloudBands[j],cloudBands[i]]}
+  }while(diagonal());
+  clouds.forEach((cloud,i)=>{
+   chooseCloud(cloud,i);
+   cloud.x=(i+.2)*(cloudLayer.clientWidth+350)/count-350;
+  });
+ }else{
+  const maxTop=Math.max(0,Math.min(cloudLayer.clientHeight*.58-150,cloudLayer.clientHeight*.35));
+  clouds.forEach(cloud=>{cloud.y=Math.min(cloud.y,maxTop)});
+ }
+ renderClouds();
+}
+function renderClouds(){clouds.forEach(cloud=>{cloud.element.style.transform=`translate3d(${cloud.x}px,${cloud.y}px,0)`})}
+function moveClouds(dt){
+ const width=cloudLayer.clientWidth;
+ clouds.forEach(cloud=>{
+  cloud.x+=cloud.speed*dt;
+  if(cloud.x>width){chooseCloud(cloud);cloud.x=-cloud.width-30-Math.random()*120}
+ });
+ renderClouds();
+}
 loader.parse(bytes.buffer,'',model=>{
  const box=new THREE.Box3().setFromObject(model.scene),center=box.getCenter(new THREE.Vector3()),size=box.getSize(new THREE.Vector3());
  const scale=4.8/Math.max(size.x,size.y,size.z);model.scene.scale.setScalar(scale);model.scene.position.copy(center).multiplyScalar(-scale);island.add(model.scene);modelRoot=model.scene;
@@ -31,13 +84,13 @@ loader.parse(bytes.buffer,'',model=>{
  const faceEncoded=window.FACE_GLB;window.FACE_GLB=null;
  if(faceEncoded){
   const faceBytes=Uint8Array.from(atob(faceEncoded),c=>c.charCodeAt(0));
-  loader.parse(faceBytes.buffer,'',face=>{model.scene.add(face.scene);draco.dispose();render()},()=>{draco.dispose();console.warn('Face details unavailable')});
+  loader.parse(faceBytes.buffer,'',face=>{model.scene.add(face.scene);faceMotion=face.scene;draco.dispose();render()},()=>{draco.dispose();console.warn('Face details unavailable')});
  }else draco.dispose();
  // Place the light at the hanging lantern in the model's original coordinates.
  lanternLight.position.set(-.30,-.035,.52).sub(center).multiplyScalar(scale);
- water.position.y=(box.min.y-center.y)*scale+.57;
+ water.position.y=(box.min.y-center.y)*scale+.46;
  // Make only the lantern's bright panes glow, keeping its dark metal frame.
- const lantern=model.scene.getObjectByName('model_part2');
+ const lantern=model.scene.getObjectByName('model_part2_export');
  if(lantern?.material?.map){
   lantern.material=lantern.material.clone();
   lantern.material.onBeforeCompile=shader=>{
@@ -52,7 +105,7 @@ loader.parse(bytes.buffer,'',model=>{
   };
  }
  // Give the tabletop a restrained wood grain while preserving the shared atlas.
- const desk=model.scene.getObjectByName('model_part3');
+ const desk=model.scene.getObjectByName('Anastasiia_trial_desk_export');
  if(desk?.material?.map){
   desk.material=desk.material.clone();
   desk.material.onBeforeCompile=shader=>{
@@ -65,24 +118,27 @@ loader.parse(bytes.buffer,'',model=>{
    `);
   };
  }
- const character=model.scene.getObjectByName('model_part1');
+ handMotion=['left','right'].map(side=>[model.scene.getObjectByName(`Anastasiia_trial_hand_${side}_export`),model.scene.getObjectByName(`Anastasiia_trial_sleeve_${side}_export`)]);
+ const character=model.scene.getObjectByName('Anastasiia_trial_character_export');
  if(character?.geometry?.attributes.position){
   const position=character.geometry.attributes.position;position.setUsage(THREE.DynamicDrawUsage);
+  // Keep the lower body planted while the upper body and head follow a small lean.
   const moving=[];
   for(let i=0;i<position.count;i++){
    const x=position.getX(i),y=position.getY(i),z=position.getZ(i);
    const side=THREE.MathUtils.smoothstep(Math.abs(x+.094),.048,.105);
    const vertical=THREE.MathUtils.smoothstep(y,-.32,-.27)*(1-THREE.MathUtils.smoothstep(y,-.17,-.12));
-   const weight=side*vertical;
-   if(weight>.01)moving.push({i,y,z,weight,right:x>-.094});
+   const armWeight=side*vertical;
+   const leanWeight=THREE.MathUtils.smoothstep(y,-.38,-.32);
+   if(armWeight>.01||leanWeight>.01)moving.push({i,y,z,armWeight,leanWeight,right:x>-.094});
   }
   characterMotion={position,moving};
  }
  status.hidden=true;render();
 },()=>{status.textContent='Could not load the island.'});
 // Water is one inexpensive shader surface. Its transparent edge blends into the page.
-const waterMat=new THREE.ShaderMaterial({transparent:true,depthWrite:false,side:THREE.DoubleSide,uniforms:{uTime:{value:0},uHeight:{value:1}},vertexShader:`varying vec2 vUv; void main(){vUv=uv;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.0);}`,fragmentShader:`uniform float uTime;uniform float uHeight;varying vec2 vUv;void main(){vec2 p=(vUv-.5)*2.;float d=length(p);float fade=1.-smoothstep(.45,1.,d);float wave=sin(d*39.-uTime*1.15)*.5+.5;float thin=smoothstep(.91,.99,wave);vec3 c=mix(vec3(.045,.13,.23),vec3(.13,.29,.40),thin*.23);float edge=smoothstep(0.,.08,gl_FragCoord.y/uHeight);gl_FragColor=vec4(c,fade*edge*.9);}`});
-const water=new THREE.Mesh(new THREE.PlaneGeometry(14,14),waterMat);water.rotation.x=-Math.PI/2;scene.add(water);
+const waterMat=new THREE.ShaderMaterial({transparent:true,depthWrite:false,side:THREE.DoubleSide,uniforms:{uTime:{value:0},uHeight:{value:1}},vertexShader:`varying vec2 vUv; void main(){vUv=uv;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.0);}`,fragmentShader:`uniform float uTime;uniform float uHeight;varying vec2 vUv;void main(){vec2 p=(vUv-.5)*vec2(80.,14.);float d=length(p)/7.;float fadeDistance=length(vec2(p.x,p.y*mix(1.,.72,smoothstep(0.,2.,p.y))))/7.;float fade=1.-smoothstep(.45,1.,fadeDistance);float wave=sin(d*39.-uTime*1.15)*.5+.5;float thin=smoothstep(.91,.99,wave);vec3 c=mix(vec3(.045,.13,.23),vec3(.13,.29,.40),thin*.23);float edge=smoothstep(0.,.08,gl_FragCoord.y/uHeight);gl_FragColor=vec4(c,fade*edge*.9);}`});
+const water=new THREE.Mesh(new THREE.PlaneGeometry(80,14),waterMat);water.rotation.x=-Math.PI/2;scene.add(water);
 const flames=new THREE.Group();island.add(flames);
 function flameGeometry(width,height){
  const shape=new THREE.Shape();shape.moveTo(0,0);shape.bezierCurveTo(-width*.65,height*.13,-width*.52,height*.55,-width*.16,height*.70);shape.bezierCurveTo(-width*.18,height*.43,width*.18,height*.52,0,height);shape.bezierCurveTo(width*.52,height*.72,width*.67,height*.23,width*.38,height*.09);shape.bezierCurveTo(width*.23,0,width*.1,0,0,0);return new THREE.ShapeGeometry(shape);
@@ -107,8 +163,8 @@ emberGeometry.setAttribute('aOpacity',new THREE.BufferAttribute(emberOpacities,1
 const embers=new THREE.Points(emberGeometry,new THREE.ShaderMaterial({transparent:true,depthWrite:false,uniforms:{uPixelRatio:{value:Math.min(devicePixelRatio,1.25)}},vertexShader:`attribute float aOpacity; varying float vOpacity; uniform float uPixelRatio; void main(){vOpacity=aOpacity; vec4 mv=modelViewMatrix*vec4(position,1.); gl_PointSize=7.*uPixelRatio*(5./-mv.z); gl_Position=projectionMatrix*mv;}`,fragmentShader:`varying float vOpacity; void main(){float d=length(gl_PointCoord-vec2(.5)); float soft=1.-smoothstep(.2,.5,d); gl_FragColor=vec4(1.,.48,.12,vOpacity*soft);}`}));island.add(embers);
 let time=0,last=0,frame=0,paused=false,visible=true,drag=null,autoResumeAt=0;
 function render(){renderer.render(scene,camera)}
-function resize(){const w=canvas.clientWidth,h=canvas.clientHeight;if(!w||!h)return;renderer.setSize(w,h,false);waterMat.uniforms.uHeight.value=canvas.height;camera.aspect=w/h;camera.fov=THREE.MathUtils.radToDeg(2*Math.atan(Math.tan(THREE.MathUtils.degToRad(37)/2)*Math.max(1,1.1/camera.aspect)));camera.updateProjectionMatrix();render()}
-function tick(now){if(paused||!visible||document.hidden||reduced.matches)return;frame=requestAnimationFrame(tick);if(now-last<1000/30)return;const dt=last?Math.min((now-last)/1000,.1):0;last=now;time+=dt;if(!drag?.turning && now>=autoResumeAt)island.rotation.y+=dt*.075;waterMat.uniforms.uTime.value=time;
+function resize(){layoutClouds();const w=canvas.clientWidth,h=canvas.clientHeight,stageHeight=canvas.parentElement.clientHeight;if(!w||!h||!stageHeight)return;renderer.setSize(w,h,false);waterMat.uniforms.uHeight.value=canvas.height;camera.aspect=w/stageHeight;camera.fov=THREE.MathUtils.radToDeg(2*Math.atan(Math.tan(THREE.MathUtils.degToRad(37)/2)*Math.max(1,1.1/camera.aspect)));camera.setViewOffset(w,stageHeight,0,-48,w,h);camera.updateProjectionMatrix();render()}
+function tick(now){if(paused||!visible||document.hidden||reduced.matches)return;frame=requestAnimationFrame(tick);if(now-last<1000/30)return;const dt=last?Math.min((now-last)/1000,.1):0;last=now;time+=dt;moveClouds(dt);if(!drag?.turning && now>=autoResumeAt)island.rotation.y+=dt*.075;waterMat.uniforms.uTime.value=time;
  firelight.intensity=5+.65*Math.sin(time*8.3)+.3*Math.sin(time*13.7);
  for(let i=0;i<smoke.length;i++){
   const age=(time*.10+i/smoke.length)%1,puff=smoke[i];
@@ -123,9 +179,33 @@ function tick(now){if(paused||!visible||document.hidden||reduced.matches)return;
   emberPositions[i*3+2]=flames.position.z+Math.cos(i*1.9+time*.6)*(.03+age*.09);
  }
  emberGeometry.attributes.position.needsUpdate=true;emberGeometry.attributes.aOpacity.needsUpdate=true;
+ // Lean back, settle forward, then make a brief, gentle typing gesture.
+ const phase=time%14;
+ const lean=THREE.MathUtils.smoothstep(phase,1.2,3.1)*(1-THREE.MathUtils.smoothstep(phase,4.4,6.5));
+ const gesture=THREE.MathUtils.smoothstep(phase,6.4,7.2)*(1-THREE.MathUtils.smoothstep(phase,9.5,10.5));
+ const angle=-.075*lean,co=Math.cos(angle),si=Math.sin(angle),pivotY=-.37,pivotZ=.10;
+ if(faceMotion){
+  faceMotion.rotation.x=angle;
+  faceMotion.position.y=pivotY-(co*pivotY-si*pivotZ);
+  faceMotion.position.z=pivotZ-(si*pivotY+co*pivotZ);
+ }
+ if(handMotion)handMotion.forEach((parts,i)=>parts.forEach(o=>{
+  if(!o)return;
+  const right=i===1,arm=gesture*Math.sin(time*(right?2.1:4.2));
+  // Rotate about the same seated pivot as the character. The geometry is in model coordinates.
+  o.rotation.x=angle;
+  o.position.y=pivotY-(co*pivotY-si*pivotZ)+arm*(right?.0012:.0008);
+  o.position.z=pivotZ-(si*pivotY+co*pivotZ)+arm*(right?.0015:.0008);
+ }));
  if(characterMotion){
   const {position,moving}=characterMotion;
-  for(const v of moving){const phase=v.right?Math.sin(time*2.1)*.65:Math.sin(time*5.2);position.setY(v.i,v.y+v.weight*phase*.005);position.setZ(v.i,v.z+v.weight*(v.right?Math.sin(time*1.1)*.004:Math.cos(time*5.2)*.002));}
+  for(const v of moving){
+   const dy=v.y-pivotY,dz=v.z-pivotZ;
+   const leanY=pivotY+dy*co-dz*si-v.y,leanZ=pivotZ+dy*si+dz*co-v.z;
+   const arm=gesture*(v.right?Math.sin(time*2.1)*.65:Math.sin(time*4.2));
+   position.setY(v.i,v.y+v.leanWeight*leanY+v.armWeight*arm*.002);
+   position.setZ(v.i,v.z+v.leanWeight*leanZ+v.armWeight*arm*.0015);
+  }
   position.needsUpdate=true;
  }
  flames.children.forEach((f,i)=>{f.scale.y=.9+.13*Math.sin(time*7+i*1.2);f.rotation.z=.08*Math.sin(time*4+i)});render()}
