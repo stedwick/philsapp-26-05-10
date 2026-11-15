@@ -25,7 +25,8 @@
   },
   "dependencies": {
     "@lucide/astro": "^1.27.0",
-    "astro": "^7.1.5"
+    "astro": "^7.1.5",
+    "three": "0.187.0"
   },
   "devDependencies": {
     "cheerio": "^1.2.0",

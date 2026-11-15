@@ -1,0 +1,482 @@
+---
+import { Pause, Play, Volume2, VolumeX } from '@lucide/astro';
+import IconButton from './IconButton.astro';
+import { legacyIcons } from '../data/legacy-icons.mjs';
+
+interface Profile {
+  name: string;
+  role: string;
+  credential?: string;
+}
+
+interface SocialLink {
+  label: string;
+  href: string;
+  icon?: any;
+  legacyIcon?: keyof typeof legacyIcons;
+}
+
+interface Props {
+  profile: Profile;
+  socialLinks: SocialLink[];
+  chevronIcon: any;
+}
+
+const { profile, socialLinks, chevronIcon: ChevronDown } = Astro.props;
+---
+
+<!-- Night island hero, the 3D scene from parallax/experiments/island-meshy-scene.
+     The sky (stars, moon, clouds) and the social icons are in normal flow
+     and scroll away. The name, controls and island are fixed: as the page
+     scrolls, the name shrinks to the upper left and the island shrinks to
+     the upper right, next to the stacked play/pause and mute buttons. Page
+     content scrolls under them, up to the top of the screen.
+     ParallaxHero.astro is kept so the page can switch back. -->
+<div class="c-island">
+  <section class="c-island-hero" aria-labelledby="site-title">
+    <div class="c-island__sky" aria-hidden="true">
+      <div class="c-island__starfield"></div>
+      <svg class="c-island__stars" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 650" preserveAspectRatio="none">
+        <g fill="currentColor" opacity=".5">
+          <circle cx="87" cy="77" r="1.5"/><circle cx="175" cy="134" r="1"/><circle cx="280" cy="54" r="1.2"/><circle cx="380" cy="105" r="1"/><circle cx="512" cy="64" r="1.4"/><circle cx="644" cy="125" r="1"/><circle cx="765" cy="61" r="1.3"/><circle cx="847" cy="145" r="1"/>
+          <circle cx="43" cy="170" r="1"/><circle cx="127" cy="30" r=".9"/><circle cx="220" cy="92" r="1.2"/><circle cx="320" cy="157" r=".9"/><circle cx="422" cy="34" r="1.1"/><circle cx="470" cy="142" r=".8"/><circle cx="560" cy="108" r="1"/><circle cx="600" cy="40" r=".8"/><circle cx="705" cy="155" r="1.1"/><circle cx="802" cy="105" r=".9"/><circle cx="875" cy="37" r="1.2"/>
+        </g>
+      </svg>
+      <div class="c-island__moon"></div>
+      <div class="c-island__clouds"></div>
+    </div>
+
+    <nav class="c-island__social" aria-label="Social links">
+      {socialLinks.map((link) => <IconButton href={link.href} label={link.label} icon={link.icon} legacyIcon={link.legacyIcon} />)}
+    </nav>
+
+    <p class="c-island-hero__scroll">
+      <span>Scroll</span>
+      <ChevronDown aria-hidden="true" />
+    </p>
+  </section>
+
+  <div class="c-island__stage">
+    <canvas tabindex="0" role="img" aria-label="A developer at a desk beside a campfire on an island. Drag to rotate, or use the left and right arrow keys."></canvas>
+    <p class="c-island__status" role="status">Loading island…</p>
+  </div>
+
+  <div class="c-island__title">
+    <h1 id="site-title">{profile.name}</h1>
+    <p class="c-island__role">{profile.role}</p>
+    <p class="c-island__location">Portland, Oregon</p>
+  </div>
+
+  <div class="c-island__controls">
+    <button class="c-icon-button c-island__play" type="button" aria-pressed="false" aria-label="Pause animation" title="Pause animation">
+      <Pause class="c-island__icon-on" aria-hidden="true" />
+      <Play class="c-island__icon-off" aria-hidden="true" />
+    </button>
+    <button class="c-icon-button c-island__sound" type="button" aria-pressed="false" aria-label="Unmute fire sound" title="Unmute fire sound">
+      <VolumeX class="c-island__icon-on" aria-hidden="true" />
+      <Volume2 class="c-island__icon-off" aria-hidden="true" />
+    </button>
+    <audio src="/island/campfire.mp3" preload="none" loop></audio>
+  </div>
+</div>
+
+<style>
+  .c-island {
+    --icon: 2.08rem;
+    --top: calc(var(--space-5) + env(safe-area-inset-top, 0px));
+  }
+
+  /* normal-flow hero: one viewport of night sky that scrolls away */
+  .c-island-hero {
+    position: relative;
+    height: 100vh;
+    height: 100svh;
+    overflow: hidden;
+    background: linear-gradient(to bottom, var(--color-night) 0%, var(--color-night-sky) 62%, var(--color-night) 100%);
+    color: var(--color-light);
+  }
+  .c-island__sky {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+  .c-island__starfield {
+    position: absolute;
+    inset: 0;
+    mask-image: linear-gradient(to bottom, #000 32%, transparent 76%);
+    background-image:
+      radial-gradient(circle at 28px 32px, #b7d6ed 0 1px, transparent 1.5px),
+      radial-gradient(circle at 119px 96px, #b7d6ed 0 1px, transparent 1.5px),
+      radial-gradient(circle at 214px 51px, #b7d6ed 0 1px, transparent 1.5px),
+      radial-gradient(circle at 315px 138px, #b7d6ed 0 1px, transparent 1.5px);
+    background-size: 397px 205px;
+    opacity: 0.38;
+    animation: c-island-twinkle 5.8s ease-in-out infinite alternate;
+  }
+  .c-island__stars {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    transform: translateX(-50%);
+    width: min(100%, 900px);
+    height: 70%;
+    color: #c5ddf2;
+    mask-image: linear-gradient(to bottom, #000 75%, transparent);
+  }
+  .c-island__stars circle { animation: c-island-twinkle 4.8s ease-in-out infinite alternate; }
+  .c-island__stars circle:nth-child(3n+1) { animation-duration: 3.6s; animation-delay: -1.4s; }
+  .c-island__stars circle:nth-child(3n+2) { animation-duration: 5.8s; animation-delay: -3s; }
+  .c-island__stars circle:nth-child(3n) { animation-duration: 4.5s; animation-delay: -2.2s; }
+  .c-island.is-paused .c-island__starfield,
+  .c-island.is-paused .c-island__stars circle { animation-play-state: paused; }
+  @keyframes c-island-twinkle { from { opacity: 0.35; } to { opacity: 1; } }
+  .c-island__moon {
+    position: absolute;
+    right: max(4%, calc((100% - 900px) / 2 + 27px));
+    top: calc(var(--top) + var(--icon) + var(--space-5));
+    width: clamp(90px, 14vw, 160px);
+    aspect-ratio: 3 / 2;
+    background: url("/island/moon.webp") center / contain no-repeat;
+  }
+  .c-island__clouds {
+    position: absolute;
+    inset: 0 0 30%;
+    overflow: hidden;
+    mask-image: linear-gradient(to bottom, #000 0%, #000 65%, transparent 100%);
+  }
+  .c-island__clouds :global(.cloud) {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 150px;
+    background-image: url("/island/cloud-variety.webp");
+    background-size: 1600px auto;
+    background-repeat: no-repeat;
+    will-change: transform;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .c-island__starfield,
+    .c-island__stars circle { animation: none; }
+  }
+
+  /* the island: fixed, full size in the hero; JS shrinks it to the upper right */
+  .c-island__stage {
+    position: fixed;
+    left: 0;
+    top: 10.5rem;
+    z-index: 21;
+    width: 100%;
+    height: min(66svh, 640px);
+    min-height: 300px;
+    transform-origin: var(--island-ox, 50%) var(--island-oy, 50%);
+    transform: translate(var(--island-tx, 0px), var(--island-ty, 0px)) scale(var(--island-s, 1));
+    pointer-events: none;
+  }
+  .c-island__stage canvas {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: calc(100% + 120px);
+    touch-action: pan-y;
+    pointer-events: auto;
+    /* still frame of the scene, shown until the 3D island loads and kept
+       if WebGL is unavailable; JS sizes it to match the live camera */
+    background: url("/island/poster.webp") no-repeat;
+    background-size: var(--poster-w, auto) var(--poster-h, 100%);
+    background-position: var(--poster-x, 50%) var(--poster-y, 0px);
+  }
+  .c-island.is-loaded .c-island__stage canvas { background: none; }
+  .c-island__stage canvas:focus-visible {
+    outline: 2px solid #badcf6;
+    outline-offset: -2px;
+  }
+  /* the still frame is the visible loading state; the status text is for
+     screen readers, and shows only if the island cannot load */
+  .c-island__status {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  /* name, role and location: centered under the icons; then only the name
+     stays, pinned at the upper left on a glass pill like the section titles */
+  .c-island__title {
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: calc(var(--top) + var(--icon) + var(--space-5));
+    z-index: 22;
+    width: fit-content;
+    margin-inline: auto;
+    display: grid;
+    justify-items: center;
+    gap: var(--space-1);
+    text-align: center;
+    color: var(--color-white);
+    transform-origin: 0 0;
+    transform: translate(var(--title-tx, 0px), var(--title-ty, 0px)) scale(var(--title-s, 1));
+  }
+  .c-island__title h1 {
+    font-size: clamp(2.25rem, 10vw, 3.5rem);
+    margin-bottom: 0;
+    padding: 0.05em 0.35em;
+    border-radius: 0.3em;
+    background: rgb(8 21 46 / calc(var(--title-glass, 0) * 55%));
+    -webkit-backdrop-filter: blur(calc(var(--title-glass, 0) * 8px));
+    backdrop-filter: blur(calc(var(--title-glass, 0) * 8px));
+  }
+  .c-island__title h1,
+  .c-island__role,
+  .c-island__location {
+    text-shadow: 0 0 6px rgb(8 21 46 / 80%), 0 0 16px rgb(8 21 46 / 60%);
+  }
+  .c-island__role,
+  .c-island__location {
+    font-size: 1.5rem;
+    font-weight: 400;
+    margin: 0;
+    opacity: calc(1 - var(--title-fade, 0));
+  }
+
+  /* social icons at the top center of the hero; they scroll away */
+  .c-island__social {
+    position: absolute;
+    top: var(--top);
+    left: 50%;
+    z-index: 22;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 0.5rem;
+  }
+  .c-island__social :global(.c-icon-button),
+  .c-island__controls .c-icon-button {
+    width: var(--icon);
+    height: var(--icon);
+    color: var(--color-night-icon);
+    background: transparent;
+    box-shadow:
+      0 0 3px rgb(3 182 227 / 40%),
+      0 0 7px rgb(3 182 227 / 15%);
+    cursor: pointer;
+  }
+  .c-island__social :global(.c-icon-button:hover),
+  .c-island__controls .c-icon-button:hover {
+    background: rgb(255 255 255 / 18%);
+    color: var(--color-night-icon);
+  }
+  .c-island__social :global(.c-icon-button svg),
+  .c-island__controls .c-icon-button :global(svg) {
+    width: 1.33rem;
+    height: 1.33rem;
+    filter:
+      drop-shadow(0 0 2px rgb(3 182 227 / 40%))
+      drop-shadow(0 0 4px rgb(3 182 227 / 15%));
+  }
+
+  /* play/pause and mute, stacked in the upper right; the island parks to
+     their left */
+  .c-island__controls {
+    position: fixed;
+    top: calc(var(--space-2) + env(safe-area-inset-top, 0px));
+    right: var(--space-5);
+    z-index: 22;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+  .c-island__controls .c-icon-button { padding: 0; }
+  .c-island__controls [aria-pressed="true"] .c-island__icon-on,
+  .c-island__controls [aria-pressed="false"] .c-island__icon-off { display: none; }
+  .c-island__controls [hidden] { display: none; }
+
+  /* scroll cue at the bottom of the hero, drawn over the island at every
+     width; it fades out as soon as the page scrolls */
+  .c-island-hero__scroll {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: var(--space-5);
+    z-index: 23;
+    pointer-events: none;
+    display: grid;
+    justify-items: center;
+    gap: var(--space-1);
+    margin: 0;
+    font-size: 1rem;
+    color: var(--color-light);
+    transition: opacity 0.6s ease;
+  }
+  .c-island-hero__scroll.is-faded { opacity: 0; }
+  /* glint from the parallax hero: a soft white flare pulses over the cue
+     every ~3s with a small bounce */
+  .c-island-hero__scroll span,
+  .c-island-hero__scroll :global(svg) {
+    animation: c-island-glint 3.2s ease-in-out infinite;
+  }
+  .c-island-hero__scroll span { display: inline-block; }
+  @keyframes c-island-glint {
+    0%, 60%, 100% {
+      opacity: 0.75;
+      filter: drop-shadow(0 0 0 rgb(255 255 255 / 0%));
+      transform: translateY(0);
+    }
+    25% {
+      opacity: 1;
+      filter:
+        drop-shadow(0 0 6px rgb(255 255 255 / 90%))
+        drop-shadow(0 0 16px rgb(255 255 255 / 45%));
+      transform: translateY(-3px);
+    }
+    35% { transform: translateY(1px); }
+    45% { transform: translateY(0); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .c-island-hero__scroll span,
+    .c-island-hero__scroll :global(svg) { animation: none; }
+  }
+  .c-island-hero__scroll :global(svg) {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+
+  /* narrow screens: smaller icons and buttons */
+  @media (max-width: 767px) {
+    .c-island { --icon: 1.75rem; }
+    .c-island__social { gap: 0.3rem; }
+    .c-island__controls { right: var(--container-padding); gap: 0.3rem; }
+    .c-island__social :global(.c-icon-button svg),
+    .c-island__controls .c-icon-button :global(svg) { width: 1.1rem; height: 1.1rem; }
+  }
+  /* phones: the name is not pinned; it scrolls away with the hero */
+  @media (max-width: 599px) {
+    .c-island__moon { top: var(--top); left: var(--container-padding); right: auto; width: 56px; }
+    .c-island__title { position: absolute; }
+  }
+</style>
+
+<style is:global>
+  /* page background: night blue instead of the parallax hero's dark green */
+  html:has(.c-island),
+  body:has(.c-island) {
+    background: var(--color-night);
+  }
+  /* sticky section headers: night glass. On wide screens they pin at the
+     top center, between the pinned name and island. On phones the name
+     scrolls away, so each header pins at the upper left, level with the
+     island; from 600px to 799px they pin just under the name and island */
+  html body:has(.c-island) .c-section-band__header {
+    background: color-mix(in srgb, var(--color-night) 60%, transparent);
+  }
+  @media (min-width: 600px) and (max-width: 799px) {
+    html body:has(.c-island) .c-section-band__header {
+      top: calc(var(--space-2) * 2 + 4.6rem + env(safe-area-inset-top, 0px));
+    }
+  }
+  @media (max-width: 599px) {
+    html body:has(.c-island) .c-section-band__header {
+      top: calc(var(--space-2) + env(safe-area-inset-top, 0px));
+      margin-inline: calc(-1 * var(--space-3)) auto;
+      max-width: calc(100% - 7.5rem);
+      padding: var(--space-2) var(--space-3);
+    }
+    html body:has(.c-island) .c-section-band__header .c-section-band__title {
+      font-size: 1.5rem;
+      text-align: left;
+    }
+  }
+</style>
+
+<script>
+  import { setRingFade } from '../scripts/island-scene.js';
+
+  // Scroll choreography. progress runs 0..1 over 60% of the hero's height:
+  // from the first scroll the name shrinks to the upper left and the island
+  // shrinks to the upper right while its rings fade out. Positions are measured untransformed
+  // on resize; each frame only writes transforms.
+  const root = document.documentElement;
+  const hero = document.querySelector('.c-island-hero') as HTMLElement;
+  const host = document.querySelector('.c-island') as HTMLElement;
+  const title = document.querySelector('.c-island__title') as HTMLElement;
+  const stage = document.querySelector('.c-island__stage') as HTMLElement;
+  const controls = document.querySelector('.c-island__controls') as HTMLElement;
+  const scrollCue = document.querySelector('.c-island-hero__scroll') as HTMLElement | null;
+  const clamp = (v: number) => Math.min(1, Math.max(0, v));
+  const ease = (t: number) => t * t * (3 - 2 * t);
+  let travel = 1;
+  let titleGeo = { dx: 0, dy: 0, s: 1 };
+  let stageGeo = { ox: 0, oy: 0, dx: 0, dy: 0, s: 1 };
+  let last = -1;
+  let pinName = true;
+
+  function measure() {
+    for (const name of ['--title-tx', '--title-ty', '--island-tx', '--island-ty']) host.style.setProperty(name, '0px');
+    host.style.setProperty('--title-s', '1');
+    host.style.setProperty('--island-s', '1');
+    const margin = window.innerWidth < 768 ? 15 : 24;
+    // the pinned row is as tall as the stacked buttons
+    const c = controls.getBoundingClientRect();
+    const rowMid = c.top + c.height / 2;
+    // name: only the h1 stays; it is scaled about the block's top-left
+    // corner, so solve for the block offset that puts the h1 at the left
+    // edge, centered on the row
+    const t = title.getBoundingClientRect();
+    const h = (title.querySelector('h1') as HTMLElement).getBoundingClientRect();
+    const ts = Math.min(1, (c.height * 0.62) / h.height);
+    pinName = window.innerWidth >= 600;
+    titleGeo = !pinName ? { dx: 0, dy: 0, s: 1 } : {
+      dx: margin - t.left - (h.left - t.left) * ts,
+      dy: rowMid - (h.height * ts) / 2 - t.top - (h.top - t.top) * ts,
+      s: ts,
+    };
+    // island: its visual center sits about 55% down the stage; shrink it to
+    // about the height of the button stack and park it left of the buttons
+    const st = stage.getBoundingClientRect();
+    const islandH = st.height * 0.82;
+    const is = (c.height * 1.15) / islandH;
+    const ox = st.width / 2, oy = st.height * 0.55;
+    const targetX = c.left - margin * 0.5 - (islandH * 1.3 * is) / 2;
+    stageGeo = { ox, oy, dx: targetX - (st.left + ox), dy: rowMid - (st.top + oy), s: is };
+    // still frame: captured from a 1265 x 648 canvas on a 528px stage. The
+    // live camera scales with the stage height (widening its view below a
+    // 1.1 aspect) and centers 48px below the stage middle, so match that
+    const cv = stage.querySelector('canvas') as HTMLCanvasElement;
+    const W = cv.clientWidth, S = st.height;
+    const k = S / Math.max(1, 1.1 / (W / S)) / 528;
+    host.style.setProperty('--poster-w', 1265 * k + 'px');
+    host.style.setProperty('--poster-h', 648 * k + 'px');
+    host.style.setProperty('--poster-x', W / 2 - (1265 * k) / 2 + 'px');
+    host.style.setProperty('--poster-y', S / 2 + 48 - (264 + 48) * k + 'px');
+    host.style.setProperty('--island-ox', ox + 'px');
+    host.style.setProperty('--island-oy', oy + 'px');
+    travel = hero.offsetHeight * 0.6;
+    last = -1;
+  }
+
+  function frame() {
+    const p = clamp(window.scrollY / travel);
+    if (p !== last) {
+      last = p;
+      // both start moving on the first scroll; the name a little ahead
+      const a = ease(clamp(p / 0.8));
+      const b = ease(p);
+      host.style.setProperty('--title-tx', titleGeo.dx * a + 'px');
+      host.style.setProperty('--title-ty', titleGeo.dy * a + 'px');
+      host.style.setProperty('--title-s', String(1 + (titleGeo.s - 1) * a));
+      host.style.setProperty('--title-fade', pinName ? String(clamp(a / 0.5)) : '0');
+      host.style.setProperty('--title-glass', pinName ? String(clamp((a - 0.6) / 0.4)) : '0');
+      host.style.setProperty('--island-tx', stageGeo.dx * b + 'px');
+      host.style.setProperty('--island-ty', stageGeo.dy * b + 'px');
+      host.style.setProperty('--island-s', String(1 + (stageGeo.s - 1) * b));
+      setRingFade(1 - clamp(b / 0.35));
+      scrollCue?.classList.toggle('is-faded', window.scrollY > 40);
+    }
+    requestAnimationFrame(frame);
+  }
+
+  measure();
+  window.addEventListener('resize', measure);
+  requestAnimationFrame(frame);
+</script>

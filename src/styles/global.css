@@ -72,6 +72,10 @@
     --color-dropcap: #903;
     --color-link: #007bff;
     --color-link-hover: #0062cc;
+    /* night palette for the island hero, sampled from the scene's sky */
+    --color-night: #08152e;
+    --color-night-sky: #10294b;
+    --color-night-icon: #c8d2de;
 
     --space-1: 0.25rem;
     --space-2: 0.5rem;

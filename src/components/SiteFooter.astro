@@ -19,6 +19,6 @@ const year = new Date().getFullYear();
         {links.map((link) => <a href={link.href}>{link.label}</a>)}
       </nav>
     )}
-    <p>Copyright &copy; {year} by Philip Brocoum. Icons by <a href="https://icons8.com/">Icons8</a>.</p>
+    <p>Copyright &copy; {year} by Philip Brocoum. Icons by <a href="https://icons8.com/">Icons8</a>.<slot name="credits" /></p>
   </div>
 </footer>

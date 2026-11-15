@@ -29,7 +29,7 @@ const { title, description } = Astro.props;
 	   non-parallax pages keep their normal surfaces. Text colors are NOT
 	   flipped here; light-mode dark text over the dark vignette zone is the
 	   known legibility risk under review. */
-	body:has(.c-parallax) .c-section-band {
+	body:has(.c-parallax, .c-island) .c-section-band {
 		background: transparent;
 	}
 
@@ -38,7 +38,7 @@ const { title, description } = Astro.props;
 	   Mirrors the @media (prefers-color-scheme: dark) block in the theme
 	   layer of global.css; delete this block to restore light-mode
 	   following. */
-	body:has(.c-parallax) {
+	body:has(.c-parallax, .c-island) {
 		--color-surface: #212529;
 		--color-surface-alt: #2b3035;
 		--color-surface-subtle: rgb(255 255 255 / 4%);
@@ -63,7 +63,7 @@ const { title, description } = Astro.props;
 	   next section's header pushes it off (natural sticky stacking). The
 	   small top offset keeps the rounded bar from kissing the viewport
 	   edge. Scoped to parallax pages like the rest of the experiment. */
-	body:has(.c-parallax) .c-section-band__header {
+	body:has(.c-parallax, .c-island) .c-section-band__header {
 		position: sticky;
 		top: var(--space-2);
 		z-index: 5;
@@ -78,26 +78,26 @@ const { title, description } = Astro.props;
 	}
 
 	/* Match the heading's bottom padding plus its margin below each intro. */
-	body:has(.c-parallax) .l-split-intro + .u-section-stack {
+	body:has(.c-parallax, .c-island) .l-split-intro + .u-section-stack {
 		margin-top: calc(var(--space-3) + var(--space-5));
 	}
 
 	/* no underlines under the glass titles (Philip, 2026-08-02) */
-	body:has(.c-parallax) .c-section-band__rule {
+	body:has(.c-parallax, .c-island) .c-section-band__rule {
 		display: none;
 	}
 
 	/* glass padding stays visually even: the title's default bottom margin
 	   (meant to space the now-hidden rule) would add height below the text
 	   inside the pill */
-	body:has(.c-parallax) .c-section-band__header .c-section-band__title {
+	body:has(.c-parallax, .c-island) .c-section-band__header .c-section-band__title {
 		margin-bottom: 0;
 	}
 
 	/* global.css zeroes #hire-me's header margin (from when the band was
 	   title-only); with the contact content merged into the band, restore
 	   the standard band header spacing */
-	body:has(.c-parallax) #hire-me .c-section-band__header {
+	body:has(.c-parallax, .c-island) #hire-me .c-section-band__header {
 		margin-bottom: var(--space-5);
 	}
 </style>

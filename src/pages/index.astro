@@ -3,7 +3,7 @@ import ContactForm from '../components/ContactForm.astro';
 import ContactInfo from '../components/ContactInfo.astro';
 import MediaGrid from '../components/MediaGrid.astro';
 import MediaItem from '../components/MediaItem.astro';
-import ParallaxHero from '../components/ParallaxHero.astro';
+import IslandHero from '../components/IslandHero.astro';
 import SectionBand from '../components/SectionBand.astro';
 import SiteFooter from '../components/SiteFooter.astro';
 import SplitIntro from '../components/SplitIntro.astro';
@@ -52,7 +52,7 @@ const resume = createResumeViewModel(
 ---
 
 <ParallaxLayout>
-	<ParallaxHero profile={resume.profile} socialLinks={resume.socialLinks} chevronIcon={icons.ChevronDown} />
+	<IslandHero profile={resume.profile} socialLinks={resume.socialLinks} chevronIcon={icons.ChevronDown} />
 
 	<SectionBand id="about" tone="light">
 		{/* Single-line welcome in the sticky glass header at all widths
@@ -145,5 +145,7 @@ const resume = createResumeViewModel(
 		</div>
 	</SectionBand>
 
-	<SiteFooter links={[{ label: 'Blog', href: '/blog/' }, ...resume.socialLinks]} />
+	<SiteFooter links={[{ label: 'Blog', href: '/blog/' }, ...resume.socialLinks]}>
+		<Fragment slot="credits"> Hands adapted from <a href="https://poly.pizza/m/cGaYRuiPCMe">Anastasiia Ku</a> · <a href="https://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a>.</Fragment>
+	</SiteFooter>
 </ParallaxLayout>
