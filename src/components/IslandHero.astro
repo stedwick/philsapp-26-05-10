@@ -56,6 +56,9 @@ const { profile, socialLinks, chevronIcon: ChevronDown } = Astro.props;
     </p>
   </section>
 
+  <!-- starry strip behind the pinned row; page content fades out under it -->
+  <div class="c-island__band" aria-hidden="true"></div>
+
   <div class="c-island__stage">
     <canvas tabindex="0" role="img" aria-label="A developer at a desk beside a campfire on an island. Drag to rotate, or use the left and right arrow keys."></canvas>
     <p class="c-island__status" role="status">Loading island…</p>
@@ -159,6 +162,26 @@ const { profile, socialLinks, chevronIcon: ChevronDown } = Astro.props;
     .c-island__stars circle { animation: none; }
   }
 
+  /* starry strip behind the pinned row. It sits over the page content
+     (which fades out under its soft bottom edge) and under the sticky
+     section titles, name, island and buttons. JS fades it in on scroll. */
+  .c-island__band {
+    position: fixed;
+    inset: 0 0 auto;
+    z-index: 4;
+    height: calc(var(--nav-top) * 2 + var(--nav-h) + 1.5rem);
+    background-color: var(--color-night);
+    background-image:
+      radial-gradient(circle at 28px 32px, #b7d6ed 0 1px, transparent 1.5px),
+      radial-gradient(circle at 119px 66px, #b7d6ed 0 1px, transparent 1.5px),
+      radial-gradient(circle at 214px 21px, #b7d6ed 0 1px, transparent 1.5px),
+      radial-gradient(circle at 315px 78px, #b7d6ed 0 1px, transparent 1.5px);
+    background-size: 397px 100px;
+    mask-image: linear-gradient(to bottom, #000 calc(100% - 1.5rem), transparent);
+    opacity: var(--band, 0);
+    pointer-events: none;
+  }
+
   /* the island: fixed, full size in the hero; JS shrinks it to the upper right */
   .c-island__stage {
     position: fixed;
@@ -222,11 +245,8 @@ const { profile, socialLinks, chevronIcon: ChevronDown } = Astro.props;
   .c-island__title h1 {
     font-size: clamp(2.25rem, 10vw, 3.5rem);
     margin-bottom: 0;
-    padding: 0.05em 0.35em;
-    border-radius: 0.3em;
-    background: rgb(8 21 46 / calc(var(--title-glass, 0) * 55%));
-    -webkit-backdrop-filter: blur(calc(var(--title-glass, 0) * 8px));
-    backdrop-filter: blur(calc(var(--title-glass, 0) * 8px));
+    /* pinned, the name is secondary to the section title */
+    opacity: calc(1 - var(--title-glass, 0) * 0.2);
   }
   .c-island__title h1,
   .c-island__role,
@@ -350,9 +370,12 @@ const { profile, socialLinks, chevronIcon: ChevronDown } = Astro.props;
     .c-island__social :global(.c-icon-button svg),
     .c-island__controls .c-icon-button :global(svg) { width: 1.1rem; height: 1.1rem; }
   }
-  /* phones: the name is not pinned; it scrolls away with the hero */
   @media (max-width: 599px) {
     .c-island__moon { top: var(--top); left: var(--container-padding); right: auto; width: 56px; }
+  }
+  /* below 860px the name, a centered section title and the island do not
+     fit in one row: the name scrolls away with the hero */
+  @media (max-width: 859px) {
     .c-island__title { position: absolute; }
   }
 </style>
@@ -363,13 +386,13 @@ const { profile, socialLinks, chevronIcon: ChevronDown } = Astro.props;
   body:has(.c-island) {
     background: var(--color-night);
   }
-  /* sticky section headers: night glass. On wide screens they pin at the
-     top center, between the pinned name and island. On phones the name
-     scrolls away, so each header pins at the upper left, level with the
-     island; from 600px to 799px they pin just under the name and island */
-  /* one nav row: the play/mute stack sets its height (--nav-h). The name
-     pill and the section title pill are both 80% of it and centered on the
-     same line; JS centers the island on it too */
+  /* sticky section headers: night glass, above the starry strip. From
+     860px they pin at the top center, between the pinned name and island.
+     Narrower, the name scrolls away, so each header pins at the upper
+     left, level with the island */
+  /* one nav row: the play/mute stack sets its height (--nav-h). The
+     section title pill is 80% of it and the pinned name half of it, both
+     centered on the same line; JS centers the island on it too */
   body:has(.c-island) {
     --nav-top: calc(var(--space-2) + env(safe-area-inset-top, 0px));
     --nav-h: calc(2.08rem * 2 + 0.4rem);
@@ -384,18 +407,14 @@ const { profile, socialLinks, chevronIcon: ChevronDown } = Astro.props;
     display: flex;
     align-items: center;
     padding-block: 0;
+    z-index: 5;
     background: color-mix(in srgb, var(--color-night) 60%, transparent);
   }
   html body:has(.c-island) .c-section-band__header .c-section-band__title {
     font-size: calc(var(--nav-h) * 0.42);
     line-height: 1;
   }
-  @media (min-width: 600px) and (max-width: 799px) {
-    html body:has(.c-island) .c-section-band__header {
-      top: calc(var(--space-2) * 2 + 4.6rem + env(safe-area-inset-top, 0px));
-    }
-  }
-  @media (max-width: 599px) {
+  @media (max-width: 859px) {
     html body:has(.c-island) .c-section-band__header {
       margin-inline: calc(-1 * var(--space-3)) auto;
       max-width: calc(100% - 7.5rem);
@@ -442,8 +461,8 @@ const { profile, socialLinks, chevronIcon: ChevronDown } = Astro.props;
     // edge, centered on the row
     const t = title.getBoundingClientRect();
     const h = (title.querySelector('h1') as HTMLElement).getBoundingClientRect();
-    const ts = Math.min(1, (c.height * 0.8) / h.height);
-    pinName = window.innerWidth >= 600;
+    const ts = Math.min(1, (c.height * 0.5) / h.height);
+    pinName = window.innerWidth >= 860;
     titleGeo = !pinName ? { dx: 0, dy: 0, s: 1 } : {
       dx: margin - t.left - (h.left - t.left) * ts,
       dy: rowMid - (h.height * ts) / 2 - t.top - (h.top - t.top) * ts,
@@ -487,6 +506,7 @@ const { profile, socialLinks, chevronIcon: ChevronDown } = Astro.props;
       host.style.setProperty('--title-s', String(1 + (titleGeo.s - 1) * a));
       host.style.setProperty('--title-fade', pinName ? String(clamp(a / 0.5)) : '0');
       host.style.setProperty('--title-glass', pinName ? String(clamp((a - 0.6) / 0.4)) : '0');
+      host.style.setProperty('--band', String(clamp((p - 0.5) / 0.4)));
       host.style.setProperty('--island-tx', stageGeo.dx * b + 'px');
       host.style.setProperty('--island-ty', stageGeo.dy * b + 'px');
       host.style.setProperty('--island-s', String(1 + (stageGeo.s - 1) * b));
