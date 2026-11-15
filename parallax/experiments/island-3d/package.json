@@ -1,0 +1,10 @@
+{
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "bun build scene.js --target browser --minify --outfile bundle.js"
+  },
+  "dependencies": {
+    "three": "0.187.0"
+  }
+}
