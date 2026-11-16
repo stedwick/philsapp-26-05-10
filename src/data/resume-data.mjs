@@ -55,6 +55,7 @@ export function legacySocialIconForLabel(label) {
     LinkedIn: 'linkedin',
     'World Vibe Web': 'storefront',
     Twitter: 'twitter',
+    YouTube: 'youtube',
   };
 
   return legacyIconByLabel[label];
