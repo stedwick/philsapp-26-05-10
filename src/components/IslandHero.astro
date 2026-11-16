@@ -388,6 +388,40 @@ const { profile, socialLinks, chevronIcon: ChevronDown } = Astro.props;
   @media (max-width: 599px) {
     .c-island__moon { top: var(--top); left: var(--container-padding); right: auto; width: 56px; }
   }
+  /* very narrow screens (folded phones, zoomed-in phones): smaller name,
+     title and icons so everything fits */
+  @media (max-width: 359px) {
+    .c-island { --icon: 1.55rem; }
+    .c-island__social { gap: 0.2rem; }
+    .c-island__controls { gap: 0.2rem; }
+    .c-island__social :global(.c-icon-button svg),
+    .c-island__controls .c-icon-button :global(svg) { width: 0.95rem; height: 0.95rem; }
+    .c-island__moon { width: 40px; }
+    .c-island__title h1 { font-size: 11vw; }
+    .c-island__role,
+    .c-island__location { font-size: 1.1rem; }
+  }
+  /* very short screens: the island fills the space between the title
+     (bottom at --title-end) and the bottom of the screen. With the live
+     camera, the island's top sits 48px + 0.135 x stage height below the
+     stage top, and its bottom 48px + 0.956 x stage height below it. The
+     scroll cue shrinks to just the arrow. */
+  @media (max-height: 520px) {
+    .c-island {
+      --title-end: 12.9rem;
+      --ih: calc((100svh - 0.75rem - var(--title-end)) / 0.821);
+    }
+    .c-island__stage {
+      top: calc(var(--title-end) - 48px - 0.135 * var(--ih));
+      height: var(--ih);
+      min-height: 0;
+    }
+    .c-island-hero__scroll { bottom: 0.25rem; }
+    .c-island-hero__scroll span { display: none; }
+  }
+  @media (max-height: 520px) and (max-width: 359px) {
+    .c-island { --title-end: 10.75rem; }
+  }
   /* below 860px the name, a centered section title and the island do not
      fit in one row: the name scrolls away with the hero */
   @media (max-width: 859px) {
@@ -437,6 +471,20 @@ const { profile, socialLinks, chevronIcon: ChevronDown } = Astro.props;
     }
     html body:has(.c-island) .c-section-band__header .c-section-band__title {
       text-align: left;
+    }
+  }
+  /* very narrow screens: smaller pinned titles that stay on one line */
+  @media (max-width: 359px) {
+    html body:has(.c-island) .c-section-band__header {
+      max-width: calc(100% - 5rem);
+      padding-inline: var(--space-2);
+      margin-inline: calc(-1 * var(--space-2)) auto;
+    }
+    html body:has(.c-island) .c-section-band__header .c-section-band__title {
+      font-size: 1rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
   }
 </style>
