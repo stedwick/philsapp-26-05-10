@@ -722,7 +722,7 @@
   {
     "id": "olioapps-site",
     "sourceUrl": "https://www.olioapps.com/",
-    "localPath": "/legacy/olioapps-site.png",
+    "localPath": "/legacy/olioapps-site.webp",
     "kind": "image",
     "alt": "Olio Apps site",
     "owners": [
@@ -737,7 +737,7 @@
   {
     "id": "olioapps-site-2x",
     "sourceUrl": "https://www.olioapps.com/",
-    "localPath": "/legacy/olioapps-site@2x.png",
+    "localPath": "/legacy/olioapps-site@2x.webp",
     "kind": "image-2x",
     "alt": "Olio Apps site",
     "owners": [

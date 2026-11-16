@@ -202,13 +202,28 @@ const { profile, socialLinks, chevronIcon: ChevronDown } = Astro.props;
     height: calc(100% + 120px);
     touch-action: pan-y;
     pointer-events: auto;
-    /* still frame of the scene, shown until the 3D island loads and kept
+    /* still frame of the island, shown until the 3D scene loads and kept
        if WebGL is unavailable; JS sizes it to match the live camera */
-    background: url("/island/poster.webp") no-repeat;
+    background: url("/island/poster-island.webp") no-repeat;
     background-size: var(--poster-w, auto) var(--poster-h, 100%);
     background-position: var(--poster-x, 50%) var(--poster-y, 0px);
   }
+  /* the same still with its water rings, under the canvas; it fades out on
+     scroll like the live rings */
+  .c-island__stage::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: calc(100% + 120px);
+    background: url("/island/poster.webp") no-repeat;
+    background-size: var(--poster-w, auto) var(--poster-h, 100%);
+    background-position: var(--poster-x, 50%) var(--poster-y, 0px);
+    opacity: var(--ring, 1);
+  }
   .c-island.is-loaded .c-island__stage canvas { background: none; }
+  .c-island.is-loaded .c-island__stage::before { content: none; }
   .c-island__stage canvas:focus-visible {
     outline: 2px solid #badcf6;
     outline-offset: -2px;
@@ -427,7 +442,27 @@ const { profile, socialLinks, chevronIcon: ChevronDown } = Astro.props;
 </style>
 
 <script>
-  import { setRingFade } from '../scripts/island-scene.js';
+  // The 3D scene (Three.js, model and decoder, about 1.3 MB) loads as a
+  // separate chunk, so the scroll choreography below runs at once, even on
+  // slow connections and when WebGL is unavailable. It starts downloading
+  // only after the page has loaded and the browser is idle; the still frame
+  // covers the wait.
+  let ringFade = 1;
+  let setRingFade = (value: number) => { ringFade = value; };
+  function loadScene() {
+    import('../scripts/island-scene.js')
+      .then((scene) => {
+        setRingFade = scene.setRingFade;
+        setRingFade(ringFade);
+      })
+      .catch(() => {});
+  }
+  function whenIdle() {
+    if ('requestIdleCallback' in window) requestIdleCallback(loadScene, { timeout: 2000 });
+    else setTimeout(loadScene, 200);
+  }
+  if (document.readyState === 'complete') whenIdle();
+  else window.addEventListener('load', whenIdle, { once: true });
 
   // Scroll choreography. progress runs 0..1 over 60% of the hero's height:
   // from the first scroll the name shrinks to the upper left and the island
@@ -510,6 +545,7 @@ const { profile, socialLinks, chevronIcon: ChevronDown } = Astro.props;
       host.style.setProperty('--island-tx', stageGeo.dx * b + 'px');
       host.style.setProperty('--island-ty', stageGeo.dy * b + 'px');
       host.style.setProperty('--island-s', String(1 + (stageGeo.s - 1) * b));
+      host.style.setProperty('--ring', String(1 - clamp(b / 0.35)));
       setRingFade(1 - clamp(b / 0.35));
       scrollCue?.classList.toggle('is-faded', window.scrollY > 40);
     }
