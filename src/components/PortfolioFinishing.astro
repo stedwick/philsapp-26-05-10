@@ -1,0 +1,506 @@
+---
+import { PawPrint } from '@lucide/astro';
+import ContactForm from './ContactForm.astro';
+import { legacyIcons } from '../data/legacy-icons.mjs';
+import type { createResumeViewModel } from '../data/resume-data.mjs';
+
+interface Props {
+  resume: ReturnType<typeof createResumeViewModel>;
+  resumeHref: string;
+}
+
+const { resume, resumeHref } = Astro.props;
+const inks = ['var(--t-verm)', 'var(--t-ultra)', 'var(--t-green)', 'var(--t-brown)'];
+const ticketInks = ['var(--t-verm)', 'var(--t-ultra)', 'var(--t-green)', 'var(--t-brown)', 'var(--t-teal)'];
+const ticketTilts = ['-2deg', '1.6deg', '-1deg', '2.2deg', '-1.6deg'];
+const interests = [
+  ...resume.interests,
+  {
+    title: 'Sophie the Dog',
+    href: 'https://youtube.com/shorts/Jzw1cJRpI6w?feature=share',
+    body: 'Meet Sophie on YouTube.',
+    image: undefined,
+  },
+];
+const pageLinks = [
+  { label: 'Welcome', href: '#about' },
+  { label: 'Skills', href: '#about-skills' },
+  { label: 'Career', href: '#career' },
+  { label: 'Education', href: '#education-projects' },
+  { label: 'Apps', href: '#projects' },
+  { label: 'Hobbies', href: '#interests' },
+  { label: 'Contact', href: '#hire-me' },
+];
+const elsewhereLinks = [{ label: 'Blog', href: '/blog/' }, ...resume.socialLinks];
+const contactLinks = resume.contactItems.filter((item) => /^(mailto|tel):/.test(item.href ?? ''));
+const email = contactLinks.find((item) => item.href?.startsWith('mailto:'));
+const [nameItem, cityItem, phoneItem, emailItem, linkedInItem, resumeItem] = resume.contactItems;
+const receiptRows = [
+  { k: 'Name', v: nameItem },
+  { k: 'City', v: cityItem },
+  { k: 'Tel', v: phoneItem },
+  { k: 'Email', v: emailItem },
+  { k: 'LinkedIn', v: linkedInItem && { ...linkedInItem, label: 'philipbrocoum' } },
+  { k: 'Résumé', v: resumeItem && { ...resumeItem, label: 'Download PDF' } },
+].filter((row) => row.v);
+const year = new Date().getFullYear();
+---
+
+<section class="pnw-section" id="projects" data-surface="post" aria-labelledby="projects-heading">
+  <div class="pnw-wrap">
+    <div class="pnw-head">
+      <span class="pnw-head__no">Nº 05 · Apps</span>
+      <h2 id="projects-heading">{resume.sections.projects.title}</h2>
+      {resume.sections.projects.body.slice(0, 1).map((paragraph: string) => <p>{paragraph}</p>)}
+    </div>
+    <div class="pnw-obj pnw-sheet-of-stamps" style="--r:-1deg">
+      <div class="pnw-paper pnw-stampsheet" data-g="sheet" data-ink="var(--t-verm)">
+        <div class="pnw-stampsheet__selvage">
+          <span>Phil's App Store · Plate Nº {resume.projects.length}</span>
+          <a href="https://github.com/stedwick">GitHub ↗</a>
+        </div>
+        <ul class="pnw-stamps">
+          {resume.projects.map((project, index) => {
+            const Icon = project.icon;
+            const legacyIcon = project.legacyIcon ? legacyIcons[project.legacyIcon] : undefined;
+            return (
+              <li class="pnw-stamp" style={`color:${inks[index % inks.length]}`}>
+                <div class="pnw-stamp__in">
+                  <span class="pnw-stamp__frame" aria-hidden="true"></span>
+                  <div class="pnw-stamp__vig" aria-hidden="true">
+                    {project.image ? (
+                      <img src={project.image.src} width="64" height="64" alt="" loading="lazy" decoding="async" />
+                    ) : legacyIcon ? (
+                      <svg viewBox={legacyIcon.viewBox} fill="currentColor">
+                        <Fragment set:html={legacyIcon.markup} />
+                      </svg>
+                    ) : <Icon />}
+                    <span class="pnw-stamp__den">{index + 1}</span>
+                  </div>
+                  <div class="pnw-stamp__txt">
+                    <h3><a href={project.href}>{project.title}</a></h3>
+                    <p class="pnw-stamp__desc">{project.body}</p>
+                    {project.actions.filter((action) => !action.label.startsWith('$')).slice(0, 2).map((action) => <a class="pnw-cta" href={action.href}>{action.label}&nbsp;↗</a>)}
+                  </div>
+                </div>
+              </li>
+            );
+          })}
+          {resume.projects.length % 2 === 1 && (
+            <li class="pnw-stamp pnw-stamp--more" style="color:var(--t-ink)">
+              <div class="pnw-stamp__in">
+                <span class="pnw-stamp__frame" aria-hidden="true"></span>
+                <div class="pnw-stamp__vig" aria-hidden="true"><span class="pnw-stamp__plus">+</span></div>
+                <div class="pnw-stamp__txt">
+                  <h3><a href="https://github.com/stedwick">More on GitHub</a></h3>
+                  <a class="pnw-cta" href="https://github.com/stedwick">Browse&nbsp;↗</a>
+                </div>
+              </div>
+            </li>
+          )}
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="pnw-section" id="interests" data-surface="curtain" aria-labelledby="interests-heading">
+  <div class="pnw-wrap">
+    <div class="pnw-head">
+      <span class="pnw-head__no">Nº 06 · Hobbies</span>
+      <h2 id="interests-heading">{resume.sections.personalLife.title}</h2>
+      {resume.sections.personalLife.body.slice(0, 1).map((paragraph: string) => <p>{paragraph}</p>)}
+    </div>
+    <ul class="pnw-tickets">
+      {interests.map((interest, index) => (
+        <li class="pnw-obj pnw-ticket-obj" style={`--r:${ticketTilts[index % ticketTilts.length]};color:${ticketInks[index % ticketInks.length]}`}>
+          <div class="pnw-paper pnw-ticket" data-g="ticket" data-ink={ticketInks[index % ticketInks.length]}>
+            <div class="pnw-ticket__main">
+              <span class="pnw-lbl pnw-ticket__admit">Admit one</span>
+              <h3><a href={interest.href}>{interest.title}</a></h3>
+              <p>{interest.body.includes('onkjf') ? <>Such a good dog, but he sometimes sits on my keyboard: <code>onkjf ssadkl</code></> : interest.body}</p>
+            </div>
+            <div class="pnw-uvl" aria-hidden="true">
+              <span class="t" style="left:.45rem;top:.8rem;writing-mode:vertical-rl;font-size:.55rem">ADMIT · ONE · PB · PDX · {String(index + 1).padStart(4, '0')}</span>
+            </div>
+            <div class="pnw-ticket__stub" aria-hidden="true">
+              <span class="pnw-ticket__no">Nº {String(index + 1).padStart(2, '0')}</span>
+              {interest.image ? (
+                <img src={interest.image.src} srcset={interest.image.srcSet} width="44" height="44" alt="" loading="lazy" decoding="async" />
+              ) : <PawPrint size={36} />}
+              <span class="pnw-ticket__vert">Admit one</span>
+            </div>
+          </div>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<section class="pnw-section" id="hire-me" data-surface="counter" aria-labelledby="receipt-section-heading">
+  <div class="pnw-wrap pnw-contact">
+    <div class="pnw-head pnw-contact__copy">
+      <span class="pnw-head__no">Nº 07 · Contact</span>
+      <h2 id="receipt-section-heading">{resume.sections.contact.title}</h2>
+      {resume.contactIntro.slice(-1).map((paragraph: string) => <p>{paragraph.replace(' 📧', '')}</p>)}
+    </div>
+    <div class="pnw-obj pnw-receipt-obj" style="--r:1.5deg">
+      <div class="pnw-receipt__slot" aria-hidden="true"></div>
+      <div class="pnw-receipt">
+        <p class="pnw-receipt__c">Thank you for visiting</p>
+        <p class="pnw-receipt__shop" aria-hidden="true">PHIL'S</p>
+        <p class="pnw-receipt__c">Portland, OR · since 2007</p>
+        <hr />
+        <dl class="pnw-receipt__rows">
+          {receiptRows.map(({ k, v }) => (
+            <div><dt>{k}</dt><dd>{v.href ? <a href={v.href}>{v.label}</a> : v.label}</dd></div>
+          ))}
+        </dl>
+        <hr />
+        <h3 id="contact-form-heading">Send Phil a message</h3>
+        <ContactForm action={resume.formAction} />
+        <hr />
+        <div class="pnw-receipt__row-tot"><span>Total due</span><span>$0.00</span></div>
+        <div class="pnw-receipt__barcode" aria-hidden="true"></div>
+        <p class="pnw-receipt__c">* Thank you *</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="pnw-night" id="goodnight" aria-labelledby="goodnight-heading">
+  <div class="pnw-night__scene" aria-hidden="true">
+    <img class="pnw-night__mountain" src="/parallax/mountain.avif" width="2048" height="1152" alt="" loading="lazy" decoding="async" />
+    <img class="pnw-night__moon" src="/island/moon.webp" width="384" height="256" alt="" loading="lazy" decoding="async" />
+    <img class="pnw-night__city" src="/parallax/city.avif" width="2410" height="1356" alt="" loading="lazy" decoding="async" />
+    <img class="pnw-night__lights" src="/site-assets/pnw/city-lights.webp" width="2410" height="1356" alt="" loading="lazy" decoding="async" />
+  </div>
+  <div class="pnw-night__inner">
+    <p class="pnw-night__stamp">11:00 PM · Lights on in Portland</p>
+    <h2 id="goodnight-heading">Goodnight, <em>Portland.</em></h2>
+    <div class="pnw-night__links">
+      <div class="pnw-night__sig">
+        <h3>{resume.profile.name}</h3>
+        <p>{resume.profile.role}<br />Portland, Oregon</p>
+        {email && <a class="pnw-btn pnw-btn--gold" href={email.href}>Email Phil →</a>}
+      </div>
+      <nav aria-label="On this page">
+        <h3>This page</h3>
+        <ul>{pageLinks.map((link) => <li><a href={link.href}>{link.label}</a></li>)}</ul>
+      </nav>
+      <nav aria-label="Elsewhere">
+        <h3>Elsewhere</h3>
+        <ul>{elsewhereLinks.map((link) => <li><a href={link.href}>{link.label}</a></li>)}</ul>
+      </nav>
+      <div>
+        <h3>Reach me</h3>
+        <ul>
+          {contactLinks.map((link) => <li><a href={link.href}>{link.label}</a></li>)}
+          <li><a href={resumeHref}>Résumé (PDF)</a></li>
+        </ul>
+      </div>
+    </div>
+    <p class="pnw-night__credits">Copyright &copy; {year} by Philip Brocoum. Icons by <a href="https://icons8.com/">Icons8</a>. Hands adapted from <a href="https://poly.pizza/m/cGaYRuiPCMe">Anastasiia Ku</a> under <a href="https://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a>.</p>
+  </div>
+</footer>
+
+<style>
+  /* ---- sheet of stamps ---- */
+  .pnw-sheet-of-stamps { max-inline-size: 66rem; margin-inline: auto; }
+  .pnw-stampsheet { padding: 1.1rem .45rem .8rem; border-radius: 2px; }
+  .pnw-stampsheet__selvage {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin: 0 .5rem .9rem;
+    font: 700 .66rem/1.2 var(--f-display);
+    letter-spacing: .22em;
+    text-transform: uppercase;
+    color: var(--t-verm);
+  }
+  .pnw-stampsheet__selvage a { text-decoration: none; border-bottom: 1.5px solid currentColor; }
+  .pnw-stamps {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+  .pnw-stamp {
+    position: relative;
+    padding: 9px;
+    background: radial-gradient(circle at 6px 6px, transparent 4.2px, var(--t-paper3) 4.7px) -6px -6px / 12px 12px;
+    transition: transform .6s var(--spring);
+  }
+  .pnw-stamp:hover { transform: translateY(-4px) rotate(-1deg); z-index: 3; }
+  .pnw-stamp__in {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+    block-size: 100%;
+    padding: .6rem;
+    background: var(--t-paper3);
+    overflow: hidden;
+  }
+  .pnw-stamp__frame { position: absolute; inset: 5px; border: 1.5px solid currentColor; pointer-events: none; }
+  .pnw-stamp__frame::after { content: ''; position: absolute; inset: 3px; border: .5px solid currentColor; }
+  .pnw-stamp__vig {
+    position: relative;
+    flex: none;
+    display: grid;
+    place-items: center;
+    inline-size: auto;
+    min-block-size: 4.6rem;
+    border-radius: 2px;
+    background:
+      repeating-linear-gradient(135deg, color-mix(in srgb, currentColor 9%, transparent) 0 2px, transparent 2px 5px),
+      color-mix(in srgb, currentColor 7%, transparent);
+  }
+  .pnw-stamp__vig :is(img, svg) { inline-size: 2.6rem; block-size: 2.6rem; object-fit: contain; }
+  .pnw-stamp__den {
+    position: absolute;
+    left: .35rem;
+    top: .25rem;
+    font: 900 1.3rem/1 var(--f-display);
+    text-shadow: 0 0 3px var(--t-paper3), 0 0 6px var(--t-paper3);
+  }
+  .pnw-stamp__txt { display: flex; flex-direction: column; align-items: flex-start; gap: .3rem; min-inline-size: 0; padding: .1rem .2rem .2rem 0; }
+  .pnw-stamp h3 { margin: 0; font: 900 clamp(.92rem, 3.6vw, 1.12rem)/1.05 var(--f-display); overflow-wrap: anywhere; }
+  .pnw-stamp h3 a { color: inherit; text-decoration: none; }
+  .pnw-stamp h3 a:hover { text-decoration: underline; }
+  .pnw-stamp p { margin: 0; font-size: .82rem; line-height: 1.35; color: var(--t-ink-soft); flex: 1; }
+  .pnw-stamp .pnw-cta { font: 600 .82rem/1.3 var(--f-text); text-transform: none; letter-spacing: 0; color: color-mix(in srgb, currentColor 70%, var(--t-ink)); padding-block: .3rem; }
+  .pnw-stamp__desc { display: none; }
+  .pnw-stamp__plus { font: 900 2.4rem/1 var(--f-display); }
+  .pnw-stamp--more .pnw-stamp__in { background: color-mix(in srgb, var(--t-paper3) 90%, var(--t-ink)); }
+  .pnw-stamp__txt { flex: 1; }
+  .pnw-stamp__txt h3 { margin-bottom: auto; padding-bottom: .4rem; }
+  .pnw-stamp .pnw-cta { margin-top: .2rem; display: inline-block; line-height: 1.5; }
+
+  /* ---- admission tickets ---- */
+  .pnw-tickets {
+    display: grid;
+    gap: 1.6rem;
+    max-inline-size: 60rem;
+    margin: 0 auto;
+    padding: 0;
+    list-style: none;
+  }
+  .pnw-ticket {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 5.4rem;
+    min-block-size: 9rem;
+    border-radius: 6px;
+    -webkit-mask: radial-gradient(circle at calc(100% - 5.4rem) 0, transparent 11px, black 11.5px) top / 100% 51% no-repeat, radial-gradient(circle at calc(100% - 5.4rem) 100%, transparent 11px, black 11.5px) bottom / 100% 51% no-repeat;
+    mask: radial-gradient(circle at calc(100% - 5.4rem) 0, transparent 11px, black 11.5px) top / 100% 51% no-repeat, radial-gradient(circle at calc(100% - 5.4rem) 100%, transparent 11px, black 11.5px) bottom / 100% 51% no-repeat;
+  }
+  .pnw-ticket__main {
+    display: flex;
+    flex-direction: column;
+    gap: .25rem;
+    padding: 1.2rem 1rem 1.2rem 1.4rem;
+    border-right: 2px dotted color-mix(in srgb, var(--t-ink) 35%, transparent);
+  }
+  .pnw-ticket__admit { letter-spacing: .4em; color: currentColor; }
+  .pnw-ticket h3 { margin: 0; font: 900 clamp(1.4rem, 5.4vw, 2.1rem)/1 var(--f-display); }
+  .pnw-ticket h3 a { color: currentColor; text-decoration: none; }
+  .pnw-ticket h3 a:hover { text-decoration: underline; }
+  .pnw-ticket code { font: 600 .82em/1 var(--f-mono); background: color-mix(in srgb, currentColor 12%, transparent); padding: 0 .25em; font-style: normal; white-space: nowrap; }
+  .pnw-ticket p { margin: .2rem 0 0; font: italic 400 1.08rem/1.3 var(--f-fell); color: var(--t-ink); }
+  .pnw-ticket__stub {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    gap: .4rem;
+    padding: 1rem .4rem;
+    text-align: center;
+  }
+  .pnw-ticket__stub img { inline-size: 2.4rem; block-size: 2.4rem; object-fit: cover; border-radius: 50%; filter: grayscale(1) contrast(1.25) brightness(1.05); mix-blend-mode: multiply; box-shadow: 0 0 0 2px currentColor; }
+  .pnw-ticket__no { font: 900 1rem/1 var(--f-display); }
+  .pnw-ticket__vert {
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    font: 900 .7rem/1 var(--f-display);
+    letter-spacing: .3em;
+    text-transform: uppercase;
+  }
+
+  /* ---- receipt ---- */
+  .pnw-contact { display: grid; gap: 2.4rem; align-items: start; }
+  .pnw-contact__copy { margin-bottom: 0; }
+  .pnw-contact__btns { display: flex; flex-wrap: wrap; gap: .7rem; margin-top: 1.2rem; }
+  .pnw-contact__btns .pnw-btn { text-transform: none; letter-spacing: .04em; }
+  .pnw-receipt-obj { padding-top: 1.1rem; max-inline-size: 28rem; inline-size: 100%; justify-self: center; }
+  .pnw-receipt__slot {
+    position: absolute;
+    left: -.9rem;
+    right: -.9rem;
+    top: 0;
+    height: 1.6rem;
+    border-radius: .8rem;
+    background: linear-gradient(color-mix(in srgb, var(--t-ink) 70%, white 10%), var(--t-ink) 60%, color-mix(in srgb, var(--t-ink) 80%, white 8%));
+    box-shadow: 0 6px 12px rgb(0 0 0 / .5), inset 0 1px 0 rgb(255 255 255 / .2);
+    z-index: 3;
+  }
+  .pnw-receipt__slot::after { content: ''; position: absolute; left: 1.1rem; right: 1.1rem; top: .75rem; height: 4px; border-radius: 2px; background: black; }
+  .pnw-receipt {
+    --color-surface: transparent;
+    --color-on-surface: var(--t-ink);
+    --color-on-surface-muted: var(--t-ink-soft);
+    --color-input-text: var(--t-ink);
+    --color-input-border: var(--t-ink-soft);
+    --color-info: var(--t-verm);
+    --color-info-hover: color-mix(in srgb, var(--t-verm) 80%, black);
+    color-scheme: light;
+    position: relative;
+    padding: 1.8rem 1.3rem 2.4rem;
+    color: var(--t-ink);
+    font: 400 .9rem/1.55 var(--f-mono);
+    background: var(--fibre), var(--t-paper3);
+    -webkit-mask: conic-gradient(from -45deg at bottom, transparent, black 1deg 89deg, transparent 90deg) 50% / 14px 100%;
+    mask: conic-gradient(from -45deg at bottom, transparent, black 1deg 89deg, transparent 90deg) 50% / 14px 100%;
+  }
+  .pnw-receipt p { margin: 0; }
+  .pnw-receipt__c { text-align: center; font-size: .72rem; letter-spacing: .14em; text-transform: uppercase; }
+  .pnw-receipt__shop { text-align: center; font: 900 2rem/1.05 var(--f-display); letter-spacing: .1em; margin: .2rem 0 !important; }
+  .pnw-receipt hr { border: 0; border-top: 1.5px dashed var(--t-ink-soft); margin: .9rem 0; }
+  .pnw-receipt__rows { margin: 0; display: grid; gap: .1rem; }
+  .pnw-receipt__rows div { display: flex; justify-content: space-between; gap: .8rem; }
+  .pnw-receipt__rows dt { color: var(--t-ink-soft); text-transform: uppercase; font-size: .76rem; letter-spacing: .08em; padding-top: .1rem; }
+  .pnw-receipt__rows dd { margin: 0; text-align: right; min-inline-size: 0; overflow-wrap: anywhere; }
+  .pnw-receipt a { color: var(--t-ultra); text-decoration: none; border-bottom: 1px solid color-mix(in srgb, var(--t-ultra) 40%, transparent); }
+  .pnw-receipt h3 { margin: 0 0 .6rem; font: 600 .95rem/1.2 var(--f-mono); text-transform: uppercase; letter-spacing: .06em; }
+  .pnw-receipt :global(.c-contact-form) { gap: .7rem; }
+  .pnw-receipt :global(.c-form-field) { gap: .15rem; }
+  .pnw-receipt :global(.c-form-field label) { font: 400 .72rem/1.2 var(--f-mono); letter-spacing: .14em; text-transform: uppercase; color: var(--t-ink-soft); }
+  .pnw-receipt :global(.c-input-control svg) { display: none; }
+  .pnw-receipt :global(.c-input-control input),
+  .pnw-receipt :global(.c-contact-form textarea) {
+    min-height: 2.6rem;
+    padding: .3rem 0;
+    border: 0;
+    border-bottom: 1.5px dotted var(--t-ink-soft);
+    border-radius: 0;
+    background: transparent;
+    font: 400 1rem/1.4 var(--f-mono);
+  }
+  .pnw-receipt :global(.c-contact-form textarea) { min-height: 5.5rem; }
+  .pnw-receipt :global(.c-input-control input:focus),
+  .pnw-receipt :global(.c-contact-form textarea:focus) { box-shadow: none; border-bottom-color: var(--t-verm); outline: none; }
+  .pnw-receipt :global(.c-contact-form .c-button) {
+    border-radius: 3px;
+    color: var(--t-paper3);
+    font: 700 .82rem/1 var(--f-display);
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    box-shadow: inset 0 0 0 1px rgb(255 255 255 / .25), inset 0 0 0 4px var(--t-verm), inset 0 0 0 5px rgb(255 240 210 / .55);
+  }
+  .pnw-receipt__row-tot { display: flex; justify-content: space-between; font-weight: 600; font-size: 1rem; }
+  .pnw-receipt__barcode {
+    height: 3.2rem;
+    margin: 1rem .4rem .5rem;
+    background: repeating-linear-gradient(90deg, var(--t-ink) 0 2px, transparent 2px 4px, var(--t-ink) 4px 5px, transparent 5px 9px, var(--t-ink) 9px 12px, transparent 12px 13px, var(--t-ink) 13px 14px, transparent 14px 17px);
+  }
+
+  /* ---- Goodnight, Portland ---- */
+  .pnw-night {
+    position: relative;
+    isolation: isolate;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    min-block-size: max(44rem, 100svh);
+    color: var(--color-light);
+    background: linear-gradient(transparent, var(--color-night) 14rem, var(--color-night-sky) 60%, var(--color-tender-table-deep));
+    overflow: hidden;
+  }
+  .pnw-night__scene { position: absolute; inset: 0; z-index: -1; }
+  .pnw-night__scene::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(circle, rgb(238 241 253 / .6) .8px, transparent 1.3px) 13px 15px / 97px 71px,
+      radial-gradient(circle, rgb(239 247 255 / .35) .6px, transparent 1.1px) 45px 9px / 151px 113px,
+      radial-gradient(circle, rgb(255 250 235 / .7) 1.1px, transparent 1.7px) 71px 38px / 233px 179px,
+      radial-gradient(circle, rgb(220 235 255 / .3) .5px, transparent 1px) 5px 53px / 61px 47px;
+    -webkit-mask: linear-gradient(black 30%, transparent 60%);
+    mask: linear-gradient(black 30%, transparent 60%);
+  }
+  .pnw-night__scene::after {
+    content: '';
+    position: absolute;
+    inset: 40% 0 0;
+    background: linear-gradient(transparent, color-mix(in srgb, var(--color-tender-table-deep) 75%, transparent) 45%, var(--color-tender-table-deep));
+  }
+  .pnw-night__scene img { position: absolute; left: 50%; width: max(100%, 46rem); max-width: none; height: auto; transform: translateX(-50%); }
+  .pnw-night__mountain { top: 6%; filter: brightness(.6) saturate(.75) contrast(1.1) hue-rotate(12deg); -webkit-mask: linear-gradient(black 42%, transparent 66%); mask: linear-gradient(black 42%, transparent 66%); }
+  .pnw-night__moon { top: 9%; left: 78% !important; width: clamp(4rem, 9vw, 7rem) !important; filter: drop-shadow(0 0 24px rgb(255 240 200 / .45)); }
+  .pnw-night__city, .pnw-night__lights { top: 11%; }
+  .pnw-night__city { filter: brightness(.55) saturate(.72); }
+  .pnw-night__lights { filter: drop-shadow(0 0 .2rem rgb(255 204 145 / .6)); }
+  .pnw-night__inner {
+    position: relative;
+    inline-size: min(100% - 2rem, 70rem);
+    margin-inline: auto;
+    padding-block: 27rem 1.6rem;
+  }
+  .pnw-night__inner::before {
+    content: '';
+    position: absolute;
+    inset: 23rem -2rem 0;
+    z-index: -1;
+    background: linear-gradient(transparent, color-mix(in srgb, var(--color-tender-table-deep) 80%, transparent) 4rem);
+  }
+  .pnw-night__stamp { margin: 0; font: 600 .7rem/1.2 var(--f-mono); letter-spacing: .14em; text-transform: uppercase; color: var(--t-gold); }
+  .pnw-night h2 {
+    margin: .5rem 0 1.6rem;
+    font: 900 clamp(2.4rem, 9vw, 5rem)/1 var(--f-display);
+    color: var(--t-paper3);
+    text-shadow: 0 2px 20px rgb(0 0 0 / .6);
+  }
+  .pnw-night h2 em { font: italic 400 1.05em/1 var(--f-fell); color: var(--t-gold); }
+  .pnw-night__links {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.6rem 1.2rem;
+    padding: 1.4rem 0;
+    border-top: 1px solid color-mix(in srgb, var(--t-gold) 35%, transparent);
+  }
+  .pnw-night__sig { grid-column: 1 / -1; }
+  .pnw-night__links h3 { margin: 0 0 .6rem; font: 700 .66rem/1.2 var(--f-display); letter-spacing: .22em; text-transform: uppercase; color: var(--t-gold); }
+  .pnw-night__sig h3 { font: 900 1.4rem/1.1 var(--f-display); letter-spacing: .02em; text-transform: none; color: var(--t-paper3); }
+  .pnw-night__sig p { margin: 0 0 1rem; color: var(--color-night-icon); }
+  .pnw-night__links ul { display: grid; gap: .1rem; margin: 0; padding: 0; list-style: none; }
+  .pnw-night__links ul a { display: inline-flex; align-items: center; min-block-size: 2.2rem; text-decoration: none; overflow-wrap: anywhere; }
+  .pnw-night__links ul a:hover { color: var(--t-gold); text-decoration: underline; }
+  .pnw-night__credits {
+    margin: 0;
+    padding-top: 1rem;
+    border-top: 1px solid rgb(255 255 255 / .12);
+    font-size: .85rem;
+    color: var(--color-night-icon);
+  }
+
+  @media (min-width: 44rem) {
+    .pnw-stamp__desc { display: block; }
+    .pnw-stampsheet { padding: 1.8rem 1.6rem 1.4rem; }
+    .pnw-tickets { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2rem 1.6rem; }
+    .pnw-tickets > :nth-child(even) { margin-top: 2.4rem; }
+    .pnw-night__links { grid-template-columns: 1.4fr repeat(3, minmax(0, 1fr)); }
+    .pnw-night__sig { grid-column: auto; }
+    .pnw-night__inner { padding-top: min(40vw, 34rem); }
+    .pnw-night__inner::before { inset: calc(min(40vw, 34rem) - 5rem) -2rem 0; }
+  }
+  @media (min-width: 60rem) {
+    .pnw-contact { grid-template-columns: minmax(0, 1fr) minmax(0, 27rem); gap: 4rem; }
+  }
+  @media (min-width: 66rem) {
+    .pnw-stamps { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .pnw-stamp__vig { min-block-size: 6.6rem; }
+
+  }
+</style>

@@ -1,0 +1,375 @@
+---
+import { Image } from 'astro:assets';
+import type { createResumeViewModel } from '../data/resume-data.mjs';
+
+type Resume = ReturnType<typeof createResumeViewModel>;
+type Section = NonNullable<Resume['sections']['career']>;
+
+interface Props {
+  career: Resume['career'];
+  education: Resume['education'];
+  careerSection: Section;
+  educationSection: Section;
+}
+
+const { career, education, careerSection, educationSection } = Astro.props;
+const tilts = ['-1.4deg', '1.1deg', '-.8deg', '1.5deg'];
+const tapeTilts = ['-4deg', '3deg', '-2deg', '5deg'];
+const diplomaInks = ['var(--t-ultra)', 'var(--t-green)', 'var(--t-brown)'];
+const diplomaKicker = ['Certificate of Record', 'Certificate of Record', 'Record of Service'];
+// "Lead Software Engineer (May 2025 – Present)" → role + dates
+function splitRole(line: string) {
+  const match = line.match(/^(.*?)\s*\((.*)\)$/);
+  return match ? { role: match[1], dates: match[2].replaceAll(' – ', ' to ') } : { role: line, dates: '' };
+}
+// When the paragraph only repeats the linked titles below it, keep its lead-in.
+function shortBody(body: string, actions: { label: string }[]) {
+  const repeats = actions.some((action) => action.label.length > 12 && body.includes(action.label.replace(/[",.]/g, '').slice(0, 20)));
+  return repeats && body.includes(':') ? body.slice(0, body.indexOf(':') + 1) : body;
+}
+// "B.S. in Mathematics (class of 2005)" → degree + class
+function splitDegree(text = '') {
+  const match = text.match(/^(.*?)\s*\((.*)\)$/);
+  return match ? { degree: match[1], year: match[2].replaceAll(' – ', ' to ') } : { degree: text, year: '' };
+}
+---
+
+<section class="pnw-section" id="career" data-surface="pine" aria-labelledby="career-heading">
+  <div class="pnw-wrap">
+    <div class="pnw-head">
+      <span class="pnw-head__no">Nº 03 · Career</span>
+      <h2 id="career-heading">{careerSection.title}</h2>
+    </div>
+    <div class="pnw-obj pnw-cpost" style="--r:1.2deg">
+      <div class="pnw-paper pnw-cpost__card" data-g="card" data-ink="var(--t-green)">
+        <div class="pnw-cpost__msg">
+          <p class="pnw-lbl">Post card · New York to Portland</p>
+          <p class="pnw-cpost__title" aria-hidden="true">Since 2007,</p>
+          {careerSection.body.slice(0, 1).map((paragraph) => <p>{paragraph}</p>)}
+        </div>
+        <div class="pnw-cpost__addr" aria-hidden="true">
+          <div class="pnw-cpost__stamp"><div><span>18</span><small>years</small></div></div>
+          <p>To whoever is hiring,</p>
+          <p>The next great team</p>
+          <p>Anywhere, Earth</p>
+        </div>
+        <div class="pnw-uvl" aria-hidden="true">
+          <svg viewBox="-50 -50 100 100" style="right:4%;top:4%;width:30%"><path data-rose="30,7,16,12" /></svg>
+          <span class="t" style="left:1.4rem;bottom:1rem;font-size:.75rem">VERIFIED · 18 YEARS · NYC TO PDX</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="pnw-sheets">
+      {career.map(({ action, body, footer, href, image, links, logo, siteLabel, title }, index) => {
+        return (
+          <article class="pnw-obj pnw-sheet-obj" style={`--r:${tilts[index % tilts.length]}`}>
+            <div class="pnw-sheet">
+              <div class="pnw-sheet__head">
+                <span>Career · Sheet Nº {String(index + 1).padStart(2, '0')}</span>
+              </div>
+              {image && (
+                <figure class="pnw-polaroid" style={`--tape:${tapeTilts[index % tapeTilts.length]}`}>
+                  <a href={href} tabindex="-1">
+                    <Image src={image.src} srcset={image.srcSet} alt={image.alt} width={600} height={341} loading="lazy" />
+                  </a>
+                  <figcaption>{siteLabel}</figcaption>
+                </figure>
+              )}
+              <h3 class="pnw-sheet__co">
+                {logo && <Image src={logo.src} srcset={logo.srcSet} alt="" width={36} height={36} loading="lazy" />}
+                <span>{title}</span>
+              </h3>
+              <ul class="pnw-sheet__roles" aria-label={`${title} roles`}>
+                {footer.map((line, i) => {
+                  const { role, dates } = splitRole(line);
+                  const isPlace = /, [A-Z]{2}$/.test(role);
+                  if (isPlace) return <li class="pnw-sheet__meta">{role}{dates && ` · ${dates}`}</li>;
+                  if (dates) return <li><b>{role}</b><span class="pnw-sheet__meta">{dates}</span></li>;
+                  if (i > 0 && !/, [A-Z]{2}$/.test(footer[i - 1]) && !footer[i - 1].includes('(')) return <li class="pnw-sheet__meta">{role}</li>;
+                  return <li><b>{role}</b></li>;
+                })}
+              </ul>
+              <p>{body}</p>
+              {links.length > 0 && (
+                <p class="pnw-sheet__links"><span>Portfolio:</span> {links.map((link, i) => <>{i > 0 && ' · '}<a href={link.href}>{link.label}</a></>)}</p>
+              )}
+              <a class="pnw-cta pnw-sheet__visit" href={href}>{action}&nbsp;↗</a>
+              <div class="pnw-uvl" aria-hidden="true"><span class="t" style="right:1rem;top:2.6rem;writing-mode:vertical-rl;font-size:.6rem">VERIFIED · {title.toUpperCase()} · PB</span></div>
+            </div>
+          </article>
+        );
+      })}
+    </div>
+  </div>
+</section>
+
+<section class="pnw-section" id="education-projects" data-surface="wood" aria-labelledby="education-heading">
+  <div class="pnw-wrap">
+    <div class="pnw-head">
+      <span class="pnw-head__no">Nº 04 · Education</span>
+      <h2 id="education-heading">{educationSection.title}</h2>
+      {educationSection.body.slice(0, 1).map((paragraph) => <p>{paragraph}</p>)}
+    </div>
+
+    <div class="pnw-diplomas">
+      {education.map((item, index) => {
+        const { degree, year } = splitDegree(item.addendum);
+        const ink = diplomaInks[index % diplomaInks.length];
+        return (
+          <article class="pnw-obj pnw-dipl-obj" style={`--r:${index % 2 ? '2deg' : '-1.5deg'};--dink:${ink}`}>
+            <div class="pnw-paper pnw-dipl" data-g="dipl" data-ink={ink}>
+              <p class="pnw-dipl__k">{diplomaKicker[index] ?? diplomaKicker[0]}</p>
+              <h3>{item.href ? <a href={item.href}>{item.title}</a> : item.title}</h3>
+              {degree && <p class="pnw-dipl__deg">{degree}</p>}
+              {year && <p class="pnw-dipl__cls">{year}</p>}
+              <div class="pnw-dipl__seal" aria-hidden="true"><svg viewBox="-50 -50 100 100"><path data-rose="30,6,14,16" /></svg></div>
+              <div class="pnw-uvl" aria-hidden="true">
+                <svg viewBox="-50 -50 100 100" style="left:25%;top:10%;width:50%"><path data-rose="34,7,24,24" /></svg>
+              </div>
+            </div>
+            {(item.body || item.actions.length > 0) && (
+              <div class="pnw-dipl__fine">
+                {item.body && <p>{shortBody(item.body, item.actions)}</p>}
+                {item.actions.length > 0 && (
+                  <ul>
+                    {item.actions.map((action) => <li><a href={action.href}>{action.label}</a></li>)}
+                  </ul>
+                )}
+              </div>
+            )}
+          </article>
+        );
+      })}
+    </div>
+  </div>
+</section>
+
+<style>
+  /* ---- career postcard ---- */
+  .pnw-cpost { max-inline-size: 56rem; margin: 0 auto clamp(3rem, 7vw, 5rem); }
+  .pnw-cpost__card {
+    display: grid;
+    gap: 1.4rem;
+    padding: clamp(1.5rem, 5vw, 3rem) clamp(1.3rem, 5vw, 3rem) 2.6rem;
+    border-radius: 4px;
+  }
+  .pnw-cpost__msg .pnw-lbl { margin: 0; color: var(--t-green); }
+  .pnw-cpost__title {
+    margin: .3rem 0 .7rem;
+    font: 600 clamp(2.2rem, 9vw, 3.4rem)/.95 var(--f-hand);
+    color: var(--t-green);
+    transform: rotate(-2deg);
+    transform-origin: left;
+  }
+  .pnw-cpost__msg p:not(.pnw-lbl, .pnw-cpost__title) { margin: 0 0 .9em; line-height: 1.65; max-inline-size: 60ch; }
+  .pnw-cpost__addr {
+    position: relative;
+    display: grid;
+    align-content: start;
+    gap: 0;
+    padding: .2rem 5.6rem 0 0;
+    font: 600 1.45rem/1 var(--f-hand);
+    color: var(--t-ultra);
+  }
+  .pnw-cpost__addr p {
+    margin: 0;
+    padding: .6rem 0 .2rem;
+    border-bottom: 1px solid color-mix(in srgb, var(--t-ink) 35%, transparent);
+  }
+  .pnw-cpost__stamp {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 4.6rem;
+    padding: 5px;
+    background: radial-gradient(circle at 5px 5px, transparent 3.4px, var(--t-paper3) 3.9px) -5px -5px / 10px 10px;
+    filter: drop-shadow(0 1px 1px rgb(0 0 0 / .25));
+    transform: rotate(4deg);
+  }
+  .pnw-cpost__stamp > div {
+    display: grid;
+    place-content: center;
+    aspect-ratio: .82;
+    color: var(--t-paper3);
+    font-family: var(--f-display);
+    text-align: center;
+    background: var(--t-green);
+    box-shadow: inset 0 0 0 3px var(--t-paper3), inset 0 0 0 4px var(--t-green);
+  }
+  .pnw-cpost__stamp span { font-weight: 900; font-size: 1.7rem; line-height: 1; }
+  .pnw-cpost__stamp small { font-size: .5rem; letter-spacing: .2em; text-transform: uppercase; font-weight: 700; }
+
+  /* ---- lined sheets (US Letter) ---- */
+  .pnw-sheets {
+    display: grid;
+    gap: clamp(2rem, 5vw, 3rem);
+    max-inline-size: 40rem;
+    margin-inline: auto;
+  }
+  .pnw-sheet {
+    --line: 1.75rem;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    min-block-size: 0;
+    padding: var(--line) 1.2rem var(--line) 3.4rem;
+    border-radius: 3px;
+    color: var(--t-ink);
+    background:
+      radial-gradient(circle at 1.05rem 3.5rem, color-mix(in srgb, var(--color-tender-pine) 70%, transparent) 0 .38rem, transparent .43rem),
+      radial-gradient(circle at 1.05rem 50%, color-mix(in srgb, var(--color-tender-pine) 70%, transparent) 0 .38rem, transparent .43rem),
+      radial-gradient(circle at 1.05rem calc(100% - 3.5rem), color-mix(in srgb, var(--color-tender-pine) 70%, transparent) 0 .38rem, transparent .43rem),
+      linear-gradient(90deg, transparent 2.3rem, color-mix(in srgb, var(--t-verm) 45%, white) 2.3rem calc(2.3rem + 2px), transparent calc(2.3rem + 2px)),
+      var(--fibre),
+      var(--t-paper3);
+    box-shadow: 0 1px 0 var(--t-paper2), 0 3px 0 var(--t-paper3), 0 4px 0 var(--t-paper2);
+    line-height: var(--line);
+  }
+  .pnw-sheet__head {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+    font: 700 .68rem/1.2 var(--f-display);
+    letter-spacing: .16em;
+    text-transform: uppercase;
+    color: var(--t-verm);
+    line-height: var(--line);
+    margin-bottom: var(--line);
+  }
+  .pnw-polaroid {
+    position: relative;
+    align-self: center;
+    inline-size: min(88%, 24rem);
+    margin: 0 0 var(--line);
+    padding: .6rem .6rem .7rem;
+    background: white;
+    border-radius: 2px;
+    box-shadow: 0 2px 0 rgb(0 0 0 / .06), 0 14px 24px rgb(0 0 0 / .22);
+    transform: rotate(calc(var(--tape) * -.5));
+    transition: transform .5s var(--spring);
+    line-height: 1.2;
+  }
+  .pnw-polaroid:hover { transform: rotate(0) scale(1.02); }
+  .pnw-polaroid::before {
+    content: '';
+    position: absolute;
+    top: -.75rem;
+    left: 50%;
+    width: 6rem;
+    height: 1.6rem;
+    transform: translateX(-50%) rotate(var(--tape));
+    background: color-mix(in srgb, var(--t-gold) 45%, transparent);
+    box-shadow: 0 1px 2px rgb(0 0 0 / .12);
+    z-index: 2;
+  }
+  .pnw-polaroid img {
+    display: block;
+    inline-size: 100%;
+    block-size: auto;
+    aspect-ratio: 600 / 341;
+    object-fit: cover;
+    object-position: top;
+    border: 1px solid color-mix(in srgb, var(--t-ink) 10%, transparent);
+  }
+  .pnw-polaroid figcaption {
+    margin-top: .55rem;
+    text-align: center;
+    font: 400 .72rem/1 var(--f-mono);
+    color: var(--t-ink-soft);
+    overflow-wrap: anywhere;
+  }
+  .pnw-sheet__co {
+    display: flex;
+    align-items: center;
+    gap: .6rem;
+    margin: 0;
+    font: 900 clamp(1.6rem, 6vw, 2.3rem)/var(--line) var(--f-display);
+    color: var(--t-green);
+  }
+  .pnw-sheet__co img { inline-size: 1.7rem; block-size: 1.7rem; object-fit: contain; flex: none; }
+  .pnw-sheet__roles { margin: 0 0 var(--line); padding: 0; list-style: none; }
+  .pnw-sheet__roles li { line-height: var(--line); }
+  .pnw-sheet__roles b { display: block; font: italic 400 1.12rem/var(--line) var(--f-fell); color: var(--t-verm); }
+  .pnw-sheet__meta { display: block; font: 700 .7rem/var(--line) var(--f-display); letter-spacing: .14em; text-transform: uppercase; color: var(--t-ink-soft); }
+  .pnw-sheet__tag { display: inline-block; font: 600 .74rem/1.2 var(--f-mono); color: var(--t-green); }
+  .pnw-sheet p { margin: 0 0 var(--line); line-height: var(--line); }
+  .pnw-sheet p + p { margin-top: 0; }
+  .pnw-sheet :is(p, .pnw-sheet__roles) {
+    background: repeating-linear-gradient(180deg, transparent 0 calc(var(--line) - 1px), color-mix(in srgb, var(--t-ultra) 16%, white) calc(var(--line) - 1px) var(--line));
+  }
+  .pnw-sheet a { color: var(--t-ultra); }
+  .pnw-sheet__links span { font-weight: 600; }
+  .pnw-sheet__visit { align-self: flex-start; margin-top: auto; color: var(--t-green) !important; line-height: 1.4; }
+
+  /* ---- diplomas ---- */
+  .pnw-diplomas { display: grid; gap: clamp(2.2rem, 6vw, 3.5rem); }
+  .pnw-dipl {
+    display: grid;
+    place-content: center;
+    justify-items: center;
+    aspect-ratio: 11 / 8.5;
+    padding: clamp(1.6rem, 6vw, 3.6rem) clamp(1.4rem, 6vw, 4rem);
+    text-align: center;
+    border-radius: 3px;
+    background-color: color-mix(in srgb, var(--t-paper) 85%, white);
+  }
+  .pnw-dipl__k { margin: 0; font: 700 clamp(.56rem, 1.8vw, .78rem)/1.2 var(--f-display); letter-spacing: .32em; text-transform: uppercase; color: var(--dink); }
+  .pnw-dipl h3 {
+    margin: .5rem 0 .2rem;
+    font: 900 clamp(1.15rem, 5vw, 2.6rem)/1.02 var(--f-display);
+    color: var(--t-ink);
+    text-wrap: balance;
+    max-inline-size: 20ch;
+  }
+  .pnw-dipl h3 a { color: inherit; text-decoration: none; }
+  .pnw-dipl h3 a:hover { text-decoration: underline; }
+  .pnw-dipl__deg { margin: .3rem 0; font: italic 400 clamp(1rem, 3.8vw, 1.7rem)/1.15 var(--f-fell); color: var(--dink); }
+  .pnw-dipl__cls { margin: 0; font: 700 clamp(.6rem, 2vw, .85rem)/1.2 var(--f-display); letter-spacing: .24em; text-transform: uppercase; }
+  .pnw-dipl__seal {
+    position: absolute !important;
+    right: 5%;
+    bottom: 6%;
+    width: clamp(2.8rem, 12vw, 6rem);
+    aspect-ratio: 1;
+    border-radius: 50%;
+    color: color-mix(in srgb, var(--t-gold-ink) 70%, black);
+    background: conic-gradient(var(--t-gold-ink), color-mix(in srgb, var(--t-gold) 40%, white), var(--t-gold), white, var(--t-gold-ink), color-mix(in srgb, var(--t-gold) 60%, white), var(--t-gold-ink));
+    box-shadow: 0 2px 4px rgb(0 0 0 / .35);
+  }
+  .pnw-dipl__seal svg { width: 100%; height: 100%; display: block; }
+  .pnw-dipl__seal path { fill: none; stroke: currentColor; stroke-width: .5; }
+  .pnw-dipl__fine {
+    position: relative;
+    margin: -.6rem 1.2rem 0;
+    padding: 1.4rem 1.1rem .9rem;
+    background: var(--fibre), var(--t-paper3);
+    color: var(--t-ink);
+    font-family: var(--f-mono);
+    font-size: .84rem;
+    box-shadow: 0 8px 16px rgb(0 0 0 / .35);
+    transform: rotate(-1deg);
+    font-size: 1rem;
+    line-height: 1.55;
+  }
+  .pnw-dipl__fine p { margin: 0 0 .6rem; }
+  .pnw-dipl__fine ul { margin: 0; padding: 0; list-style: none; display: grid; gap: .3rem; }
+  .pnw-dipl__fine a { color: var(--t-ultra); }
+  .pnw-dipl__fine p + p { margin-top: 0; }
+  .pnw-dipl__fine::before { content: ''; position: absolute; top: -.5rem; left: 50%; width: 4.5rem; height: 1.2rem; transform: translateX(-50%) rotate(2deg); background: color-mix(in srgb, var(--t-gold) 45%, transparent); }
+
+  @media (min-width: 46rem) {
+    .pnw-cpost__card { grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr); gap: 2.4rem; }
+    .pnw-cpost__addr { padding: 5.6rem 0 0 1.6rem !important; border-left: 1.5px solid color-mix(in srgb, var(--t-ink) 30%, transparent); padding-left: 1.6rem; }
+    .pnw-sheet { padding: 3rem 2.6rem 2.2rem 4.4rem; aspect-ratio: 8.5 / 11; }
+    .pnw-diplomas { grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; }
+    .pnw-dipl-obj:nth-child(2) { margin-top: 4rem; }
+  }
+  @media (min-width: 72rem) {
+    .pnw-sheets { max-inline-size: none; grid-template-columns: repeat(3, minmax(0, 1fr)); align-items: start; }
+    .pnw-sheets > :nth-child(2) { margin-top: 3rem; }
+    .pnw-sheet { aspect-ratio: auto; min-block-size: 46rem; padding: 2.4rem 1.6rem 1.8rem 3.6rem; }
+  }
+</style>
