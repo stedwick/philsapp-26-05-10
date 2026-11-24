@@ -123,8 +123,7 @@ function backpackPose(documentTop, height, packHeight) {
   const position = documentTop / height;
   const arrival = clamp((1.03 - position) / .18);
   const flap = clamp((.95 - position) / .19);
-  const clearance = clamp((position - .59) / .13);
-  const readable = clamp((.69 - position) / .17);
+  const clearance = clamp((position - .56) / .14);
 
   return {
     fold: 1 - flap * .62,
@@ -132,7 +131,6 @@ function backpackPose(documentTop, height, packHeight) {
     insertRise: -packHeight * .46 * flap,
     drop: (1 - arrival * clearance) * packHeight,
     opacity: arrival * clearance,
-    readable,
   };
 }
 
@@ -169,22 +167,11 @@ export function initPortfolio() {
   const packImages = [...pack.querySelectorAll('img')];
   let frame = 0;
   let packHeight = 0;
-  let emergingPaper;
   let heroExited;
-  let revealComplete = false;
 
-  function clearPaperMotion() {
-    emergingPaper?.removeAttribute('data-paper-emerging');
-    emergingPaper?.style.removeProperty('--pnw-paper-opacity');
-    emergingPaper = undefined;
-  }
-
-  function showEmergingPaper(paper, pose) {
-    if (emergingPaper !== paper || pose.readable >= 1) clearPaperMotion();
-    if (pose.readable >= 1) return;
-    emergingPaper = paper;
-    paper.setAttribute('data-paper-emerging', '');
-    paper.style.setProperty('--pnw-paper-opacity', String(pose.readable));
+  function hidePack() {
+    pack.style.setProperty('--pack-opacity', '0');
+    pack.style.visibility = 'hidden';
   }
 
   function paint() {
@@ -209,31 +196,31 @@ export function initPortfolio() {
     if (clock) clock.textContent = clockLabel(shown);
 
     if (motion.matches || !packHeight) {
-      clearPaperMotion();
-      return;
-    }
-    const passportTop = passport.getBoundingClientRect().top;
-    if (passportTop <= height * .50) {
-      // Past the reveal (including a jump straight down): put the bag away.
-      pack.style.setProperty('--pack-opacity', '0');
-      clearPaperMotion();
-      revealComplete = true;
+      hidePack();
       return;
     }
 
-    const welcomeTop = welcome.getBoundingClientRect().top;
-    const isWelcome = welcomeTop > height * .50;
-    const paper = isWelcome ? welcome : passport;
-    const top = isWelcome ? welcomeTop : passportTop;
-    const pose = backpackPose(top, height, packHeight);
-    revealComplete = !isWelcome && top <= height * .50;
+    const welcomeRect = welcome.getBoundingClientRect();
+    const passportTop = passport.getBoundingClientRect().top;
+    // Scope the backpack strictly to #about and put it away well before #about-skills enters.
+    if (passportTop <= height * .92 || welcomeRect.bottom <= height * .45 || welcomeRect.top <= height * .50) {
+      hidePack();
+      return;
+    }
+
+    const pose = backpackPose(welcomeRect.top, height, packHeight);
+    if (pose.opacity <= .01) {
+      hidePack();
+      return;
+    }
+
+    pack.style.visibility = 'visible';
     pack.style.setProperty('--flap-scale', String(pose.fold));
     pack.style.setProperty('--flap-rise', `${pose.lift}px`);
     pack.style.setProperty('--insert-rise', `${pose.insertRise}px`);
     pack.style.setProperty('--pack-drop', `${pose.drop}px`);
     pack.style.setProperty('--pack-opacity', String(pose.opacity));
-    insert.toggleAttribute('data-passport', !isWelcome);
-    showEmergingPaper(paper, pose);
+    insert.removeAttribute('data-passport');
   }
 
   function queuePaint() {
@@ -242,18 +229,18 @@ export function initPortfolio() {
 
   function measurePack() {
     if (!packImages.every((image) => image.complete && image.naturalWidth)) {
-      queuePaint();
+      paint();
       return;
     }
     packHeight = pack.offsetHeight;
     reveal.style.setProperty('--pnw-pack-height', `${packHeight}px`);
     reveal.setAttribute('data-pack-animated', '');
-    queuePaint();
+    paint();
   }
 
   function hideBrokenPack() {
     reveal.setAttribute('data-pack-missing', '');
-    clearPaperMotion();
+    hidePack();
   }
 
   for (const image of packImages) {

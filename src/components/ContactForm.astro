@@ -53,6 +53,13 @@ const { action = 'https://formspree.io/f/mjgnzjzd' } = Astro.props;
     const status = form.querySelector<HTMLElement>('[data-turnstile-status]')!;
 
     form.addEventListener('submit', (event) => {
+      if (form.dataset.turnstileFallback === 'domain') {
+        event.preventDefault();
+        status.hidden = false;
+        status.textContent = 'Security verification is restricted to the live site (phils.app). Please use the email link above on preview builds.';
+        return;
+      }
+
       const token = new FormData(form).get('cf-turnstile-response');
       status.hidden = typeof token === 'string' && token.length > 0;
 
@@ -69,16 +76,20 @@ const { action = 'https://formspree.io/f/mjgnzjzd' } = Astro.props;
   script.addEventListener('load', () => {
     const { turnstile } = window as Window & {
       turnstile: {
-        render(container: HTMLElement, options: Record<string, string>): string;
+        render(container: HTMLElement, options: Record<string, unknown>): string;
         remove(widgetId: string): void;
       };
     };
 
     document.querySelectorAll<HTMLElement>('.c-contact-form .cf-turnstile').forEach((container) => {
+      const form = container.closest<HTMLFormElement>('.c-contact-form');
+      const status = form?.querySelector<HTMLElement>('[data-turnstile-status]');
+      const theme = container.closest('.pnw-receipt') ? 'light' : (container.dataset.theme ?? 'auto');
       let widgetId: string | undefined;
       let currentSize: string;
 
-      new ResizeObserver(([entry]) => {
+      const observer = new ResizeObserver(([entry]) => {
+        if (container.hidden || entry.contentRect.width === 0) return;
         const size = entry.contentRect.width < 300 ? 'compact' : 'flexible';
         // Preserve the token on resizes that do not cross Turnstile's 300px minimum.
         if (size === currentSize) return;
@@ -89,10 +100,34 @@ const { action = 'https://formspree.io/f/mjgnzjzd' } = Astro.props;
           sitekey: container.dataset.sitekey!,
           action: container.dataset.action!,
           appearance: container.dataset.appearance!,
-          theme: container.dataset.theme!,
+          theme,
           size,
+          callback: () => {
+            if (status && form?.dataset.turnstileFallback !== 'domain') {
+              status.hidden = true;
+              status.textContent = '';
+            }
+          },
+          'error-callback': (errorCode: unknown) => {
+            const code = String(errorCode ?? '');
+            observer.disconnect();
+            container.hidden = true;
+            if (code.startsWith('110200')) {
+              if (form) form.dataset.turnstileFallback = 'domain';
+              if (status) {
+                status.hidden = false;
+                status.textContent = 'Security verification is restricted to the live site (phils.app). Please use the email link above on preview builds.';
+              }
+            } else if (status) {
+              status.hidden = false;
+              status.textContent = 'Security verification could not load. Please reload or use the email link above.';
+            }
+            return true;
+          },
         });
-      }).observe(container);
+      });
+
+      observer.observe(container);
     });
   });
   document.head.append(script);

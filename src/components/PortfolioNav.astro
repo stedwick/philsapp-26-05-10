@@ -36,7 +36,7 @@ const sections = [
     {sections.map(({ label, href }) => <a href={href}>{label}</a>)}
   </div>
   <button class="pnw-nav__uv" type="button" data-pnw-uv aria-pressed="false" aria-label="UV lamp: show hidden security ink" title="UV lamp: show hidden security ink" hidden>
-    <LampDesk size={16} aria-hidden="true" /><span class="pnw-nav__long" aria-hidden="true">UV lamp</span>
+    <LampDesk size={16} aria-hidden="true" /><span class="pnw-nav__short" aria-hidden="true">UV</span><span class="pnw-nav__long" aria-hidden="true">UV lamp</span>
   </button>
   <a class="pnw-nav__resume" href={resumeHref}>Résumé</a>
 </nav>
@@ -68,7 +68,7 @@ const sections = [
   .pnw-nav :is(a, button, summary) {
     color: inherit;
     text-decoration: none;
-    min-block-size: 2.6rem;
+    min-block-size: 2.75rem;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -78,7 +78,7 @@ const sections = [
     white-space: nowrap;
     transition: background .2s, color .2s;
   }
-  .pnw-nav :is(a, summary):hover { background: rgb(255 255 255 / .08); }
+  .pnw-nav :is(a, button, summary):hover { background: rgb(255 255 255 / .08); }
   .pnw-nav a[aria-current='true'] { color: var(--t-table); background: var(--t-gold); }
   .pnw-nav__dial {
     color: var(--t-gold) !important;
@@ -95,41 +95,56 @@ const sections = [
   .pnw-nav__menu summary::-webkit-details-marker { display: none; }
   .pnw-nav__links {
     position: absolute;
-    inset: calc(100% + .45rem) 0 auto;
+    top: calc(100% + .45rem);
+    left: 50%;
+    transform: translateX(-50%);
+    inline-size: min(21rem, calc(100vw - 1.5rem));
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: .15rem;
-    padding: .4rem;
-    border-radius: 4px;
+    grid-template-columns: minmax(0, 1fr);
+    gap: .2rem;
+    padding: .45rem;
+    border: 1px solid color-mix(in srgb, var(--t-ink) 18%, transparent);
+    border-radius: 6px;
     background: var(--fibre), var(--t-paper3);
     color: var(--t-ink);
     box-shadow: 0 14px 30px rgb(0 0 0 / .5);
     counter-reset: navno;
   }
-  .pnw-nav__links a { justify-content: flex-start; counter-increment: navno; }
-  .pnw-nav__links a::before { content: 'Nº 0' counter(navno); font-size: .6rem; color: var(--t-verm); margin-right: .35rem; }
+  .pnw-nav__links a {
+    justify-content: flex-start;
+    min-block-size: 2.75rem;
+    padding-inline: .7rem;
+    white-space: normal;
+    line-height: 1.25;
+    counter-increment: navno;
+  }
+  .pnw-nav__links a::before {
+    content: '0' counter(navno);
+    font: 600 .68rem/1 var(--f-mono);
+    letter-spacing: .08em;
+    color: var(--t-verm);
+    margin-right: .45rem;
+    flex: none;
+  }
   .pnw-nav__links a:hover { background: color-mix(in srgb, var(--t-ink) 8%, transparent); }
   .pnw-nav__desktop { display: none; }
   .pnw-nav__uv {
     background: transparent;
-    border: 1px solid color-mix(in srgb, var(--t-uv) 50%, transparent);
-    color: color-mix(in srgb, var(--t-uv) 70%, white) !important;
+    border: 1px solid rgb(255 255 255 / .14);
+    color: color-mix(in srgb, var(--t-uv) 65%, white) !important;
     font: inherit;
     letter-spacing: inherit;
     text-transform: inherit;
     cursor: pointer;
   }
   .pnw-nav__uv[hidden] { display: none; }
-  .pnw-nav__dot {
-    inline-size: .55rem;
-    block-size: .55rem;
-    border-radius: 50%;
-    background: color-mix(in srgb, var(--t-uv) 30%, black);
-    box-shadow: inset 0 0 0 1px rgb(255 255 255 / .3);
+  .pnw-nav__uv[aria-pressed='true'] {
+    background: color-mix(in srgb, var(--t-uv) 14%, transparent);
+    border-color: color-mix(in srgb, var(--t-uv) 55%, transparent);
+    color: var(--t-uv) !important;
+    box-shadow: 0 0 12px color-mix(in srgb, var(--t-uv) 40%, transparent);
   }
-  .pnw-nav__uv[aria-pressed='true'] { background: color-mix(in srgb, var(--t-uv) 14%, transparent); }
-  .pnw-nav__uv[aria-pressed='true'] { color: var(--t-uv) !important; box-shadow: 0 0 12px color-mix(in srgb, var(--t-uv) 40%, transparent); }
-  .pnw-nav__uv { border-color: rgb(255 255 255 / .14) !important; color: color-mix(in srgb, var(--t-uv) 55%, white) !important; }
+  .pnw-nav__short { display: inline; font: 600 .68rem/1 var(--f-mono); letter-spacing: .08em; }
   .pnw-nav__long { display: none; }
   .pnw-nav a.pnw-nav__resume {
     background: var(--t-verm);
@@ -143,9 +158,24 @@ const sections = [
     .pnw-nav :is(a, button, summary) { padding-inline: .45rem; }
   }
 
-  @media (min-width: 60rem) {
+  @media (min-width: 26.25rem) {
+    .pnw-nav__links { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+
+  @media (min-width: 52.5rem) {
     .pnw-nav__menu { display: none; }
+    .pnw-nav__desktop { display: flex; align-items: center; gap: .05rem; }
+    .pnw-nav__desktop a { padding-inline: .38rem; font-size: .68rem; letter-spacing: .06em; }
+  }
+
+  @media (min-width: 60rem) {
+    .pnw-nav__short { display: none; }
     .pnw-nav__long { display: inline; }
-    .pnw-nav__desktop { display: flex; align-items: center; gap: .1rem; }
+    .pnw-nav__desktop a { padding-inline: .55rem; font-size: .72rem; letter-spacing: .1em; }
+  }
+
+  @media (min-width: 64rem) {
+    .pnw-nav__desktop { gap: .1rem; }
+    .pnw-nav__desktop a { padding-inline: .6rem; font-size: .74rem; letter-spacing: .12em; }
   }
 </style>
