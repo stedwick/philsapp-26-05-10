@@ -1063,5 +1063,35 @@
       }
     ],
     "order": 75
+  },
+  {
+    "id": "phils-skills",
+    "sourceUrl": "generated: phils-skills open book and spark icon",
+    "localPath": "/legacy/phils-skills.png",
+    "kind": "image",
+    "alt": "Phil's Skills",
+    "owners": [
+      {
+        "collection": "projects",
+        "id": "phils-skills",
+        "field": "icon"
+      }
+    ],
+    "order": 76
+  },
+  {
+    "id": "phils-app-store",
+    "sourceUrl": "generated: world-vibe-web storefront icon",
+    "localPath": "/legacy/phils-app-store.png",
+    "kind": "image",
+    "alt": "World Vibe Web",
+    "owners": [
+      {
+        "collection": "projects",
+        "id": "phils-app-store",
+        "field": "icon"
+      }
+    ],
+    "order": 77
   }
 ]

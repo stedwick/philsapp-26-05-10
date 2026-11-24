@@ -1,5 +1,24 @@
 [
   {
+    "id": "phils-skills",
+    "title": "Phil's Skills",
+    "url": "https://github.com/stedwick/skills",
+    "description": "Agent skills I made for Claude Code, Codex, Cursor, and other coding agents: creative design, video editing, and functional programming.",
+    "links": [
+      {
+        "label": "Phil's Skills",
+        "url": "https://github.com/stedwick/skills"
+      },
+      {
+        "label": "View on GitHub",
+        "url": "https://github.com/stedwick/skills"
+      }
+    ],
+    "iconName": "",
+    "iconAssetId": "phils-skills",
+    "order": 3
+  },
+  {
     "id": "pdx-punk",
     "title": "PDX Punk",
     "url": "https://pdxpunkgame.com/",
@@ -53,6 +72,7 @@
       }
     ],
     "iconName": "",
+    "iconAssetId": "phils-app-store",
     "order": 2
   },
   {
@@ -71,7 +91,7 @@
       }
     ],
     "iconName": "",
-    "order": 8
+    "order": 9
   },
   {
     "id": "philnav",
@@ -89,7 +109,7 @@
       }
     ],
     "iconName": "",
-    "order": 5
+    "order": 6
   },
   {
     "id": "phils-dictation-app",
@@ -107,7 +127,7 @@
       }
     ],
     "iconName": "",
-    "order": 6
+    "order": 7
   },
   {
     "id": "tater-talk",
@@ -125,7 +145,7 @@
       }
     ],
     "iconName": "",
-    "order": 4
+    "order": 5
   },
   {
     "id": "poker-tracker",
@@ -151,7 +171,7 @@
       }
     ],
     "iconName": "",
-    "order": 10
+    "order": 11
   },
   {
     "id": "munch",
@@ -169,7 +189,7 @@
       }
     ],
     "iconName": "",
-    "order": 3
+    "order": 4
   },
   {
     "id": "sci-fi-voter",
@@ -187,7 +207,7 @@
       }
     ],
     "iconName": "",
-    "order": 11,
+    "order": 12,
     "hidden": true
   },
   {
@@ -206,7 +226,7 @@
       }
     ],
     "iconName": "",
-    "order": 12,
+    "order": 13,
     "hidden": true
   },
   {
@@ -225,7 +245,7 @@
       }
     ],
     "iconName": "",
-    "order": 13,
+    "order": 14,
     "hidden": true
   },
   {
@@ -244,7 +264,7 @@
       }
     ],
     "iconName": "",
-    "order": 14,
+    "order": 15,
     "hidden": true
   },
   {
@@ -263,7 +283,7 @@
       }
     ],
     "iconName": "",
-    "order": 7
+    "order": 8
   },
   {
     "id": "my-net-worth",
@@ -281,6 +301,6 @@
       }
     ],
     "iconName": "",
-    "order": 9
+    "order": 10
   }
 ]
