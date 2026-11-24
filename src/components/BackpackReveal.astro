@@ -10,61 +10,88 @@ const { paragraphs } = Astro.props;
   <div class="pnw-reveal__track" aria-hidden="true">
     <div class="pnw-reveal__pack">
       <div class="pnw-reveal__insert" data-pnw-insert></div>
-      <img class="pnw-reveal__flap" src="/site-assets/pnw/backpack-flap.webp" alt="" width="420" height="260" decoding="async" fetchpriority="low" />
-      <img class="pnw-reveal__body" src="/site-assets/pnw/backpack-body.webp" alt="" width="560" height="612" decoding="async" fetchpriority="low" />
+      <img class="pnw-reveal__flap" src="/site-assets/pnw/backpack-flap.webp" alt="" width="420" height="260" decoding="async" />
+      <img class="pnw-reveal__body" src="/site-assets/pnw/backpack-body.webp" alt="" width="560" height="612" decoding="async" />
     </div>
   </div>
 
-  <section id="about" class="pnw-welcome-wrap" aria-labelledby="welcome-title">
-    <div class="pnw-welcome__no"><span class="pnw-head__no">Nº 01 · Welcome</span></div>
-    <div class="pnw-obj pnw-welcome" style="--r:-1.2deg">
-      <div class="pnw-paper pnw-welcome__card" data-g="card" data-ink="var(--t-ultra)">
-        <div class="pnw-welcome__top">
-          <p class="pnw-lbl">Post card · PDX</p>
-          <div class="pnw-welcome__postage" aria-hidden="true">
-            <svg class="pnw-welcome__postmark pnw-inked" viewBox="0 0 230 120">
-              <defs><path id="pnw-pm" d="M62,60 m-44,0 a44,44 0 1,1 88,0 a44,44 0 1,1 -88,0" /></defs>
-              <circle cx="62" cy="60" r="54" fill="none" stroke="currentColor" stroke-width="2.5" />
-              <circle cx="62" cy="60" r="33" fill="none" stroke="currentColor" stroke-width="1.2" />
-              <text font-family="Cinzel" font-weight="700" font-size="10.5" letter-spacing="2" fill="currentColor"><textPath href="#pnw-pm">PORTLAND · OREGON · PORTLAND · OREGON ·</textPath></text>
-              <text x="62" y="57" text-anchor="middle" font-family="Cinzel" font-weight="900" font-size="15" fill="currentColor">PDX</text>
-              <text x="62" y="72" text-anchor="middle" font-family="Cinzel" font-weight="700" font-size="8" letter-spacing="1.5" fill="currentColor">SINCE 2007</text>
-              <path d="M120 40 q6 -6 12 0 t12 0 t12 0 t12 0 t12 0 t12 0 t12 0 t12 0 M120 60 q6 -6 12 0 t12 0 t12 0 t12 0 t12 0 t12 0 t12 0 t12 0 M120 80 q6 -6 12 0 t12 0 t12 0 t12 0 t12 0 t12 0 t12 0 t12 0" fill="none" stroke="currentColor" stroke-width="2.5" />
-            </svg>
-            <div class="pnw-welcome__stamp">
-              <div class="pnw-welcome__stamp-in">
-                <img src="/parallax/mountain.webp" alt="" width="2048" height="1152" loading="lazy" decoding="async" />
-                <span>Mt Hood</span>
+  <section id="about" class="pnw-section pnw-welcome-section" aria-labelledby="welcome-title">
+    <div class="pnw-wrap">
+      <header class="pnw-head">
+        <div class="pnw-head__meta">
+          <span class="pnw-head__no">Nº 01 · Welcome</span>
+          <span class="pnw-head__rule" aria-hidden="true"></span>
+        </div>
+        <h2 id="welcome-title">Welcome</h2>
+        <p class="pnw-head__lead">Lead software engineer in Portland, building with Ruby, TypeScript, and AI since 2007.</p>
+      </header>
+
+      <div class="pnw-obj pnw-welcome">
+        <div class="pnw-paper pnw-welcome__card" data-g="card" data-ink="var(--t-ultra)">
+          <div class="pnw-welcome__top">
+            <p class="pnw-lbl">Post card · Portland, OR</p>
+            <div class="pnw-welcome__postage" aria-hidden="true">
+              <svg class="pnw-welcome__postmark pnw-inked" viewBox="0 0 230 120">
+                <defs><path id="pnw-pm" d="M62,60 m-44,0 a44,44 0 1,1 88,0 a44,44 0 1,1 -88,0" /></defs>
+                <circle cx="62" cy="60" r="54" fill="none" stroke="currentColor" stroke-width="2.5" />
+                <circle cx="62" cy="60" r="33" fill="none" stroke="currentColor" stroke-width="1.2" />
+                <text font-family="Cinzel" font-weight="700" font-size="10.5" letter-spacing="2" fill="currentColor"><textPath href="#pnw-pm">PORTLAND · OREGON · PORTLAND · OREGON ·</textPath></text>
+                <text x="62" y="57" text-anchor="middle" font-family="Cinzel" font-weight="900" font-size="15" fill="currentColor">PDX</text>
+                <text x="62" y="72" text-anchor="middle" font-family="Cinzel" font-weight="700" font-size="8" letter-spacing="1.5" fill="currentColor">SINCE 2007</text>
+                <path d="M120 40 q6 -6 12 0 t12 0 t12 0 t12 0 t12 0 t12 0 t12 0 t12 0 M120 60 q6 -6 12 0 t12 0 t12 0 t12 0 t12 0 t12 0 t12 0 t12 0 M120 80 q6 -6 12 0 t12 0 t12 0 t12 0 t12 0 t12 0 t12 0 t12 0" fill="none" stroke="currentColor" stroke-width="2.5" />
+              </svg>
+              <div class="pnw-welcome__stamp">
+                <div class="pnw-welcome__stamp-in">
+                  <img src="/parallax/mountain.webp" alt="" width="2048" height="1152" loading="lazy" decoding="async" />
+                  <span>Mt Hood</span>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-        <h2 id="welcome-title" class="pnw-welcome__hi">Welcome!</h2>
-        <div class="pnw-welcome__body">
-          {paragraphs.slice(0, 1).map((paragraph) => <p>{paragraph}</p>)}
-          {paragraphs.length > 1 && (
-            <details class="pnw-welcome__ps">
-              <summary>P.S. What I'm doing today</summary>
-              {paragraphs.slice(1).map((paragraph) => <p>{paragraph}</p>)}
-            </details>
-          )}
-        </div>
-        <p class="pnw-welcome__sig" aria-hidden="true">Philip</p>
-        <div class="pnw-uvl" aria-hidden="true">
-          <svg viewBox="-50 -50 100 100" style="left:-12%;bottom:-10%;width:45%"><path data-rose="32,8,18,12" /></svg>
-          <span class="t" style="right:8%;bottom:1.2rem;font-size:.6rem">GENUINE · PORTLAND · OREGON</span>
+
+          <div class="pnw-welcome__layout">
+            <div class="pnw-welcome__main">
+              <p class="pnw-welcome__hi" aria-hidden="true">Hi, I'm Philip.</p>
+              <div class="pnw-welcome__body">
+                {paragraphs.slice(0, 1).map((paragraph) => <p>{paragraph}</p>)}
+                {paragraphs.length > 1 && (
+                  <details class="pnw-welcome__ps">
+                    <summary>P.S. What I'm doing today</summary>
+                    <div class="pnw-welcome__ps-body">
+                      {paragraphs.slice(1).map((paragraph) => <p>{paragraph}</p>)}
+                    </div>
+                  </details>
+                )}
+              </div>
+              <p class="pnw-welcome__sig" aria-hidden="true">Philip</p>
+            </div>
+
+            <aside class="pnw-welcome__aside" aria-label="At a glance">
+              <p class="pnw-lbl pnw-welcome__aside-title">Dispatched from</p>
+              <dl class="pnw-welcome__facts">
+                <div><dt>Location</dt><dd>Portland, Oregon</dd></div>
+                <div><dt>In software</dt><dd>Since 2007 (18+ years)</dd></div>
+                <div><dt>Leadership</dt><dd>8 years manager &amp; lead</dd></div>
+                <div><dt>Current role</dt><dd>Lead Engineer, Olio Apps</dd></div>
+              </dl>
+            </aside>
+          </div>
+
+          <div class="pnw-uvl" aria-hidden="true">
+            <svg viewBox="-50 -50 100 100" style="left:-10%;bottom:-10%;width:38%"><path data-rose="32,8,18,12" /></svg>
+            <span class="t" style="right:1rem;bottom:.4rem;font-size:.58rem">GENUINE · PORTLAND · OREGON</span>
+          </div>
         </div>
       </div>
     </div>
   </section>
-  <slot />
 </div>
+<slot />
 
 <style>
   .pnw-reveal {
     position: relative;
     isolation: isolate;
-    padding-block-start: 3rem;
   }
   .pnw-reveal__track {
     position: relative;
@@ -86,10 +113,6 @@ const { paragraphs } = Astro.props;
     border-radius: .16rem;
     transform: translateY(var(--insert-rise, 0px));
   }
-  .pnw-reveal__insert[data-passport] {
-    border: .3rem solid var(--color-tender-post);
-    border-radius: .35rem;
-  }
   .pnw-reveal__pack img {
     grid-area: 1 / 1;
     width: 100%;
@@ -107,41 +130,47 @@ const { paragraphs } = Astro.props;
     z-index: 2;
   }
   .pnw-reveal[data-pack-missing] .pnw-reveal__track { display: none; }
-  .pnw-reveal[data-pack-missing] { padding-block-start: 4rem; }
-  .pnw-welcome-wrap {
+
+  .pnw-welcome-section {
     position: relative;
-    padding: 0 clamp(1.4rem, 4vw, 3.5rem) clamp(3rem, 7vw, 5rem);
+    z-index: 4;
+    padding-block-start: clamp(1.75rem, 4.5vw, 3.25rem);
   }
-  .pnw-welcome { max-inline-size: 48rem; margin-inline: auto; }
-  .pnw-welcome__no { position: relative; z-index: 4; max-inline-size: 48rem; margin: 0 auto 1.4rem; display: grid; }
+  .pnw-welcome { max-inline-size: 72rem; margin-inline: auto; }
   .pnw-welcome__card {
-    padding: clamp(1.5rem, 5vw, 3.2rem) clamp(1.5rem, 6vw, 3.4rem) clamp(1.4rem, 4vw, 2.6rem);
+    padding: clamp(1.3rem, 4.5vw, 2.8rem) clamp(1.2rem, 5vw, 3rem) clamp(1.4rem, 4vw, 2.5rem);
     border-radius: 4px;
   }
   .pnw-welcome__top {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
-    align-items: flex-start;
-    gap: 1rem;
+    align-items: center;
+    gap: .5rem .75rem;
     color: var(--t-ultra);
+    margin-bottom: .75rem;
   }
-  .pnw-welcome__top .pnw-lbl { margin: .4rem 0 0; }
-  .pnw-welcome__postage { position: relative; flex: none; display: flex; align-items: center; }
+  .pnw-welcome__top .pnw-lbl { margin: 0; }
+  .pnw-welcome__postage {
+    position: relative;
+    flex: none;
+    margin-left: auto;
+    display: inline-flex;
+    align-items: center;
+  }
   .pnw-welcome__postmark {
-    position: absolute;
-    right: 2.6rem;
-    top: .6rem;
-    width: 9.5rem;
-    color: color-mix(in srgb, var(--t-ink) 75%, transparent);
-    transform: rotate(-8deg);
+    position: relative;
+    width: 5.8rem;
+    margin-right: -.85rem;
+    color: color-mix(in srgb, var(--t-ink) 72%, transparent);
     z-index: 2;
+    pointer-events: none;
   }
   .pnw-welcome__stamp {
-    width: 4.6rem;
-    padding: 5px;
+    width: 3.7rem;
+    padding: 4px;
     background: radial-gradient(circle at 5px 5px, transparent 3.4px, var(--t-paper3) 3.9px) -5px -5px / 10px 10px;
     filter: drop-shadow(0 1px 1px rgb(0 0 0 / .25));
-    transform: rotate(3deg);
   }
   .pnw-welcome__stamp-in {
     position: relative;
@@ -163,55 +192,117 @@ const { paragraphs } = Astro.props;
     position: absolute;
     inset: auto 0 5px;
     text-align: center;
-    font: 900 .5rem/1 var(--f-display);
-    letter-spacing: .14em;
+    font: 900 .48rem/1 var(--f-display);
+    letter-spacing: .12em;
     color: var(--t-paper3);
     text-transform: uppercase;
     text-shadow: 0 1px 2px rgb(0 0 0 / .6);
   }
+  .pnw-welcome__layout {
+    display: grid;
+    gap: 1.5rem 2.5rem;
+    align-items: start;
+  }
   .pnw-welcome__hi {
-    margin: .6rem 0 .8rem;
-    font: 600 clamp(3.2rem, 13vw, 5rem)/.9 var(--f-hand);
+    margin: .2rem 0 .8rem;
+    font: 600 clamp(2.4rem, 10vw, 3.8rem)/.95 var(--f-hand);
     color: var(--t-ultra);
-    transform: rotate(-2deg);
-    transform-origin: left;
   }
   .pnw-welcome__body {
     --line: 1.75rem;
-    font-size: 1.04rem;
+    font-size: 1.03rem;
     line-height: var(--line);
     color: var(--t-ink);
     background-image: repeating-linear-gradient(transparent 0 calc(var(--line) - 1px), color-mix(in srgb, var(--t-ultra) 14%, transparent) calc(var(--line) - 1px) var(--line));
   }
   .pnw-welcome__body p { margin: 0 0 var(--line); line-height: var(--line); max-inline-size: 62ch; }
   .pnw-welcome__body p + p { margin-top: 0; }
+  .pnw-welcome__ps { margin-top: .25rem; }
   .pnw-welcome__ps summary {
     cursor: pointer;
     list-style: none;
-    font: 600 1.5rem/var(--line) var(--f-hand);
+    display: inline-flex;
+    align-items: center;
+    gap: .45rem;
+    min-block-size: 2.75rem;
+    padding: .35rem .9rem;
+    border: 1px solid color-mix(in srgb, var(--t-ultra) 40%, transparent);
+    border-radius: 4px;
+    background: color-mix(in srgb, var(--t-ultra) 7%, transparent);
+    font: 600 .95rem/1.3 var(--f-text);
     color: var(--t-ultra);
+    transition: background .2s, border-color .2s;
+  }
+  .pnw-welcome__ps summary:hover {
+    background: color-mix(in srgb, var(--t-ultra) 13%, transparent);
+    border-color: var(--t-ultra);
   }
   .pnw-welcome__ps summary::-webkit-details-marker { display: none; }
-  .pnw-welcome__ps summary::after { content: ' ↓'; }
-  .pnw-welcome__ps[open] summary::after { content: ' ↑'; }
+  .pnw-welcome__ps summary::after { content: '↓'; font-family: var(--f-mono); font-size: .85em; }
+  .pnw-welcome__ps[open] summary::after { content: '↑'; }
+  .pnw-welcome__ps-body { padding-top: .75rem; }
   .pnw-welcome__ps p { margin: 0; }
   .pnw-welcome__body p:last-child { margin-bottom: 0; }
   .pnw-welcome__sig {
-    margin: .8rem 0 0;
+    margin: .9rem 0 0;
     text-align: right;
-    font: 600 2.4rem/1 var(--f-hand);
+    font: 600 2.2rem/1 var(--f-hand);
     color: var(--t-ultra);
-    transform: rotate(-4deg);
   }
+  .pnw-welcome__aside {
+    border-top: 1px solid color-mix(in srgb, var(--t-ultra) 24%, transparent);
+    padding-top: 1.1rem;
+  }
+  .pnw-welcome__aside-title {
+    margin: 0 0 .75rem;
+    color: var(--t-ultra);
+  }
+  .pnw-welcome__facts {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: .85rem 1rem;
+    margin: 0;
+  }
+  .pnw-welcome__facts dt {
+    font: 600 .66rem/1.2 var(--f-mono);
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--t-ink-soft);
+    margin-bottom: .15rem;
+  }
+  .pnw-welcome__facts dd {
+    margin: 0;
+    font: 500 .95rem/1.35 var(--f-text);
+    color: var(--t-ink);
+  }
+
+  @media (min-width: 30rem) {
+    .pnw-welcome__postmark { width: 7.4rem; margin-right: -1rem; }
+    .pnw-welcome__stamp { width: 4.4rem; padding: 5px; }
+  }
+  @media (min-width: 36rem) {
+    .pnw-welcome__postmark { width: 8.6rem; margin-right: -1.1rem; }
+  }
+  @media (min-width: 54rem) {
+    .pnw-welcome__layout {
+      grid-template-columns: minmax(0, 1.65fr) minmax(15rem, .85fr);
+    }
+    .pnw-welcome__aside {
+      border-top: 0;
+      border-left: 1px solid color-mix(in srgb, var(--t-ultra) 24%, transparent);
+      padding-top: 0;
+      padding-left: 2rem;
+    }
+    .pnw-welcome__facts { grid-template-columns: minmax(0, 1fr); }
+  }
+
   @media (prefers-reduced-motion: no-preference) {
-    .pnw-reveal[data-pack-animated] { padding-block-start: 1rem; }
-    .pnw-reveal[data-pack-animated] .pnw-welcome-wrap { position: relative; z-index: 4; }
-    .pnw-reveal[data-pack-animated] .pnw-reveal__track {
+    .pnw-reveal__track {
       position: absolute;
       inset: 0;
-      z-index: 3;
+      z-index: 2;
     }
-    .pnw-reveal[data-pack-animated] .pnw-reveal__pack {
+    .pnw-reveal__pack {
       position: sticky;
       top: calc(100svh - var(--pnw-pack-height, 12rem) * .70);
       opacity: var(--pack-opacity, 0);
@@ -220,6 +311,6 @@ const { paragraphs } = Astro.props;
     .pnw-reveal[data-pack-animated] .pnw-reveal__insert { display: block; }
   }
   @media (prefers-reduced-motion: reduce) {
-    .pnw-reveal__pack img.pnw-reveal__flap { transform: translateY(-1rem) scaleY(.52); }
+    .pnw-reveal__track { display: none; }
   }
 </style>

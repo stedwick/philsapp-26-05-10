@@ -12,7 +12,6 @@ interface Props {
 const { resume, resumeHref } = Astro.props;
 const inks = ['var(--t-verm)', 'var(--t-ultra)', 'var(--t-green)', 'var(--t-brown)'];
 const ticketInks = ['var(--t-verm)', 'var(--t-ultra)', 'var(--t-green)', 'var(--t-brown)', 'var(--t-teal)'];
-const ticketTilts = ['-2deg', '1.6deg', '-1deg', '2.2deg', '-1.6deg'];
 const interests = [
   ...resume.interests,
   {
@@ -43,17 +42,22 @@ const receiptRows = [
   { k: 'LinkedIn', v: linkedInItem && { ...linkedInItem, label: 'philipbrocoum' } },
   { k: 'Résumé', v: resumeItem && { ...resumeItem, label: 'Download PDF' } },
 ].filter((row) => row.v);
+const githubLink = resume.socialLinks.find((link) => link.label === 'GitHub');
 const year = new Date().getFullYear();
 ---
 
-<section class="pnw-section" id="projects" data-surface="post" aria-labelledby="projects-heading">
+<section class="pnw-section" id="projects" aria-labelledby="projects-heading">
   <div class="pnw-wrap">
-    <div class="pnw-head">
-      <span class="pnw-head__no">Nº 05 · Apps</span>
+    <header class="pnw-head">
+      <div class="pnw-head__meta">
+        <span class="pnw-head__no">Nº 05 · Apps</span>
+        <span class="pnw-head__rule" aria-hidden="true"></span>
+      </div>
       <h2 id="projects-heading">{resume.sections.projects.title}</h2>
-      {resume.sections.projects.body.slice(0, 1).map((paragraph: string) => <p>{paragraph}</p>)}
-    </div>
-    <div class="pnw-obj pnw-sheet-of-stamps" style="--r:-1deg">
+      {resume.sections.projects.body.slice(0, 1).map((paragraph: string) => <p class="pnw-head__lead">{paragraph}</p>)}
+    </header>
+
+    <div class="pnw-obj pnw-sheet-of-stamps">
       <div class="pnw-paper pnw-stampsheet" data-g="sheet" data-ink="var(--t-verm)">
         <div class="pnw-stampsheet__selvage">
           <span>Phil's App Store · Plate Nº {resume.projects.length}</span>
@@ -80,7 +84,9 @@ const year = new Date().getFullYear();
                   <div class="pnw-stamp__txt">
                     <h3><a href={project.href}>{project.title}</a></h3>
                     <p class="pnw-stamp__desc">{project.body}</p>
-                    {project.actions.filter((action) => !action.label.startsWith('$')).slice(0, 2).map((action) => <a class="pnw-cta" href={action.href}>{action.label}&nbsp;↗</a>)}
+                    <div class="pnw-stamp__ctas">
+                      {project.actions.filter((action) => !action.label.startsWith('$')).slice(0, 2).map((action) => <a class="pnw-cta" href={action.href}>{action.label}&nbsp;↗</a>)}
+                    </div>
                   </div>
                 </div>
               </li>
@@ -93,7 +99,10 @@ const year = new Date().getFullYear();
                 <div class="pnw-stamp__vig" aria-hidden="true"><span class="pnw-stamp__plus">+</span></div>
                 <div class="pnw-stamp__txt">
                   <h3><a href="https://github.com/stedwick">More on GitHub</a></h3>
-                  <a class="pnw-cta" href="https://github.com/stedwick">Browse&nbsp;↗</a>
+                  <p class="pnw-stamp__desc">Explore open-source tools, scripts, and experiments on GitHub.</p>
+                  <div class="pnw-stamp__ctas">
+                    <a class="pnw-cta" href="https://github.com/stedwick">Browse GitHub&nbsp;↗</a>
+                  </div>
                 </div>
               </div>
             </li>
@@ -104,16 +113,20 @@ const year = new Date().getFullYear();
   </div>
 </section>
 
-<section class="pnw-section" id="interests" data-surface="curtain" aria-labelledby="interests-heading">
+<section class="pnw-section" id="interests" aria-labelledby="interests-heading">
   <div class="pnw-wrap">
-    <div class="pnw-head">
-      <span class="pnw-head__no">Nº 06 · Hobbies</span>
+    <header class="pnw-head">
+      <div class="pnw-head__meta">
+        <span class="pnw-head__no">Nº 06 · Hobbies</span>
+        <span class="pnw-head__rule" aria-hidden="true"></span>
+      </div>
       <h2 id="interests-heading">{resume.sections.personalLife.title}</h2>
-      {resume.sections.personalLife.body.slice(0, 1).map((paragraph: string) => <p>{paragraph}</p>)}
-    </div>
+      {resume.sections.personalLife.body.slice(0, 1).map((paragraph: string) => <p class="pnw-head__lead">{paragraph}</p>)}
+    </header>
+
     <ul class="pnw-tickets">
       {interests.map((interest, index) => (
-        <li class="pnw-obj pnw-ticket-obj" style={`--r:${ticketTilts[index % ticketTilts.length]};color:${ticketInks[index % ticketInks.length]}`}>
+        <li class="pnw-obj pnw-ticket-obj" style={`color:${ticketInks[index % ticketInks.length]}`}>
           <div class="pnw-paper pnw-ticket" data-g="ticket" data-ink={ticketInks[index % ticketInks.length]}>
             <div class="pnw-ticket__main">
               <span class="pnw-lbl pnw-ticket__admit">Admit one</span>
@@ -121,14 +134,14 @@ const year = new Date().getFullYear();
               <p>{interest.body.includes('onkjf') ? <>Such a good dog, but he sometimes sits on my keyboard: <code>onkjf ssadkl</code></> : interest.body}</p>
             </div>
             <div class="pnw-uvl" aria-hidden="true">
-              <span class="t" style="left:.45rem;top:.8rem;writing-mode:vertical-rl;font-size:.55rem">ADMIT · ONE · PB · PDX · {String(index + 1).padStart(4, '0')}</span>
+              <span class="t" style="left:1.3rem;bottom:.5rem;font-size:.5rem;letter-spacing:.14em">ADMIT · ONE · PDX · {String(index + 1).padStart(4, '0')}</span>
             </div>
             <div class="pnw-ticket__stub" aria-hidden="true">
               <span class="pnw-ticket__no">Nº {String(index + 1).padStart(2, '0')}</span>
               {interest.image ? (
                 <img src={interest.image.src} srcset={interest.image.srcSet} width="44" height="44" alt="" loading="lazy" decoding="async" />
-              ) : <PawPrint size={36} />}
-              <span class="pnw-ticket__vert">Admit one</span>
+              ) : <PawPrint size={32} />}
+              <span class="pnw-ticket__vert">PDX · PASS</span>
             </div>
           </div>
         </li>
@@ -137,32 +150,61 @@ const year = new Date().getFullYear();
   </div>
 </section>
 
-<section class="pnw-section" id="hire-me" data-surface="counter" aria-labelledby="receipt-section-heading">
-  <div class="pnw-wrap pnw-contact">
-    <div class="pnw-head pnw-contact__copy">
-      <span class="pnw-head__no">Nº 07 · Contact</span>
+<section class="pnw-section" id="hire-me" aria-labelledby="receipt-section-heading">
+  <div class="pnw-wrap">
+    <header class="pnw-head">
+      <div class="pnw-head__meta">
+        <span class="pnw-head__no">Nº 07 · Contact</span>
+        <span class="pnw-head__rule" aria-hidden="true"></span>
+      </div>
       <h2 id="receipt-section-heading">{resume.sections.contact.title}</h2>
-      {resume.contactIntro.slice(-1).map((paragraph: string) => <p>{paragraph.replace(' 📧', '')}</p>)}
-    </div>
-    <div class="pnw-obj pnw-receipt-obj" style="--r:1.5deg">
-      <div class="pnw-receipt__slot" aria-hidden="true"></div>
-      <div class="pnw-receipt">
-        <p class="pnw-receipt__c">Thank you for visiting</p>
-        <p class="pnw-receipt__shop" aria-hidden="true">PHIL'S</p>
-        <p class="pnw-receipt__c">Portland, OR · since 2007</p>
-        <hr />
-        <dl class="pnw-receipt__rows">
-          {receiptRows.map(({ k, v }) => (
-            <div><dt>{k}</dt><dd>{v.href ? <a href={v.href}>{v.label}</a> : v.label}</dd></div>
-          ))}
-        </dl>
-        <hr />
-        <h3 id="contact-form-heading">Send Phil a message</h3>
-        <ContactForm action={resume.formAction} />
-        <hr />
-        <div class="pnw-receipt__row-tot"><span>Total due</span><span>$0.00</span></div>
-        <div class="pnw-receipt__barcode" aria-hidden="true"></div>
-        <p class="pnw-receipt__c">* Thank you *</p>
+      {resume.contactIntro.slice(-1).map((paragraph: string) => <p class="pnw-head__lead">{paragraph.replace(' 📧', '')}</p>)}
+    </header>
+
+    <div class="pnw-contact__grid">
+      <aside class="pnw-contact__aside" aria-label="Direct contact channels">
+        <div class="pnw-contact__card">
+          <p class="pnw-contact__kicker">Direct Channels</p>
+          <p class="pnw-contact__note">
+            Based in Portland, Oregon. Happy to chat about engineering leadership, full-stack web and mobile products, or AI-assisted workflows.
+          </p>
+          <div class="pnw-contact__btns">
+            {email && <a class="pnw-btn" href={email.href}>Email Phil →</a>}
+            <a class="pnw-btn pnw-btn--gold" href={resumeHref}>Résumé PDF ↗</a>
+          </div>
+          <ul class="pnw-contact__list">
+            {phoneItem?.href && <li><span>Phone</span><a href={phoneItem.href}>{phoneItem.label}</a></li>}
+            {emailItem?.href && <li><span>Email</span><a href={emailItem.href}>{emailItem.label}</a></li>}
+            {linkedInItem?.href && <li><span>LinkedIn</span><a href={linkedInItem.href}>in/philipbrocoum ↗</a></li>}
+            {githubLink?.href && <li><span>GitHub</span><a href={githubLink.href}>github.com/stedwick ↗</a></li>}
+          </ul>
+        </div>
+      </aside>
+
+      <div class="pnw-obj pnw-receipt-obj">
+        <div class="pnw-receipt__slot" aria-hidden="true"></div>
+        <div class="pnw-receipt">
+          <p class="pnw-receipt__c">Thank you for visiting</p>
+          <p class="pnw-receipt__shop" aria-hidden="true">PHIL'S</p>
+          <p class="pnw-receipt__c">Portland, OR · since 2007</p>
+          <hr />
+          <dl class="pnw-receipt__rows">
+            {receiptRows.map(({ k, v }) => (
+              <div><dt>{k}</dt><dd>{v.href ? <a href={v.href}>{v.label}</a> : v.label}</dd></div>
+            ))}
+          </dl>
+          <hr />
+          <h3 id="contact-form-heading">Send Phil a message</h3>
+          <ContactForm action={resume.formAction} />
+          <hr />
+          <div class="pnw-receipt__row-tot"><span>Total due</span><span>$0.00</span></div>
+          <div class="pnw-receipt__barcode" aria-hidden="true"></div>
+          <p class="pnw-receipt__c">* Thank you *</p>
+          <div class="pnw-uvl" aria-hidden="true">
+            <svg viewBox="-50 -50 100 100" style="right:-10%;top:10%;width:44%"><path data-rose="30,6,16,12" /></svg>
+            <span class="t" style="left:1rem;bottom:1rem;font-size:.52rem;letter-spacing:.14em">PAID IN FULL · PDX · SINCE 2007</span>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -176,7 +218,10 @@ const year = new Date().getFullYear();
     <img class="pnw-night__lights" src="/site-assets/pnw/city-lights.webp" width="2410" height="1356" alt="" loading="lazy" decoding="async" />
   </div>
   <div class="pnw-night__inner">
-    <p class="pnw-night__stamp">11:00 PM · Lights on in Portland</p>
+    <div class="pnw-head__meta pnw-night__meta">
+      <span class="pnw-head__no">Nº 08 · 11:00 PM · Portland, Oregon</span>
+      <span class="pnw-head__rule" aria-hidden="true"></span>
+    </div>
     <h2 id="goodnight-heading">Goodnight, <em>Portland.</em></h2>
     <div class="pnw-night__links">
       <div class="pnw-night__sig">
@@ -206,41 +251,50 @@ const year = new Date().getFullYear();
 
 <style>
   /* ---- sheet of stamps ---- */
-  .pnw-sheet-of-stamps { max-inline-size: 66rem; margin-inline: auto; }
-  .pnw-stampsheet { padding: 1.1rem .45rem .8rem; border-radius: 2px; }
+  .pnw-sheet-of-stamps { max-inline-size: 72rem; margin-inline: auto; }
+  .pnw-stampsheet { padding: 1.1rem .6rem .9rem; border-radius: 3px; }
   .pnw-stampsheet__selvage {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     gap: 1rem;
     flex-wrap: wrap;
-    margin: 0 .5rem .9rem;
+    margin: 0 .45rem .9rem;
     font: 700 .66rem/1.2 var(--f-display);
-    letter-spacing: .22em;
+    letter-spacing: .2em;
     text-transform: uppercase;
     color: var(--t-verm);
   }
-  .pnw-stampsheet__selvage a { text-decoration: none; border-bottom: 1.5px solid currentColor; }
+  .pnw-stampsheet__selvage a {
+    display: inline-flex;
+    align-items: center;
+    min-block-size: 2.5rem;
+    text-decoration: none;
+    border-bottom: 1.5px solid currentColor;
+  }
   .pnw-stamps {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: minmax(0, 1fr);
+    gap: .4rem;
     padding: 0;
     margin: 0;
     list-style: none;
   }
   .pnw-stamp {
     position: relative;
-    padding: 9px;
+    padding: 8px;
     background: radial-gradient(circle at 6px 6px, transparent 4.2px, var(--t-paper3) 4.7px) -6px -6px / 12px 12px;
-    transition: transform .6s var(--spring);
+    transition: transform .4s var(--spring);
   }
-  .pnw-stamp:hover { transform: translateY(-4px) rotate(-1deg); z-index: 3; }
+  .pnw-stamp:hover { transform: translateY(-3px); z-index: 3; }
   .pnw-stamp__in {
     position: relative;
-    display: flex;
-    flex-direction: column;
-    gap: .5rem;
+    display: grid;
+    grid-template-columns: 4.5rem minmax(0, 1fr);
+    align-items: start;
+    gap: .75rem;
     block-size: 100%;
-    padding: .6rem;
+    padding: .75rem;
     background: var(--t-paper3);
     overflow: hidden;
   }
@@ -251,89 +305,160 @@ const year = new Date().getFullYear();
     flex: none;
     display: grid;
     place-items: center;
-    inline-size: auto;
-    min-block-size: 4.6rem;
+    inline-size: 100%;
+    min-block-size: 4.5rem;
     border-radius: 2px;
     background:
       repeating-linear-gradient(135deg, color-mix(in srgb, currentColor 9%, transparent) 0 2px, transparent 2px 5px),
       color-mix(in srgb, currentColor 7%, transparent);
   }
-  .pnw-stamp__vig :is(img, svg) { inline-size: 2.6rem; block-size: 2.6rem; object-fit: contain; }
+  .pnw-stamp__vig :is(img, svg) { inline-size: 2.35rem; block-size: 2.35rem; object-fit: contain; }
   .pnw-stamp__den {
     position: absolute;
-    left: .35rem;
-    top: .25rem;
-    font: 900 1.3rem/1 var(--f-display);
+    left: .3rem;
+    top: .2rem;
+    font: 900 1.05rem/1 var(--f-display);
     text-shadow: 0 0 3px var(--t-paper3), 0 0 6px var(--t-paper3);
   }
-  .pnw-stamp__txt { display: flex; flex-direction: column; align-items: flex-start; gap: .3rem; min-inline-size: 0; padding: .1rem .2rem .2rem 0; }
-  .pnw-stamp h3 { margin: 0; font: 900 clamp(.92rem, 3.6vw, 1.12rem)/1.05 var(--f-display); overflow-wrap: anywhere; }
+  .pnw-stamp__txt {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: .3rem;
+    min-inline-size: 0;
+    padding: .1rem .25rem .15rem 0;
+  }
+  .pnw-stamp h3 { margin: 0; font: 900 clamp(.98rem, 3.4vw, 1.12rem)/1.12 var(--f-display); overflow-wrap: break-word; }
   .pnw-stamp h3 a { color: inherit; text-decoration: none; }
   .pnw-stamp h3 a:hover { text-decoration: underline; }
-  .pnw-stamp p { margin: 0; font-size: .82rem; line-height: 1.35; color: var(--t-ink-soft); flex: 1; }
-  .pnw-stamp .pnw-cta { font: 600 .82rem/1.3 var(--f-text); text-transform: none; letter-spacing: 0; color: color-mix(in srgb, currentColor 70%, var(--t-ink)); padding-block: .3rem; }
-  .pnw-stamp__desc { display: none; }
-  .pnw-stamp__plus { font: 900 2.4rem/1 var(--f-display); }
-  .pnw-stamp--more .pnw-stamp__in { background: color-mix(in srgb, var(--t-paper3) 90%, var(--t-ink)); }
-  .pnw-stamp__txt { flex: 1; }
-  .pnw-stamp__txt h3 { margin-bottom: auto; padding-bottom: .4rem; }
-  .pnw-stamp .pnw-cta { margin-top: .2rem; display: inline-block; line-height: 1.5; }
+  .pnw-stamp__desc {
+    display: block;
+    margin: 0;
+    font-size: .84rem;
+    line-height: 1.4;
+    color: var(--t-ink-soft);
+  }
+  .pnw-stamp__ctas { display: flex; flex-wrap: wrap; gap: .35rem .85rem; margin-top: auto; padding-top: .25rem; }
+  .pnw-stamp .pnw-cta {
+    display: inline-flex;
+    align-items: center;
+    min-block-size: 2.5rem;
+    font: 600 .8rem/1.3 var(--f-text);
+    text-transform: none;
+    letter-spacing: 0;
+    color: color-mix(in srgb, currentColor 75%, var(--t-ink));
+    padding-block: .15rem;
+  }
+  .pnw-stamp__plus { font: 900 2.2rem/1 var(--f-display); }
+  .pnw-stamp--more .pnw-stamp__in { background: color-mix(in srgb, var(--t-paper3) 92%, var(--t-ink)); }
 
   /* ---- admission tickets ---- */
   .pnw-tickets {
     display: grid;
-    gap: 1.6rem;
-    max-inline-size: 60rem;
+    gap: 1.4rem;
+    max-inline-size: 72rem;
     margin: 0 auto;
     padding: 0;
     list-style: none;
   }
+  .pnw-ticket-obj { display: flex; }
   .pnw-ticket {
+    flex: 1;
     display: grid;
-    grid-template-columns: minmax(0, 1fr) 5.4rem;
-    min-block-size: 9rem;
+    grid-template-columns: minmax(0, 1fr) 4.4rem;
+    min-block-size: 8.5rem;
     border-radius: 6px;
-    -webkit-mask: radial-gradient(circle at calc(100% - 5.4rem) 0, transparent 11px, black 11.5px) top / 100% 51% no-repeat, radial-gradient(circle at calc(100% - 5.4rem) 100%, transparent 11px, black 11.5px) bottom / 100% 51% no-repeat;
-    mask: radial-gradient(circle at calc(100% - 5.4rem) 0, transparent 11px, black 11.5px) top / 100% 51% no-repeat, radial-gradient(circle at calc(100% - 5.4rem) 100%, transparent 11px, black 11.5px) bottom / 100% 51% no-repeat;
+    -webkit-mask: radial-gradient(circle at calc(100% - 4.4rem) 0, transparent 10px, black 10.5px) top / 100% 51% no-repeat, radial-gradient(circle at calc(100% - 4.4rem) 100%, transparent 10px, black 10.5px) bottom / 100% 51% no-repeat;
+    mask: radial-gradient(circle at calc(100% - 4.4rem) 0, transparent 10px, black 10.5px) top / 100% 51% no-repeat, radial-gradient(circle at calc(100% - 4.4rem) 100%, transparent 10px, black 10.5px) bottom / 100% 51% no-repeat;
   }
   .pnw-ticket__main {
     display: flex;
     flex-direction: column;
     gap: .25rem;
-    padding: 1.2rem 1rem 1.2rem 1.4rem;
+    padding: 1.1rem .9rem 1.25rem 1.2rem;
     border-right: 2px dotted color-mix(in srgb, var(--t-ink) 35%, transparent);
   }
-  .pnw-ticket__admit { letter-spacing: .4em; color: currentColor; }
-  .pnw-ticket h3 { margin: 0; font: 900 clamp(1.4rem, 5.4vw, 2.1rem)/1 var(--f-display); }
+  .pnw-ticket__admit { letter-spacing: .3em; color: currentColor; }
+  .pnw-ticket h3 { margin: 0; font: 900 clamp(1.3rem, 5vw, 1.95rem)/1.05 var(--f-display); }
   .pnw-ticket h3 a { color: currentColor; text-decoration: none; }
   .pnw-ticket h3 a:hover { text-decoration: underline; }
   .pnw-ticket code { font: 600 .82em/1 var(--f-mono); background: color-mix(in srgb, currentColor 12%, transparent); padding: 0 .25em; font-style: normal; white-space: nowrap; }
-  .pnw-ticket p { margin: .2rem 0 0; font: italic 400 1.08rem/1.3 var(--f-fell); color: var(--t-ink); }
+  .pnw-ticket p { margin: .25rem 0 0; font: italic 400 1.05rem/1.35 var(--f-fell); color: var(--t-ink); }
   .pnw-ticket__stub {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
-    gap: .4rem;
-    padding: 1rem .4rem;
+    gap: .35rem;
+    padding: .85rem .35rem;
     text-align: center;
   }
-  .pnw-ticket__stub img { inline-size: 2.4rem; block-size: 2.4rem; object-fit: cover; border-radius: 50%; filter: grayscale(1) contrast(1.25) brightness(1.05); mix-blend-mode: multiply; box-shadow: 0 0 0 2px currentColor; }
-  .pnw-ticket__no { font: 900 1rem/1 var(--f-display); }
+  .pnw-ticket__stub img { inline-size: 2.2rem; block-size: 2.2rem; object-fit: cover; border-radius: 50%; filter: grayscale(1) contrast(1.25) brightness(1.05); mix-blend-mode: multiply; box-shadow: 0 0 0 2px currentColor; }
+  .pnw-ticket__no { font: 900 .9rem/1 var(--f-display); }
   .pnw-ticket__vert {
-    writing-mode: vertical-rl;
-    transform: rotate(180deg);
-    font: 900 .7rem/1 var(--f-display);
-    letter-spacing: .3em;
+    font: 700 .56rem/1.1 var(--f-mono);
+    letter-spacing: .12em;
     text-transform: uppercase;
   }
 
-  /* ---- receipt ---- */
-  .pnw-contact { display: grid; gap: 2.4rem; align-items: start; }
-  .pnw-contact__copy { margin-bottom: 0; }
-  .pnw-contact__btns { display: flex; flex-wrap: wrap; gap: .7rem; margin-top: 1.2rem; }
+  /* ---- contact & receipt ---- */
+  .pnw-contact__grid { display: grid; gap: 2.4rem; align-items: start; }
+  .pnw-contact__card {
+    padding: 1.5rem;
+    border: 1px solid color-mix(in srgb, var(--t-gold) 28%, transparent);
+    border-radius: 6px;
+    background: color-mix(in srgb, var(--t-table) 65%, transparent);
+    box-shadow: 0 12px 28px rgb(0 0 0 / .28);
+  }
+  .pnw-contact__kicker {
+    margin: 0 0 .6rem;
+    font: 600 .72rem/1 var(--f-mono);
+    letter-spacing: .16em;
+    text-transform: uppercase;
+    color: var(--t-gold);
+  }
+  .pnw-contact__note {
+    margin: 0 0 1.25rem;
+    color: var(--t-cream);
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+  .pnw-contact__btns { display: flex; flex-wrap: wrap; gap: .7rem; margin-bottom: 1.35rem; }
   .pnw-contact__btns .pnw-btn { text-transform: none; letter-spacing: .04em; }
+  .pnw-contact__list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    border-top: 1px solid rgb(255 255 255 / .12);
+  }
+  .pnw-contact__list li {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: .5rem 1rem;
+    min-block-size: 2.75rem;
+    padding: .45rem 0;
+    border-bottom: 1px solid rgb(255 255 255 / .1);
+  }
+  .pnw-contact__list span {
+    font: 600 .72rem/1.2 var(--f-mono);
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--t-gold);
+  }
+  .pnw-contact__list a {
+    font-size: .95rem;
+    color: var(--t-paper3);
+    text-decoration: none;
+    overflow-wrap: anywhere;
+  }
+  .pnw-contact__list a:hover { color: var(--t-gold); text-decoration: underline; }
+
   .pnw-receipt-obj { padding-top: 1.1rem; max-inline-size: 28rem; inline-size: 100%; justify-self: center; }
+  :global(.pnw[data-uv='true']) .pnw-receipt-obj {
+    filter: drop-shadow(0 2px 1px rgb(0 0 0 / .45)) drop-shadow(0 0 18px color-mix(in srgb, var(--t-uv) 28%, transparent));
+  }
   .pnw-receipt__slot {
     position: absolute;
     left: -.9rem;
@@ -356,13 +481,25 @@ const year = new Date().getFullYear();
     --color-info-hover: color-mix(in srgb, var(--t-verm) 80%, black);
     color-scheme: light;
     position: relative;
-    padding: 1.8rem 1.3rem 2.4rem;
+    padding: 1.8rem 1.3rem 2.6rem;
     color: var(--t-ink);
     font: 400 .9rem/1.55 var(--f-mono);
     background: var(--fibre), var(--t-paper3);
     -webkit-mask: conic-gradient(from -45deg at bottom, transparent, black 1deg 89deg, transparent 90deg) 50% / 14px 100%;
     mask: conic-gradient(from -45deg at bottom, transparent, black 1deg 89deg, transparent 90deg) 50% / 14px 100%;
   }
+  .pnw-receipt::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 5;
+    pointer-events: none;
+    opacity: 0;
+    mix-blend-mode: multiply;
+    transition: opacity .5s;
+  }
+  .pnw-receipt > :where(:not(.pnw-uvl)) { position: relative; z-index: 1; }
+  :global(.pnw[data-uv='true']) .pnw-receipt::after { background: rgb(60 30 140 / .28); opacity: 1; }
   .pnw-receipt p { margin: 0; }
   .pnw-receipt__c { text-align: center; font-size: .72rem; letter-spacing: .14em; text-transform: uppercase; }
   .pnw-receipt__shop { text-align: center; font: 900 2rem/1.05 var(--f-display); letter-spacing: .1em; margin: .2rem 0 !important; }
@@ -389,7 +526,18 @@ const year = new Date().getFullYear();
   }
   .pnw-receipt :global(.c-contact-form textarea) { min-height: 5.5rem; }
   .pnw-receipt :global(.c-input-control input:focus),
-  .pnw-receipt :global(.c-contact-form textarea:focus) { box-shadow: none; border-bottom-color: var(--t-verm); outline: none; }
+  .pnw-receipt :global(.c-contact-form textarea:focus) { box-shadow: none; border-bottom-color: var(--t-verm); }
+  .pnw-receipt :global(.c-input-control input:focus-visible),
+  .pnw-receipt :global(.c-contact-form textarea:focus-visible) { outline: 2px solid var(--t-verm); outline-offset: 2px; }
+  .pnw-receipt :global([data-turnstile-status]) {
+    margin: .2rem 0;
+    padding: .6rem .75rem;
+    border: 1px dashed var(--t-ink-soft);
+    border-radius: 2px;
+    background: rgb(0 0 0 / .035);
+    font: 400 .78rem/1.45 var(--f-mono);
+    color: var(--t-ink);
+  }
   .pnw-receipt :global(.c-contact-form .c-button) {
     border-radius: 3px;
     color: var(--t-paper3);
@@ -412,9 +560,8 @@ const year = new Date().getFullYear();
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
-    min-block-size: max(44rem, 100svh);
     color: var(--color-light);
-    background: linear-gradient(transparent, var(--color-night) 14rem, var(--color-night-sky) 60%, var(--color-tender-table-deep));
+    background: linear-gradient(transparent, var(--color-night) 12rem, var(--color-night-sky) 60%, var(--color-tender-table-deep));
     overflow: hidden;
   }
   .pnw-night__scene { position: absolute; inset: 0; z-index: -1; }
@@ -444,21 +591,34 @@ const year = new Date().getFullYear();
   .pnw-night__lights { filter: drop-shadow(0 0 .2rem rgb(255 204 145 / .6)); }
   .pnw-night__inner {
     position: relative;
-    inline-size: min(100% - 2rem, 70rem);
+    inline-size: min(100% - clamp(2.2rem, 8vw, 7rem), 72rem);
     margin-inline: auto;
-    padding-block: 27rem 1.6rem;
+    padding-block: clamp(12rem, 26vw, 21rem) 2rem;
   }
   .pnw-night__inner::before {
     content: '';
     position: absolute;
-    inset: 23rem -2rem 0;
+    inset: calc(clamp(12rem, 26vw, 21rem) - 4rem) -2rem 0;
     z-index: -1;
-    background: linear-gradient(transparent, color-mix(in srgb, var(--color-tender-table-deep) 80%, transparent) 4rem);
+    background: linear-gradient(transparent, color-mix(in srgb, var(--color-tender-table-deep) 85%, transparent) 4rem);
   }
-  .pnw-night__stamp { margin: 0; font: 600 .7rem/1.2 var(--f-mono); letter-spacing: .14em; text-transform: uppercase; color: var(--t-gold); }
+  .pnw-night__meta { margin-bottom: .7rem; flex-wrap: wrap; }
+  .pnw-night__meta .pnw-head__no {
+    flex: 0 1 auto;
+    max-inline-size: 100%;
+    white-space: normal;
+    text-align: left;
+    line-height: 1.35;
+  }
+  @media (max-width: 29.99rem) {
+    .pnw-night__meta .pnw-head__no {
+      font-size: .64rem;
+      letter-spacing: .1em;
+    }
+  }
   .pnw-night h2 {
-    margin: .5rem 0 1.6rem;
-    font: 900 clamp(2.4rem, 9vw, 5rem)/1 var(--f-display);
+    margin: .3rem 0 1.6rem;
+    font: 900 clamp(2.1rem, 7vw, 4.4rem)/1.02 var(--f-display);
     color: var(--t-paper3);
     text-shadow: 0 2px 20px rgb(0 0 0 / .6);
   }
@@ -474,8 +634,8 @@ const year = new Date().getFullYear();
   .pnw-night__links h3 { margin: 0 0 .6rem; font: 700 .66rem/1.2 var(--f-display); letter-spacing: .22em; text-transform: uppercase; color: var(--t-gold); }
   .pnw-night__sig h3 { font: 900 1.4rem/1.1 var(--f-display); letter-spacing: .02em; text-transform: none; color: var(--t-paper3); }
   .pnw-night__sig p { margin: 0 0 1rem; color: var(--color-night-icon); }
-  .pnw-night__links ul { display: grid; gap: .1rem; margin: 0; padding: 0; list-style: none; }
-  .pnw-night__links ul a { display: inline-flex; align-items: center; min-block-size: 2.2rem; text-decoration: none; overflow-wrap: anywhere; }
+  .pnw-night__links ul { display: grid; gap: .15rem; margin: 0; padding: 0; list-style: none; }
+  .pnw-night__links ul a { display: inline-flex; align-items: center; min-block-size: 2.75rem; text-decoration: none; overflow-wrap: anywhere; }
   .pnw-night__links ul a:hover { color: var(--t-gold); text-decoration: underline; }
   .pnw-night__credits {
     margin: 0;
@@ -485,22 +645,48 @@ const year = new Date().getFullYear();
     color: var(--color-night-icon);
   }
 
-  @media (min-width: 44rem) {
-    .pnw-stamp__desc { display: block; }
-    .pnw-stampsheet { padding: 1.8rem 1.6rem 1.4rem; }
-    .pnw-tickets { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2rem 1.6rem; }
-    .pnw-tickets > :nth-child(even) { margin-top: 2.4rem; }
+  @media (min-width: 30rem) {
+    .pnw-stamps { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0; }
+    .pnw-stamp__in {
+      display: flex;
+      flex-direction: column;
+      gap: .55rem;
+      padding: .7rem;
+    }
+    .pnw-stamp__vig { min-block-size: 5.2rem; }
+    .pnw-stamp__vig :is(img, svg) { inline-size: 2.6rem; block-size: 2.6rem; }
+    .pnw-stamp__den { left: .35rem; top: .25rem; font-size: 1.25rem; }
+    .pnw-stamp__txt { flex: 1; width: 100%; padding: .1rem .15rem .15rem; }
+  }
+
+  @media (min-width: 25rem) {
+    .pnw-ticket {
+      grid-template-columns: minmax(0, 1fr) 5.4rem;
+      -webkit-mask: radial-gradient(circle at calc(100% - 5.4rem) 0, transparent 11px, black 11.5px) top / 100% 51% no-repeat, radial-gradient(circle at calc(100% - 5.4rem) 100%, transparent 11px, black 11.5px) bottom / 100% 51% no-repeat;
+      mask: radial-gradient(circle at calc(100% - 5.4rem) 0, transparent 11px, black 11.5px) top / 100% 51% no-repeat, radial-gradient(circle at calc(100% - 5.4rem) 100%, transparent 11px, black 11.5px) bottom / 100% 51% no-repeat;
+    }
+    .pnw-ticket__main { padding: 1.2rem 1rem 1.35rem 1.4rem; }
+    .pnw-ticket__stub { padding: 1rem .4rem; }
+    .pnw-ticket__stub img { inline-size: 2.4rem; block-size: 2.4rem; }
+  }
+
+  @media (min-width: 48rem) {
+    .pnw-stampsheet { padding: 1.6rem 1.4rem 1.4rem; }
+    .pnw-stamps { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .pnw-tickets { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.6rem; }
+    .pnw-ticket-obj:first-child { grid-column: 1 / -1; }
     .pnw-night__links { grid-template-columns: 1.4fr repeat(3, minmax(0, 1fr)); }
     .pnw-night__sig { grid-column: auto; }
-    .pnw-night__inner { padding-top: min(40vw, 34rem); }
-    .pnw-night__inner::before { inset: calc(min(40vw, 34rem) - 5rem) -2rem 0; }
   }
-  @media (min-width: 60rem) {
-    .pnw-contact { grid-template-columns: minmax(0, 1fr) minmax(0, 27rem); gap: 4rem; }
-  }
-  @media (min-width: 66rem) {
-    .pnw-stamps { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-    .pnw-stamp__vig { min-block-size: 6.6rem; }
 
+  @media (min-width: 56rem) {
+    .pnw-contact__grid { grid-template-columns: minmax(0, 1fr) minmax(0, 28rem); gap: 3.5rem; }
+    .pnw-contact__aside { position: sticky; top: 5rem; }
+    .pnw-receipt-obj { justify-self: end; }
+  }
+
+  @media (min-width: 67.5rem) {
+    .pnw-stamps { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .pnw-stamp__vig { min-block-size: 6.2rem; }
   }
 </style>
