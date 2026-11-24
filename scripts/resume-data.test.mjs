@@ -3,12 +3,17 @@ import test from 'node:test';
 import {
   actionsFromLinks,
   createAssetLookup,
+  formatCareerMeta,
+  formatCareerRoles,
+  formatDateRange,
   groupSkillsByCategory,
   legacyIconForEntryId,
   legacySocialIconForLabel,
+  normalizeRoleTitle,
   resolveImage,
   siteLabelFromUrl,
   sortByOrder,
+  summarizeCareerTenure,
 } from '../src/data/resume-data.mjs';
 
 test('sortByOrder returns entries in imported display order', () => {
@@ -101,4 +106,68 @@ test('groupSkillsByCategory partitions skills and preserves order within each gr
     groups.leadership.map((skill) => skill.id),
     ['leadership-first', 'leadership-second'],
   );
+});
+
+test('formatDateRange replaces en/em dashes with plain punctuation', () => {
+  assert.equal(formatDateRange('May 2025 – Present'), 'May 2025 to Present');
+  assert.equal(formatDateRange('2014 — 2016'), '2014 to 2016');
+  assert.equal(formatDateRange(''), '');
+});
+
+test('normalizeRoleTitle standardizes slash-delimited specializations', () => {
+  assert.equal(
+    normalizeRoleTitle('Senior Software Engineer / Ruby on Rails'),
+    'Senior Software Engineer, Ruby on Rails',
+  );
+  assert.equal(normalizeRoleTitle('Lead Software Engineer'), 'Lead Software Engineer');
+});
+
+test('formatCareerRoles normalizes role titles and date ranges consistently', () => {
+  assert.deepEqual(
+    formatCareerRoles([
+      { title: 'Senior Software Engineer / Ruby on Rails', dates: '2014 – 2016' },
+      { title: 'Software Engineer', dates: '2008 – 2014' },
+    ]),
+    [
+      { title: 'Senior Software Engineer, Ruby on Rails', dates: '2014 to 2016' },
+      { title: 'Software Engineer', dates: '2008 to 2014' },
+    ],
+  );
+});
+
+test('summarizeCareerTenure spans earliest start to latest end across roles', () => {
+  assert.equal(
+    summarizeCareerTenure([{ title: 'Lead Software Engineer', dates: 'May 2025 – Present' }]),
+    'May 2025 to Present',
+  );
+  assert.equal(
+    summarizeCareerTenure([
+      { title: 'Senior Software Engineering Manager', dates: '2019 – April 2025' },
+      { title: 'Lead Software Engineer', dates: '2018 – 2019' },
+    ]),
+    '2018 to April 2025',
+  );
+  assert.equal(
+    summarizeCareerTenure([
+      { title: 'Senior Software Engineer / Ruby on Rails', dates: '2014 – 2016' },
+      { title: 'Software Engineer', dates: '2008 – 2014' },
+    ]),
+    '2008 to 2016',
+  );
+  assert.equal(summarizeCareerTenure([]), '');
+});
+
+test('formatCareerMeta joins city and full tenure uniformly', () => {
+  assert.equal(
+    formatCareerMeta('Portland, OR', [{ title: 'Lead', dates: 'May 2025 – Present' }]),
+    'Portland, OR · May 2025 to Present',
+  );
+  assert.equal(
+    formatCareerMeta('New York, NY', [
+      { title: 'Senior Software Engineer / Ruby on Rails', dates: '2014 – 2016' },
+      { title: 'Software Engineer', dates: '2008 – 2014' },
+    ]),
+    'New York, NY · 2008 to 2016',
+  );
+  assert.equal(formatCareerMeta('Portland, OR', []), 'Portland, OR');
 });

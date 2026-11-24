@@ -112,6 +112,50 @@ export function groupSkillsByCategory(skills) {
   };
 }
 
+export function formatDateRange(dates = '') {
+  return String(dates)
+    .replace(/\s*[\u2013\u2014]\s*/g, ' to ')
+    .replace(/\s+-\s+/g, ' to ')
+    .trim();
+}
+
+export function normalizeRoleTitle(title = '') {
+  return String(title)
+    .replace(/\s*\/\s*/g, ', ')
+    .replace(/\s*[\u2013\u2014]\s*/g, ', ')
+    .trim();
+}
+
+export function formatCareerRoles(roles = []) {
+  return roles.map((role) => ({
+    title: normalizeRoleTitle(role.title),
+    dates: formatDateRange(role.dates),
+  }));
+}
+
+export function summarizeCareerTenure(roles = []) {
+  const ranges = formatCareerRoles(roles)
+    .map((role) => role.dates)
+    .filter(Boolean);
+
+  if (ranges.length === 0) return '';
+  if (ranges.length === 1) return ranges[0];
+
+  const latestParts = ranges[0].split(' to ');
+  const earliestParts = ranges[ranges.length - 1].split(' to ');
+  const start = earliestParts[0];
+  const end = latestParts[latestParts.length - 1];
+
+  if (!start) return end;
+  if (!end || start === end) return start;
+  return `${start} to ${end}`;
+}
+
+export function formatCareerMeta(location = '', roles = []) {
+  const parts = [String(location).trim(), summarizeCareerTenure(roles)].filter(Boolean);
+  return parts.join(' · ');
+}
+
 export function createResumeViewModel(collections, iconComponents) {
   const assetLookup = createAssetLookup(collections.assets);
   const profile = collections.profile[0];
@@ -178,6 +222,10 @@ export function createResumeViewModel(collections, iconComponents) {
       body: entry.description,
       action: entry.visitLabel,
       links: (entry.links ?? []).map((link) => ({ label: link.label, href: link.url })),
+      location: entry.location ?? '',
+      tenure: summarizeCareerTenure(entry.roles ?? []),
+      metaLabel: formatCareerMeta(entry.location ?? '', entry.roles ?? []),
+      roles: formatCareerRoles(entry.roles ?? []),
       footer: entry.footerLines,
     })),
     education: sortByOrder(collections.education.filter((item) => !item.hidden)).map((item) => ({
