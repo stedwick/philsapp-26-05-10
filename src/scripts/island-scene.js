@@ -8,9 +8,15 @@ const canvas=root.querySelector('canvas'),status=root.querySelector('.c-island__
 const reduced=matchMedia('(prefers-reduced-motion: reduce)');
 const audio=root.querySelector('audio'),sound=root.querySelector('.c-island__sound');
 audio.volume=.3;
+function updateSoundLabel(){
+ const label=audio.paused?'Unmute fire sound':'Mute fire sound';
+ sound.setAttribute('aria-label',label);
+ sound.title=label;
+ sound.setAttribute('aria-pressed',String(!audio.paused));
+}
 sound.addEventListener('click',async()=>{
  if(audio.paused){try{await audio.play()}catch{return}}else audio.pause();
- const label=audio.paused?'Unmute fire sound':'Mute fire sound';sound.setAttribute('aria-label',label);sound.title=label;sound.setAttribute('aria-pressed',String(!audio.paused));
+ updateSoundLabel();
 });
 let renderer;
 try { renderer=new THREE.WebGLRenderer({canvas,alpha:true,antialias:true,powerPreference:'low-power'}); }
@@ -173,7 +179,8 @@ let time=0,last=0,frame=0,paused=false,visible=true,drag=null,autoResumeAt=0;
 const headTurn=new THREE.Quaternion(),headEuler=new THREE.Euler(),headPoint=new THREE.Vector3();
 function render(){renderer.render(scene,camera)}
 function resize(){layoutClouds();const w=canvas.clientWidth,h=canvas.clientHeight,stageHeight=canvas.parentElement.clientHeight;if(!w||!h||!stageHeight)return;renderer.setSize(w,h,false);waterMat.uniforms.uHeight.value=canvas.height;camera.aspect=w/stageHeight;camera.fov=THREE.MathUtils.radToDeg(2*Math.atan(Math.tan(THREE.MathUtils.degToRad(37)/2)*Math.max(1,1.1/camera.aspect)));camera.setViewOffset(w,stageHeight,0,-48,w,h);camera.updateProjectionMatrix();render()}
-function tick(now){if(paused||!visible||document.hidden||reduced.matches)return;frame=requestAnimationFrame(tick);if(now-last<1000/30)return;const dt=last?Math.min((now-last)/1000,.1):0;last=now;time+=dt;moveClouds(dt);if(!drag?.turning && now>=autoResumeAt)island.rotation.y+=dt*.075;waterMat.uniforms.uTime.value=time;
+function canAnimate(){return !paused && visible && !document.hidden && !reduced.matches && !root.hasAttribute('data-portfolio-exited')}
+function tick(now){if(!canAnimate())return;frame=requestAnimationFrame(tick);if(now-last<1000/30)return;const dt=last?Math.min((now-last)/1000,.1):0;last=now;time+=dt;moveClouds(dt);if(!drag?.turning && now>=autoResumeAt)island.rotation.y+=dt*.075;waterMat.uniforms.uTime.value=time;
  firelight.intensity=5+.65*Math.sin(time*8.3)+.3*Math.sin(time*13.7);
  for(let i=0;i<smoke.length;i++){
   const age=(time*.10+i/smoke.length)%1,puff=smoke[i];
@@ -213,7 +220,7 @@ function tick(now){if(paused||!visible||document.hidden||reduced.matches)return;
   position.needsUpdate=true;
  }
  flames.children.forEach((f,i)=>{f.scale.y=.9+.13*Math.sin(time*7+i*1.2);f.rotation.z=.08*Math.sin(time*4+i)});render()}
-function start(){smoke.forEach(puff=>{puff.visible=!reduced.matches});embers.visible=!reduced.matches;cancelAnimationFrame(frame);last=0;if(!paused&&visible&&!document.hidden&&!reduced.matches)frame=requestAnimationFrame(tick);else render()}
+function start(){smoke.forEach(puff=>{puff.visible=!reduced.matches});embers.visible=!reduced.matches;cancelAnimationFrame(frame);last=0;if(canAnimate())frame=requestAnimationFrame(tick);else render()}
 // Horizontal drags turn the island; vertical touch gestures remain available to the page.
 canvas.addEventListener('pointerdown',event=>{
  if(!event.isPrimary || (event.pointerType==='mouse' && event.button!==0))return;
@@ -232,6 +239,13 @@ canvas.addEventListener('keydown',event=>{
  event.preventDefault();island.rotation.y+=event.key==='ArrowLeft'?-.2:.2;autoResumeAt=performance.now()+4000;render();
 });
 toggle.addEventListener('click',()=>{paused=!paused;root.classList.toggle('is-paused',paused);const label=paused?'Play animation':'Pause animation';toggle.setAttribute('aria-label',label);toggle.title=label;toggle.setAttribute('aria-pressed',String(paused));start()});
+root.addEventListener('portfolio-visibility', () => {
+ if (root.hasAttribute('data-portfolio-exited') && !audio.paused) {
+  audio.pause();
+  updateSoundLabel();
+ }
+ start();
+});
 reduced.addEventListener('change',()=>{toggle.hidden=reduced.matches;start()});document.addEventListener('visibilitychange',start);
 if('IntersectionObserver' in window)new IntersectionObserver(entries=>{visible=entries[0].isIntersecting;start()}).observe(canvas);window.addEventListener('resize',resize);toggle.hidden=reduced.matches;resize();start();
 

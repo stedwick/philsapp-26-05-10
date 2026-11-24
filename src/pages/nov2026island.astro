@@ -1,0 +1,8 @@
+---
+import homepage from '../archive/nov2026island.html?raw';
+
+// Serve the archived build without running it through the current layout.
+return new Response(homepage, {
+  headers: { 'Content-Type': 'text/html; charset=utf-8' },
+});
+---

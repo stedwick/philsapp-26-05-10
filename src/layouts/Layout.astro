@@ -47,6 +47,7 @@ const shareImage = new URL('/og-image.jpg', Astro.site);
 			href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Work+Sans:wght@300;400;500&display=swap"
 			rel="stylesheet"
 		/>
+		<slot name="head" />
 	</head>
 	<body>
 		<slot />

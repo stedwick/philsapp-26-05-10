@@ -1,0 +1,151 @@
+---
+import { ChevronDown, LampDesk } from '@lucide/astro';
+
+interface Props {
+  resumeHref: string;
+}
+
+const { resumeHref } = Astro.props;
+const sections = [
+  { label: 'Welcome', href: '#about' },
+  { label: 'Skills', href: '#about-skills' },
+  { label: 'Career', href: '#career' },
+  { label: 'Education', href: '#education-projects' },
+  { label: 'Apps', href: '#projects' },
+  { label: 'Hobbies', href: '#interests' },
+  { label: 'Contact', href: '#hire-me' },
+];
+---
+
+<nav class="pnw-nav" aria-label="Portfolio">
+  <a class="pnw-nav__dial" href="#top" aria-label="Back to top">
+    <svg viewBox="0 0 44 26" width="44" height="26" aria-hidden="true">
+      <path d="M3 24 A19 19 0 0 1 41 24" fill="none" stroke="currentColor" stroke-opacity=".35" stroke-width="1.5" stroke-dasharray="2 3" />
+      <line x1="0" y1="24.5" x2="44" y2="24.5" stroke="currentColor" stroke-opacity=".4" />
+      <circle data-pnw-sun cx="3" cy="24" r="4.5" fill="currentColor" />
+    </svg>
+    <span class="pnw-nav__clock" data-pnw-clock aria-hidden="true">7:00 AM</span>
+  </a>
+  <details class="pnw-nav__menu">
+    <summary>Menu <ChevronDown size={14} aria-hidden="true" /></summary>
+    <div class="pnw-nav__links">
+      {sections.map(({ label, href }) => <a href={href}>{label}</a>)}
+    </div>
+  </details>
+  <div class="pnw-nav__desktop">
+    {sections.map(({ label, href }) => <a href={href}>{label}</a>)}
+  </div>
+  <button class="pnw-nav__uv" type="button" data-pnw-uv aria-pressed="false" aria-label="UV lamp: show hidden security ink" title="UV lamp: show hidden security ink" hidden>
+    <LampDesk size={16} aria-hidden="true" /><span class="pnw-nav__long" aria-hidden="true">UV lamp</span>
+  </button>
+  <a class="pnw-nav__resume" href={resumeHref}>Résumé</a>
+</nav>
+
+<style>
+  .pnw-nav {
+    position: sticky;
+    top: max(.6rem, env(safe-area-inset-top));
+    z-index: 12;
+    inline-size: fit-content;
+    max-inline-size: calc(100% - 1rem);
+    min-block-size: 3.1rem;
+    margin-inline: auto;
+    display: flex;
+    align-items: center;
+    gap: .15rem;
+    padding: .25rem;
+    border: 1px solid color-mix(in srgb, var(--t-gold) 30%, transparent);
+    border-radius: 14px;
+    background: color-mix(in srgb, var(--t-table) 88%, transparent);
+    box-shadow: 0 10px 30px rgb(0 0 0 / .45);
+    color: var(--t-paper);
+    font: 700 .74rem/1 var(--f-display);
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+  .pnw-nav :is(a, button, summary) {
+    color: inherit;
+    text-decoration: none;
+    min-block-size: 2.6rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: .35rem;
+    border-radius: 10px;
+    padding-inline: .6rem;
+    white-space: nowrap;
+    transition: background .2s, color .2s;
+  }
+  .pnw-nav :is(a, summary):hover { background: rgb(255 255 255 / .08); }
+  .pnw-nav a[aria-current='true'] { color: var(--t-table); background: var(--t-gold); }
+  .pnw-nav__dial {
+    color: var(--t-gold) !important;
+    flex-shrink: 0;
+    gap: .5rem !important;
+    padding-inline-end: .7rem !important;
+    border-inline-end: 1px solid rgb(255 255 255 / .12);
+    border-radius: 10px 0 0 10px !important;
+  }
+  .pnw-nav__dial svg { overflow: visible; }
+  .pnw-nav__clock { font: 600 .72rem/1 var(--f-mono); letter-spacing: .04em; min-inline-size: 4rem; }
+  .pnw-nav__menu { position: static; }
+  .pnw-nav__menu summary { cursor: pointer; list-style: none; }
+  .pnw-nav__menu summary::-webkit-details-marker { display: none; }
+  .pnw-nav__links {
+    position: absolute;
+    inset: calc(100% + .45rem) 0 auto;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: .15rem;
+    padding: .4rem;
+    border-radius: 4px;
+    background: var(--fibre), var(--t-paper3);
+    color: var(--t-ink);
+    box-shadow: 0 14px 30px rgb(0 0 0 / .5);
+    counter-reset: navno;
+  }
+  .pnw-nav__links a { justify-content: flex-start; counter-increment: navno; }
+  .pnw-nav__links a::before { content: 'Nº 0' counter(navno); font-size: .6rem; color: var(--t-verm); margin-right: .35rem; }
+  .pnw-nav__links a:hover { background: color-mix(in srgb, var(--t-ink) 8%, transparent); }
+  .pnw-nav__desktop { display: none; }
+  .pnw-nav__uv {
+    background: transparent;
+    border: 1px solid color-mix(in srgb, var(--t-uv) 50%, transparent);
+    color: color-mix(in srgb, var(--t-uv) 70%, white) !important;
+    font: inherit;
+    letter-spacing: inherit;
+    text-transform: inherit;
+    cursor: pointer;
+  }
+  .pnw-nav__uv[hidden] { display: none; }
+  .pnw-nav__dot {
+    inline-size: .55rem;
+    block-size: .55rem;
+    border-radius: 50%;
+    background: color-mix(in srgb, var(--t-uv) 30%, black);
+    box-shadow: inset 0 0 0 1px rgb(255 255 255 / .3);
+  }
+  .pnw-nav__uv[aria-pressed='true'] { background: color-mix(in srgb, var(--t-uv) 14%, transparent); }
+  .pnw-nav__uv[aria-pressed='true'] { color: var(--t-uv) !important; box-shadow: 0 0 12px color-mix(in srgb, var(--t-uv) 40%, transparent); }
+  .pnw-nav__uv { border-color: rgb(255 255 255 / .14) !important; color: color-mix(in srgb, var(--t-uv) 55%, white) !important; }
+  .pnw-nav__long { display: none; }
+  .pnw-nav a.pnw-nav__resume {
+    background: var(--t-verm);
+    color: var(--t-paper3);
+    padding-inline: .8rem;
+    box-shadow: inset 0 0 0 1px rgb(255 255 255 / .25), inset 0 0 0 3px var(--t-verm), inset 0 0 0 4px rgb(255 240 210 / .5);
+  }
+
+  @media (max-width: 24rem) {
+    .pnw-nav__clock { display: none; }
+    .pnw-nav :is(a, button, summary) { padding-inline: .45rem; }
+  }
+
+  @media (min-width: 60rem) {
+    .pnw-nav__menu { display: none; }
+    .pnw-nav__long { display: inline; }
+    .pnw-nav__desktop { display: flex; align-items: center; gap: .1rem; }
+  }
+</style>

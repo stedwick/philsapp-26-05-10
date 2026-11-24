@@ -1,0 +1,5 @@
+scripts:
+  setup: |
+    bun install --frozen-lockfile
+    "${ORCA_CLI_COMMAND:-orca}" terminal create --worktree current --title "Dev server" \
+      --command "PORTLESS_TLD=dev ASTRO_DEV_BACKGROUND=0 bun run dev:portless"

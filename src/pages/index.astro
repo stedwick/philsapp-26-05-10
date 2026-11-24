@@ -1,14 +1,12 @@
 ---
-import ContactForm from '../components/ContactForm.astro';
-import ContactInfo from '../components/ContactInfo.astro';
-import MediaGrid from '../components/MediaGrid.astro';
-import MediaItem from '../components/MediaItem.astro';
+import BackpackReveal from '../components/BackpackReveal.astro';
 import IslandHero from '../components/IslandHero.astro';
-import SectionBand from '../components/SectionBand.astro';
-import SiteFooter from '../components/SiteFooter.astro';
-import SplitIntro from '../components/SplitIntro.astro';
-import WorkCard from '../components/WorkCard.astro';
-import ParallaxLayout from '../layouts/ParallaxLayout.astro';
+import PortfolioCareer from '../components/PortfolioCareer.astro';
+import PortfolioFinishing from '../components/PortfolioFinishing.astro';
+import PortfolioPassport from '../components/PortfolioPassport.astro';
+import PortfolioNav from '../components/PortfolioNav.astro';
+import Layout from '../layouts/Layout.astro';
+import '../styles/portfolio.css';
 import { getCollection } from 'astro:content';
 import { icons } from '../data/site';
 import { createResumeViewModel } from '../data/resume-data.mjs';
@@ -49,103 +47,36 @@ const resume = createResumeViewModel(
 	},
 	icons,
 );
+const resumeHref = resume.contactItems.find((item) => item.href?.endsWith('.pdf'))?.href
+  ?? '/site-assets/Philip_Brocoum_resume.pdf';
 ---
 
-<ParallaxLayout>
-	<IslandHero profile={resume.profile} socialLinks={resume.socialLinks} chevronIcon={icons.ChevronDown} />
+<Layout viewportFitCover>
+  <Fragment slot="head">
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=IBM+Plex+Mono:wght@400;600&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&display=swap"
+      rel="stylesheet"
+    />
+  </Fragment>
+  <IslandHero profile={resume.profile} socialLinks={resume.socialLinks} chevronIcon={icons.ChevronDown} />
 
-	<SectionBand id="about" tone="light">
-		{/* Single-line welcome in the sticky glass header at all widths
-		    (the flow second line was removed at Philip's request). */}
-		<header class="c-section-band__header">
-			<h2 class="c-section-band__title">{resume.sections.about.titleShort[0]}</h2>
-		</header>
-		<SplitIntro paragraphs={resume.sections.about.body} />
-	</SectionBand>
+  <main class="pnw">
+    <PortfolioNav resumeHref={resumeHref} />
+    <BackpackReveal paragraphs={resume.sections.about.body}>
+      <PortfolioPassport profile={resume.profile} skills={resume.skills} />
+    </BackpackReveal>
+    <PortfolioCareer
+      career={resume.career}
+      education={resume.education}
+      careerSection={resume.sections.career}
+      educationSection={resume.sections.education}
+    />
+    <PortfolioFinishing resume={resume} resumeHref={resumeHref} />
+  </main>
+</Layout>
 
-	<SectionBand id="about-skills" title="Phil's Skillset" tone="white">
-		<h5 class="c-skill-group__title">Technical Skills</h5>
-		<MediaGrid class="c-skill-grid">
-			{/* Skill descriptions and links hidden for now; data stays in skills.json. Restore by passing body/href through again. */}
-			{resume.skills.technical.map(({ body: _description, href: _url, ...skill }) => <MediaItem {...skill} />)}
-		</MediaGrid>
-		<h5 class="c-skill-group__title">Leadership Qualities</h5>
-		<MediaGrid class="c-skill-grid">
-			{resume.skills.leadership.map(({ body: _description, href: _url, ...skill }) => <MediaItem {...skill} />)}
-		</MediaGrid>
-	</SectionBand>
+<script>
+  import { initPortfolio } from '../scripts/portfolio.js';
 
-	{/* Cards merged into the career band (was a separate headerless
-	    career-sites band) so the sticky "Phil's Career" header stays pinned
-	    while the work cards scroll behind it. */}
-	<SectionBand id="career" title={resume.sections.career.title} tone="light">
-		<SplitIntro paragraphs={resume.sections.career.body} />
-		<div class="l-card-grid u-section-stack">
-			{resume.career.map((entry) => <WorkCard {...entry} />)}
-		</div>
-	</SectionBand>
-
-	<SectionBand id="education-projects" tone="dark">
-		<div class="c-resume-panels">
-			<section aria-labelledby="education-heading">
-				{/* description moved OUT of the sticky glass header so only the
-				    title pins; the paragraph scrolls with the content */}
-				<header class="c-section-band__header">
-					<h2 id="education-heading" class="c-section-band__title">{resume.sections.education.title}</h2>
-				</header>
-				<SplitIntro paragraphs={resume.sections.education.body} />
-				<div class="l-stacked-media-list u-section-stack">
-					{resume.education.map((item) => <MediaItem {...item} compact />)}
-				</div>
-			</section>
-
-			<div class="c-education-separator" aria-hidden="true">
-				<span>&sect;</span>
-			</div>
-
-			<section aria-labelledby="projects-heading">
-				<header class="c-section-band__header">
-					<h2 id="projects-heading" class="c-section-band__title">{resume.sections.projects.title}</h2>
-				</header>
-				<SplitIntro paragraphs={resume.sections.projects.body} />
-				<div class="l-stacked-media-list u-section-stack">
-					{resume.projects.map((item) => <MediaItem {...item} compact />)}
-				</div>
-			</section>
-		</div>
-	</SectionBand>
-
-	<SectionBand id="interests" title={resume.sections.personalLife.title} tone="light">
-		<SplitIntro paragraphs={resume.sections.personalLife.body} />
-		<MediaGrid class="c-interest-grid u-section-stack">
-			{resume.interests.map((interest) => <MediaItem {...interest} />)}
-		</MediaGrid>
-	</SectionBand>
-
-	{/* hire-me merged into the contact band (it was a title-only band, too
-	    short for its sticky header to travel, so "Let's get in touch" never
-	    pinned). Now the header sticks while the contact content scrolls
-	    behind it. id kept for the old #hire-me anchor target. */}
-	<SectionBand id="hire-me" title={resume.sections.contact.title} tone="info">
-		<SplitIntro paragraphs={resume.contactIntro} dropcap />
-		<div class="l-two-panel c-contact-layout u-section-stack">
-			<section aria-labelledby="contact-info-heading">
-				<h2 id="contact-info-heading" class="u-center">Phil's Contact Info</h2>
-				<ContactInfo items={resume.contactItems} />
-			</section>
-
-			<section aria-labelledby="contact-form-heading">
-				<h2 id="contact-form-heading" class="u-center">Send Phil a Message</h2>
-				<div class="c-contact-card">
-					<div class="c-contact-card__body">
-						<ContactForm action={resume.formAction} />
-					</div>
-				</div>
-			</section>
-		</div>
-	</SectionBand>
-
-	<SiteFooter links={[{ label: 'Blog', href: '/blog/' }, ...resume.socialLinks]}>
-		<Fragment slot="credits"> Hands adapted from <a href="https://poly.pizza/m/cGaYRuiPCMe">Anastasiia Ku</a> · <a href="https://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a>.</Fragment>
-	</SiteFooter>
-</ParallaxLayout>
+  initPortfolio();
+</script>
