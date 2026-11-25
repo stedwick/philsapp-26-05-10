@@ -223,7 +223,7 @@ function splitDegree(text = '') {
       radial-gradient(circle at .72rem 3.5rem, color-mix(in srgb, var(--color-tender-pine) 70%, transparent) 0 .32rem, transparent .37rem),
       radial-gradient(circle at .72rem 50%, color-mix(in srgb, var(--color-tender-pine) 70%, transparent) 0 .32rem, transparent .37rem),
       radial-gradient(circle at .72rem calc(100% - 3.5rem), color-mix(in srgb, var(--color-tender-pine) 70%, transparent) 0 .32rem, transparent .37rem),
-      linear-gradient(90deg, transparent 1.5rem, color-mix(in srgb, var(--t-verm) 45%, white) 1.5rem calc(1.5rem + 2px), transparent calc(1.5rem + 2px)),
+      linear-gradient(90deg, transparent 1.5rem, color-mix(in srgb, var(--t-verm) 45%, var(--t-paper3)) 1.5rem calc(1.5rem + 2px), transparent calc(1.5rem + 2px)),
       var(--fibre),
       var(--t-paper3);
     box-shadow: 0 1px 0 var(--t-paper2), 0 3px 0 var(--t-paper3), 0 4px 0 var(--t-paper2);
@@ -236,13 +236,25 @@ function splitDegree(text = '') {
     z-index: 5;
     pointer-events: none;
     opacity: 0;
-    mix-blend-mode: multiply;
+    mix-blend-mode: screen;
     transition: opacity .5s;
   }
   .pnw-sheet > :where(:not(.pnw-uvl)) { position: relative; z-index: 1; }
-  :global(.pnw[data-uv='true']) .pnw-sheet::after { background: rgb(60 30 140 / .28); opacity: 1; }
+  :global(.pnw[data-uv='true']) .pnw-sheet::after {
+    background: radial-gradient(120% 90% at 50% 0%, rgb(139 92 246 / .16), transparent 72%);
+    opacity: 1;
+  }
   :global(.pnw[data-uv='true']) .pnw-sheet {
     box-shadow: 0 0 0 1px color-mix(in srgb, var(--t-uv) 40%, transparent), 0 0 28px color-mix(in srgb, var(--t-uv) 18%, transparent);
+  }
+  @media (prefers-color-scheme: dark) {
+    :global(.pnw:not([data-uv='false'])) .pnw-sheet::after {
+      background: radial-gradient(120% 90% at 50% 0%, rgb(139 92 246 / .16), transparent 72%);
+      opacity: 1;
+    }
+    :global(.pnw:not([data-uv='false'])) .pnw-sheet {
+      box-shadow: 0 0 0 1px color-mix(in srgb, var(--t-uv) 40%, transparent), 0 0 28px color-mix(in srgb, var(--t-uv) 18%, transparent);
+    }
   }
 
   .pnw-sheet__head {
@@ -262,7 +274,7 @@ function splitDegree(text = '') {
     inline-size: 100%;
     margin: .4rem 0 var(--line);
     padding: .55rem .55rem .65rem;
-    background: white;
+    background: var(--t-paper3);
     border: 1px solid color-mix(in srgb, var(--t-ink) 12%, transparent);
     border-radius: 2px;
     box-shadow: 0 2px 0 rgb(0 0 0 / .06), 0 12px 22px rgb(0 0 0 / .18);
@@ -344,7 +356,7 @@ function splitDegree(text = '') {
   .pnw-sheet__links {
     margin: 0 0 var(--line);
     line-height: var(--line);
-    background: repeating-linear-gradient(180deg, transparent 0 calc(var(--line) - 1px), color-mix(in srgb, var(--t-ultra) 16%, white) calc(var(--line) - 1px) var(--line));
+    background: repeating-linear-gradient(180deg, transparent 0 calc(var(--line) - 1px), color-mix(in srgb, var(--t-ultra) 18%, transparent) calc(var(--line) - 1px) var(--line));
   }
   .pnw-sheet a { color: var(--t-ultra); }
   .pnw-sheet__links span { font-weight: 600; }
@@ -369,7 +381,7 @@ function splitDegree(text = '') {
     padding: 2rem 1.4rem 4.2rem;
     text-align: center;
     border-radius: 3px;
-    background-color: color-mix(in srgb, var(--t-paper) 85%, white);
+    background-color: color-mix(in srgb, var(--t-paper) 85%, var(--t-paper3));
   }
   .pnw-dipl__k { margin: 0; font: 700 clamp(.58rem, 1.8vw, .76rem)/1.2 var(--f-display); letter-spacing: .28em; text-transform: uppercase; color: var(--dink); }
   .pnw-dipl h3 {

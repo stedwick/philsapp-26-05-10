@@ -255,10 +255,19 @@ export function initPortfolio() {
 
   page.setAttribute('data-portfolio-ready', '');
   lamp.hidden = false;
-  lamp.addEventListener('click', () => {
-    const isOn = lamp.getAttribute('aria-pressed') !== 'true';
+  const darkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+  let uvManual = false;
+  function setUv(isOn) {
     lamp.setAttribute('aria-pressed', String(isOn));
     page.dataset.uv = String(isOn);
+  }
+  setUv(darkScheme.matches);
+  darkScheme.addEventListener('change', (event) => {
+    if (!uvManual) setUv(event.matches);
+  });
+  lamp.addEventListener('click', () => {
+    uvManual = true;
+    setUv(lamp.getAttribute('aria-pressed') !== 'true');
   });
   menu.addEventListener('click', (event) => {
     if (event.target instanceof Element && event.target.closest('a')) {

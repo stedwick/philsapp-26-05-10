@@ -51,12 +51,12 @@
     linear-gradient(color-mix(in srgb, var(--color-tender-pine) 55%, var(--t-table)), var(--t-table));
   background-size: auto, 220px, 900px 300px, auto;
   background-blend-mode: normal, normal, soft-light, normal;
-  color: var(--t-paper);
+  color: var(--color-tender-paper);
   font-family: var(--f-text);
   font-size: 1.0625rem;
   line-height: 1.55;
 }
-.pnw ::selection { background: var(--t-verm); color: var(--t-paper3); }
+.pnw ::selection { background: var(--color-tender-vermilion); color: var(--color-tender-paper-light); }
 .pnw :where(section[id], footer[id], h2[id], h3[id]) {
   scroll-margin-top: max(4.75rem, calc(4rem + env(safe-area-inset-top)));
 }
@@ -127,7 +127,7 @@
   margin: 0;
   font: 900 clamp(1.85rem, 6.5vw, 3.6rem)/1.04 var(--f-display);
   letter-spacing: .01em;
-  color: var(--t-paper);
+  color: var(--color-tender-paper);
   text-shadow: 0 1px 0 rgb(255 255 255 / .08), 0 0 36px rgb(255 200 120 / .1);
   text-wrap: balance;
 }
@@ -208,15 +208,15 @@
   border: 0;
   text-decoration: none;
   cursor: pointer;
-  color: var(--t-paper3);
-  background: var(--t-verm);
-  box-shadow: inset 0 0 0 1px rgb(255 255 255 / .25), inset 0 0 0 4px var(--t-verm), inset 0 0 0 5px rgb(255 240 210 / .55), 0 6px 16px -6px color-mix(in srgb, var(--t-verm) 70%, transparent);
+  color: var(--color-tender-paper-light);
+  background: var(--color-tender-vermilion);
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / .25), inset 0 0 0 4px var(--color-tender-vermilion), inset 0 0 0 5px rgb(255 240 210 / .55), 0 6px 16px -6px color-mix(in srgb, var(--color-tender-vermilion) 70%, transparent);
   transition: transform .5s var(--spring);
 }
 .pnw .pnw-btn:hover { transform: translateY(-2px); }
 .pnw .pnw-btn--gold {
-  color: color-mix(in srgb, var(--t-gold-ink) 40%, black);
-  background: linear-gradient(115deg, var(--t-gold-ink), color-mix(in srgb, var(--t-gold) 50%, white) 30%, var(--t-gold) 48%, color-mix(in srgb, var(--t-gold) 40%, white) 58%, var(--t-gold-ink) 80%, var(--t-gold));
+  color: color-mix(in srgb, var(--color-tender-gold-ink) 40%, black);
+  background: linear-gradient(115deg, var(--color-tender-gold-ink), color-mix(in srgb, var(--t-gold) 50%, white) 30%, var(--t-gold) 48%, color-mix(in srgb, var(--t-gold) 40%, white) 58%, var(--color-tender-gold-ink) 80%, var(--t-gold));
   box-shadow: inset 0 0 0 1px rgb(255 255 255 / .4), 0 6px 16px -6px color-mix(in srgb, var(--t-gold) 60%, transparent);
 }
 
@@ -231,7 +231,7 @@
 .pnw .pnw-uvl {
   position: absolute;
   inset: 0;
-  z-index: 6;
+  z-index: 0;
   pointer-events: none;
   opacity: 0;
   transition: opacity .5s;
@@ -239,7 +239,7 @@
   overflow: hidden;
   mix-blend-mode: normal;
 }
-.pnw .pnw-uvl svg { position: absolute; overflow: visible; }
+.pnw .pnw-uvl svg { position: absolute; overflow: visible; opacity: .4; }
 .pnw .pnw-uvl path { fill: none; stroke: currentColor; stroke-width: .3; filter: drop-shadow(0 0 1.5px currentColor); }
 .pnw .pnw-uvl .t {
   position: absolute;
@@ -252,10 +252,55 @@
   white-space: nowrap;
   text-shadow: 0 0 6px currentColor, 0 0 16px currentColor;
 }
+.pnw[data-uv='true'] {
+  --t-paper: var(--color-tender-uv-paper);
+  --t-paper2: var(--color-tender-uv-paper-shade);
+  --t-paper3: var(--color-tender-uv-paper-light);
+  --t-ink: var(--color-tender-uv-ink);
+  --t-ink-soft: var(--color-tender-uv-ink-soft);
+  --t-green: var(--color-tender-uv-green);
+  --t-verm: var(--color-tender-uv-vermilion);
+  --t-ultra: var(--color-tender-uv-ultramarine);
+  --t-teal: var(--color-tender-uv-teal);
+  --t-brown: var(--color-tender-uv-brown);
+  --t-gold-ink: var(--color-tender-uv-gold-ink);
+}
 .pnw[data-uv='true'] .pnw-uvl { opacity: .9; }
 .pnw[data-uv='true'] .pnw-section::before { background: rgb(2 3 10 / .72); }
-.pnw[data-uv='true'] .pnw-paper::after { background: rgb(60 30 140 / .28); opacity: 1; }
+.pnw[data-uv='true'] .pnw-paper::after {
+  background: radial-gradient(120% 90% at 50% 0%, rgb(139 92 246 / .16), transparent 72%);
+  opacity: 1;
+  mix-blend-mode: screen;
+}
 .pnw[data-uv='true'] .pnw-paper { box-shadow: 0 0 0 1px color-mix(in srgb, var(--t-uv) 40%, transparent), 0 0 28px color-mix(in srgb, var(--t-uv) 18%, transparent); }
+.pnw[data-uv='true'] svg.g { mix-blend-mode: screen; opacity: .55; }
+.pnw[data-uv='true'] .pnw-inked { mix-blend-mode: normal; }
+
+@media (prefers-color-scheme: dark) {
+  .pnw:not([data-uv='false']) {
+    --t-paper: var(--color-tender-uv-paper);
+    --t-paper2: var(--color-tender-uv-paper-shade);
+    --t-paper3: var(--color-tender-uv-paper-light);
+    --t-ink: var(--color-tender-uv-ink);
+    --t-ink-soft: var(--color-tender-uv-ink-soft);
+    --t-green: var(--color-tender-uv-green);
+    --t-verm: var(--color-tender-uv-vermilion);
+    --t-ultra: var(--color-tender-uv-ultramarine);
+    --t-teal: var(--color-tender-uv-teal);
+    --t-brown: var(--color-tender-uv-brown);
+    --t-gold-ink: var(--color-tender-uv-gold-ink);
+  }
+  .pnw:not([data-uv='false']) .pnw-uvl { opacity: .9; }
+  .pnw:not([data-uv='false']) .pnw-section::before { background: rgb(2 3 10 / .72); }
+  .pnw:not([data-uv='false']) .pnw-paper::after {
+    background: radial-gradient(120% 90% at 50% 0%, rgb(139 92 246 / .16), transparent 72%);
+    opacity: 1;
+    mix-blend-mode: screen;
+  }
+  .pnw:not([data-uv='false']) .pnw-paper { box-shadow: 0 0 0 1px color-mix(in srgb, var(--t-uv) 40%, transparent), 0 0 28px color-mix(in srgb, var(--t-uv) 18%, transparent); }
+  .pnw:not([data-uv='false']) svg.g { mix-blend-mode: screen; opacity: .55; }
+  .pnw:not([data-uv='false']) .pnw-inked { mix-blend-mode: normal; }
+}
 
 .pnw[data-portfolio-ready] .pnw-nav {
   position: fixed;

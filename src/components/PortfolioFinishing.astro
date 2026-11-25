@@ -394,6 +394,10 @@ const year = new Date().getFullYear();
     text-align: center;
   }
   .pnw-ticket__stub img { inline-size: 2.2rem; block-size: 2.2rem; object-fit: cover; border-radius: 50%; filter: grayscale(1) contrast(1.25) brightness(1.05); mix-blend-mode: multiply; box-shadow: 0 0 0 2px currentColor; }
+  :global(.pnw[data-uv='true']) .pnw-ticket__stub img { mix-blend-mode: normal; background: var(--color-tender-paper-light); }
+  @media (prefers-color-scheme: dark) {
+    :global(.pnw:not([data-uv='false'])) .pnw-ticket__stub img { mix-blend-mode: normal; background: var(--color-tender-paper-light); }
+  }
   .pnw-ticket__no { font: 900 .9rem/1 var(--f-display); }
   .pnw-ticket__vert {
     font: 700 .56rem/1.1 var(--f-mono);
@@ -449,7 +453,7 @@ const year = new Date().getFullYear();
   }
   .pnw-contact__list a {
     font-size: .95rem;
-    color: var(--t-paper3);
+    color: var(--color-tender-paper-light);
     text-decoration: none;
     overflow-wrap: anywhere;
   }
@@ -459,6 +463,11 @@ const year = new Date().getFullYear();
   :global(.pnw[data-uv='true']) .pnw-receipt-obj {
     filter: drop-shadow(0 2px 1px rgb(0 0 0 / .45)) drop-shadow(0 0 18px color-mix(in srgb, var(--t-uv) 28%, transparent));
   }
+  @media (prefers-color-scheme: dark) {
+    :global(.pnw:not([data-uv='false'])) .pnw-receipt-obj {
+      filter: drop-shadow(0 2px 1px rgb(0 0 0 / .45)) drop-shadow(0 0 18px color-mix(in srgb, var(--t-uv) 28%, transparent));
+    }
+  }
   .pnw-receipt__slot {
     position: absolute;
     left: -.9rem;
@@ -466,7 +475,7 @@ const year = new Date().getFullYear();
     top: 0;
     height: 1.6rem;
     border-radius: .8rem;
-    background: linear-gradient(color-mix(in srgb, var(--t-ink) 70%, white 10%), var(--t-ink) 60%, color-mix(in srgb, var(--t-ink) 80%, white 8%));
+    background: linear-gradient(color-mix(in srgb, var(--color-tender-ink) 70%, white 10%), var(--color-tender-ink) 60%, color-mix(in srgb, var(--color-tender-ink) 80%, white 8%));
     box-shadow: 0 6px 12px rgb(0 0 0 / .5), inset 0 1px 0 rgb(255 255 255 / .2);
     z-index: 3;
   }
@@ -477,8 +486,8 @@ const year = new Date().getFullYear();
     --color-on-surface-muted: var(--t-ink-soft);
     --color-input-text: var(--t-ink);
     --color-input-border: var(--t-ink-soft);
-    --color-info: var(--t-verm);
-    --color-info-hover: color-mix(in srgb, var(--t-verm) 80%, black);
+    --color-info: var(--color-tender-vermilion);
+    --color-info-hover: color-mix(in srgb, var(--color-tender-vermilion) 80%, black);
     color-scheme: light;
     position: relative;
     padding: 1.8rem 1.3rem 2.6rem;
@@ -488,6 +497,7 @@ const year = new Date().getFullYear();
     -webkit-mask: conic-gradient(from -45deg at bottom, transparent, black 1deg 89deg, transparent 90deg) 50% / 14px 100%;
     mask: conic-gradient(from -45deg at bottom, transparent, black 1deg 89deg, transparent 90deg) 50% / 14px 100%;
   }
+  :global(.pnw[data-uv='true']) .pnw-receipt { color-scheme: dark; }
   .pnw-receipt::after {
     content: '';
     position: absolute;
@@ -495,11 +505,21 @@ const year = new Date().getFullYear();
     z-index: 5;
     pointer-events: none;
     opacity: 0;
-    mix-blend-mode: multiply;
+    mix-blend-mode: screen;
     transition: opacity .5s;
   }
   .pnw-receipt > :where(:not(.pnw-uvl)) { position: relative; z-index: 1; }
-  :global(.pnw[data-uv='true']) .pnw-receipt::after { background: rgb(60 30 140 / .28); opacity: 1; }
+  :global(.pnw[data-uv='true']) .pnw-receipt::after {
+    background: radial-gradient(120% 90% at 50% 0%, rgb(139 92 246 / .16), transparent 72%);
+    opacity: 1;
+  }
+  @media (prefers-color-scheme: dark) {
+    :global(.pnw:not([data-uv='false'])) .pnw-receipt { color-scheme: dark; }
+    :global(.pnw:not([data-uv='false'])) .pnw-receipt::after {
+      background: radial-gradient(120% 90% at 50% 0%, rgb(139 92 246 / .16), transparent 72%);
+      opacity: 1;
+    }
+  }
   .pnw-receipt p { margin: 0; }
   .pnw-receipt__c { text-align: center; font-size: .72rem; letter-spacing: .14em; text-transform: uppercase; }
   .pnw-receipt__shop { text-align: center; font: 900 2rem/1.05 var(--f-display); letter-spacing: .1em; margin: .2rem 0 !important; }
@@ -534,17 +554,17 @@ const year = new Date().getFullYear();
     padding: .6rem .75rem;
     border: 1px dashed var(--t-ink-soft);
     border-radius: 2px;
-    background: rgb(0 0 0 / .035);
+    background: color-mix(in srgb, var(--t-ink) 6%, transparent);
     font: 400 .78rem/1.45 var(--f-mono);
     color: var(--t-ink);
   }
   .pnw-receipt :global(.c-contact-form .c-button) {
     border-radius: 3px;
-    color: var(--t-paper3);
+    color: var(--color-tender-paper-light);
     font: 700 .82rem/1 var(--f-display);
     letter-spacing: .14em;
     text-transform: uppercase;
-    box-shadow: inset 0 0 0 1px rgb(255 255 255 / .25), inset 0 0 0 4px var(--t-verm), inset 0 0 0 5px rgb(255 240 210 / .55);
+    box-shadow: inset 0 0 0 1px rgb(255 255 255 / .25), inset 0 0 0 4px var(--color-tender-vermilion), inset 0 0 0 5px rgb(255 240 210 / .55);
   }
   .pnw-receipt__row-tot { display: flex; justify-content: space-between; font-weight: 600; font-size: 1rem; }
   .pnw-receipt__barcode {
@@ -619,7 +639,7 @@ const year = new Date().getFullYear();
   .pnw-night h2 {
     margin: .3rem 0 1.6rem;
     font: 900 clamp(2.1rem, 7vw, 4.4rem)/1.02 var(--f-display);
-    color: var(--t-paper3);
+    color: var(--color-tender-paper-light);
     text-shadow: 0 2px 20px rgb(0 0 0 / .6);
   }
   .pnw-night h2 em { font: italic 400 1.05em/1 var(--f-fell); color: var(--t-gold); }
@@ -632,7 +652,7 @@ const year = new Date().getFullYear();
   }
   .pnw-night__sig { grid-column: 1 / -1; }
   .pnw-night__links h3 { margin: 0 0 .6rem; font: 700 .66rem/1.2 var(--f-display); letter-spacing: .22em; text-transform: uppercase; color: var(--t-gold); }
-  .pnw-night__sig h3 { font: 900 1.4rem/1.1 var(--f-display); letter-spacing: .02em; text-transform: none; color: var(--t-paper3); }
+  .pnw-night__sig h3 { font: 900 1.4rem/1.1 var(--f-display); letter-spacing: .02em; text-transform: none; color: var(--color-tender-paper-light); }
   .pnw-night__sig p { margin: 0 0 1rem; color: var(--color-night-icon); }
   .pnw-night__links ul { display: grid; gap: .15rem; margin: 0; padding: 0; list-style: none; }
   .pnw-night__links ul a { display: inline-flex; align-items: center; min-block-size: 2.75rem; text-decoration: none; overflow-wrap: anywhere; }

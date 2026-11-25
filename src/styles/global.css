@@ -100,6 +100,18 @@
     --color-tender-wood: #331209;
     --color-tender-counter: #13706f;
     --color-tender-pine: #0c2a1e;
+    /* UV dark-paper palette for homepage UV dark mode */
+    --color-tender-uv-paper: #161826;
+    --color-tender-uv-paper-shade: #0f111c;
+    --color-tender-uv-paper-light: #1e2133;
+    --color-tender-uv-ink: #f3f0e8;
+    --color-tender-uv-ink-soft: #b8bfd6;
+    --color-tender-uv-green: #6ee7b7;
+    --color-tender-uv-vermilion: #ff7e75;
+    --color-tender-uv-ultramarine: #93b4ff;
+    --color-tender-uv-teal: #5eead4;
+    --color-tender-uv-brown: #e2ad78;
+    --color-tender-uv-gold-ink: #f0ca68;
 
     --space-1: 0.25rem;
     --space-2: 0.5rem;
